@@ -12,10 +12,15 @@ python validate.py
 
 ## Tarea
 
-Create a function that writes the numbers 
-in snake form 
+### 1 Terminar funciones de suma
+
+### 2 Colocarle entrada estandar a la funcion de suma (terner varios casos de prueba)
+
+### 3 Create a function that writes the numbers in snake form 
 
 | 1 | 2  | 3 |
 | -- | -- | -- |
 | 6 | 5  | 4 |
 | 7 | 8  | 9 |
+
+
