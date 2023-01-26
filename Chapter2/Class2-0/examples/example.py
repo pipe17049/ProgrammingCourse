@@ -1,6 +1,5 @@
-import fileinput
+import fileinput # Importar librerias
 
-ans = ""
 for line in fileinput.input():
     value = len(line.split(","))
     print(value)
