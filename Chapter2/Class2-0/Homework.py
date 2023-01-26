@@ -8,10 +8,10 @@ in snake form
 9 10 11 12
 """
 def snake_matrix(line):
-    print(line)
+    return line
 
 def main():
     for line in fileinput.input():
-        snake_matrix(line)
+        print(snake_matrix(line))
 
 main()
