@@ -13,3 +13,9 @@ def sum_recursive():
 # encontrar el maximo  ...
 def max_recursive():
     pass 
+
+# encontrar la posicion de la primera ocurrencia de izquierda a derecha de un numero ...
+# input [2,4,5,6,7], 5
+# output 2
+def find_recursive():
+    pass 
