@@ -1,26 +1,25 @@
-# Para comprobar su programa:
+## Homework 1
 
-Correr el programa , direccionar la entrada de las pruebas y direccion la salida de las pruebas
-```
-python <nombredelarchivo>.py < input.txt > output.txt
-```
 
-Validar los resultados
-```
-python validate.py
-```
+Fix the code 
 
-## Tarea
+We know that the ingredients of Hamburger are:
 
-### 1 Terminar funciones de suma
+meat, chicken, cheese, lechuce, tomatoes, onion, pickle+
 
-### 2 Colocarle entrada estandar a la funcion de suma (terner varios casos de prueba)
+if we have >=1 vegetables the price increase 1  (expect pickles) 
 
-### 3 Create a function that writes the numbers in snake form 
+if we have meat increase 2 , or if we have chicke increase 2
+but if we have both increase only 3
 
-| 1 | 2  | 3 |
-| -- | -- | -- |
-| 6 | 5  | 4 |
-| 7 | 8  | 9 |
+Pickles increase 1 
 
+All hamburgers have cheese and bread and the price is included 
+
+
+## Homework 2 
+
+Implement the algorithm of merge
+
+Given 2 list ORDERED you must merged and create a new list ordered
 

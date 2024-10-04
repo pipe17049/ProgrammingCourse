@@ -1,21 +1,17 @@
-# Funcion que devuelve una lista invertida de manera recurrente
-# Se puede utilizar el concat de python + o  [:]
-# No es permitido utilizar funciones build in <nombre>(_)
-# solo es pormitido utiliar pop()
+import fileinput
 
-def reverse_recursive(lista,lista_inv_accum,idx):
-    pass 
+"""
+Create a function that writes the numbers 
+in snake form 
+1 2  3  4
+8 7  6  5
+9 10 11 12
+"""
+def snake_matrix(line):
+    return line
 
-# Suma de una lista  ...
-def sum_recursive():
-    pass 
+def main():
+    for line in fileinput.input():
+        print(snake_matrix(line))
 
-# encontrar el maximo  ...
-def max_recursive():
-    pass 
-
-# encontrar la posicion de la primera ocurrencia de izquierda a derecha de un numero ...
-# input [2,4,5,6,7], 5
-# output 2
-def find_recursive():
-    pass 
+main()
