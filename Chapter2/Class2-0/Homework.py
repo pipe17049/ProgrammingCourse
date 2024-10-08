@@ -1,7 +1,7 @@
 import fileinput
 
 """
-Fix the code 
+Fix the code !!
 
 We know that the ingredients of Hamburger are:
 
@@ -33,7 +33,5 @@ def price_hamburger(meat, chicken, cheese, lechuce, tomatoes, onion, pickles):
 
     return price
 
-def main():   
+def execute_case():   
     print(price_hamburger(True, True, True, False, False, True, False))
-
-main()

@@ -15,11 +15,21 @@ but if we have both increase only 3
 Pickles increase 1 
 
 All hamburgers have cheese and bread and the price is included 
+Add more cases in main fn
 
+# Homework 1-1
+
+Complete the cases
+
+https://www.geeksforgeeks.org/packing-and-unpacking-arguments-in-python/
+
+What is unpack a variable ?
+Why is useful ?
 
 ## Homework 2 
 
-Implement the algorithm of merge
+Implement the algorithm of merge two ordered lists
 
-Given 2 list ORDERED you must merged and create a new list ordered
+Given 2 list ORDERED you must merged and create a new list ordered with all elements
+You can repeat numbers
 
