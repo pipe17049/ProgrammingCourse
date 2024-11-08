@@ -1,6 +1,5 @@
 ## Homework 1
 
-
 Fix the code 
 
 We know that the ingredients of Hamburger are:
@@ -28,7 +27,7 @@ Why is useful ?
 
 ## Homework 2 
 
-Implement the algorithm of merge two ordered lists
+Implement the algorithm of merge two ordered lists. Create a diagram.
 
 Given 2 list ORDERED you must merged and create a new list ordered with all elements
 You can repeat numbers
