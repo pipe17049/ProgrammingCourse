@@ -62,3 +62,14 @@ function baz(n , name = "Eduardo"){
 }
 baz(3)
 baz(2,"Amanda")
+
+// Anonimus function 
+function functionThatFunction(n , t, f){
+    let ans = n;
+    for (let i = 1; i<=t ; i++){
+      ans = f(ans)
+    }
+    return ans;
+}
+
+console.log(functionThatFunction( 100, 3, (e)=> e/2 ))
