@@ -13,8 +13,8 @@ const devs = [
   },
 ];
 
-const createContactInfo = (phone, email) => {};
-const createExperience = (languages, tecnologies) => {};
+const createContactInfo = (phone, email) => { return { phone , email } };
+const createExperience = (languages, tecnologies) => { return {languages, tecnologies}};
 
 function createDev(name, lastName, age, phone, email, languages, tecnologies) {
   // More code here
@@ -22,12 +22,14 @@ function createDev(name, lastName, age, phone, email, languages, tecnologies) {
     name,
     lastName,
     age,
-    contactInfo,
-    // and here
+    contactInfo: createContactInfo(phone, email),
+    experience: createExperience(languages, tecnologies )
   };
 }
 
-//devs.push(createDev())
+devs.push(createDev("Camilo", "Ballesteros", "30", "23123", "c@b.com", ["C#"], ["AWS"]))
+
+console.log(JSON.stringify(devs, null, 4));
 
 function getDevByNameAndEmail(devName, devEmail) {
   const results = [];
@@ -41,8 +43,7 @@ function getDevByNameAndEmail(devName, devEmail) {
 }
 
 const devFound = getDevByNameAndEmail(
-  "Eduardo",
-  "julianeduardoarias@outlook.com"
+  "Camilo",
+  "c@b.com"
 );
-
-console.log(devFound);
+ console.log("Dev found:", devFound);

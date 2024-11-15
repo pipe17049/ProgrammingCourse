@@ -19,15 +19,17 @@ console.log(`Contact Info: ${dev.contactinfo}`); // It's case sensitive !!!
 console.log(`Contact Info: ${dev.contactInfo}`); // Is a object print
 console.log(`Contact Info: ${JSON.stringify(dev.contactInfo)}`); // Force to cast to String
 console.log(`Email: ${dev.contactInfo.email}`); // Nested basic type
-console.log(`Email: ${dev.experience.languages[1]}`); // Get a element of nested array
+console.log(`Language 1: ${dev.experience.languages[1]}`); // Get a element of nested array
+
+// Unpack / Destruct  use {} as multiple assigns
+const age1 = dev.age;
+const name1 = dev.name
+const {name, age, experience} = dev;
+console.log(`Eduardo age : ${age} Eduardo experience: ${JSON.stringify(experience)}`)
 
 // Access of root object array
 console.log(`Camila experience: 
-    ${JSON.stringify(devs[1].experience)}`); // Get a array from array, (dont show a [])
-
-// Unpack / Destruct  use {} as multiple assigns
-const {name, age} = dev;
-console.log(`Eduardo age : ${age}`)
+  ${JSON.stringify(devs[1].experience)}`); // Get a array from array, (dont show a [])
 
 // Spread ... unpack and add the elements
 devs[1].experience = 
@@ -41,7 +43,7 @@ console.log(`Eduardo contact after:
     ${JSON.stringify(devs[0].contactInfo)}`);  
 
 // Ternary
-const newUser = true;
+const newUser = false;
 const result = newUser ? "Hello User" : "Hello User again!";
 console.log(result)
 
@@ -53,6 +55,8 @@ const bar = (a,b)=> a + b;
 // what happen if you dont use parameter and () ? 
 console.log(foo)
 console.log(bar)
+console.log(foo(2,3))
+console.log(bar(2,4))
 
 // Default values
 function baz(n , name = "Eduardo"){
@@ -64,7 +68,7 @@ baz(3)
 baz(2,"Amanda")
 
 // Anonimus function 
-function functionThatFunction(n , t, f){
+function functionThatExecuteFunction(n , t, f){
     let ans = n;
     for (let i = 1; i<=t ; i++){
       ans = f(ans)
@@ -72,4 +76,5 @@ function functionThatFunction(n , t, f){
     return ans;
 }
 
-console.log(functionThatFunction( 100, 3, (e)=> e/2 ))
+console.log(functionThatExecuteFunction( 100, 3, (e)=> e/2 ))
+console.log(functionThatExecuteFunction( 2 , 3 , (e)=> e*e))
