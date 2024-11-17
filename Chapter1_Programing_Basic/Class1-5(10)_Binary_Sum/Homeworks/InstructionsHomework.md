@@ -27,7 +27,7 @@ Why is useful ?
 
 ## Homework 2 
 
-Implement the algorithm of merge two ordered lists. Create a diagram.
+Implement the algorithm of merge two ordered lists.
 
 Given 2 list ORDERED you must merged and create a new list ordered with all elements
 You can repeat numbers
