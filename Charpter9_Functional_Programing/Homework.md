@@ -2,6 +2,8 @@
 
 Create new file in python in folder /Python and create :
 
+(Can you use any source of information)
+
 ## New function Side Effect:
 Add a element with side effects (modify the input array)
 
