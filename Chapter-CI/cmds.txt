@@ -7,3 +7,6 @@ python manage.py startapp api
 python manage.py runserver
 
 python manage.py test
+
+PR => test
+On push => deploy
