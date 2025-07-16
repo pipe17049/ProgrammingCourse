@@ -5,3 +5,5 @@ python -m django startproject my_first_ci_project
 python manage.py startapp api
 
 python manage.py runserver
+
+python manage.py test
