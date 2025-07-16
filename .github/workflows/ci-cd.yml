@@ -20,4 +20,19 @@ jobs:
         echo "Short Hash: ${GITHUB_SHA:0:7}"
         echo "Branch: ${{ github.ref_name }}"
         echo "Commit Message: ${{ github.event.head_commit.message }}"
-      
+        
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install django
+        if [ -f Chapter-CI/my_first_ci_project/requirements.txt ]; then pip install -r Chapter-CI/my_first_ci_project/requirements.txt; fi
+        
+    - name: Run Django tests
+      run: |
+        cd Chapter-CI/my_first_ci_project
+        python manage.py test
