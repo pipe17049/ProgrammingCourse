@@ -6,7 +6,7 @@ on:
     paths:
       - 'Chapter-CI/**'  # Solo se ejecuta cuando hay cambios en Chapter-CI
 jobs:
-    print-hash:
+  print-hash:
     runs-on: ubuntu-latest
     
     steps:
