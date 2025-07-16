@@ -18,4 +18,4 @@ jobs:
         echo "Commit Hash on PR: ${{ github.sha }}"
         echo "Short Hash on PR: ${GITHUB_SHA:0:7}"
         echo "Branch: ${{ github.ref_name }}"
-        echo "Commit Message: ${{ github.event.head_commit.message }}
+        echo "Commit Message: ${{ github.event.head_commit.message }}"
