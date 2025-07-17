@@ -8,5 +8,5 @@ class ProductDetailTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             response.content,
-            {"product": "random-name", "id": 1}
+            {"product": "random-name",   "price": 19.99, "id": 1}
         )
