@@ -19,7 +19,8 @@ jobs:
         echo "Short Hash on PR: ${GITHUB_SHA:0:7}"
         echo "Branch: ${{ github.ref_name }}"
         echo "Commit Message: ${{ github.event.head_commit.message }}"
-            
+        
+  ci-cd:            
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
