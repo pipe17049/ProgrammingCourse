@@ -12,11 +12,28 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from mongoengine import connect
+from dotenv import load_dotenv
+import os
 
+# Cargar archivo .env
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
+
+# Obtener variables del entorno
+db_name = os.getenv('MONGO_DB')
+host = os.getenv('MONGO_HOST')
+port = int(os.getenv('MONGO_PORT'))
+username = os.getenv('MONGO_USERNAME')
+password = os.getenv('MONGO_PASSWORD')
+
+# Conectar a MongoDB
 connect(
-    db='mi_basedatos',
-    host='localhost',
-    port=27017
+    db=db_name,
+    host=host,
+    port=port,
+    username=username,
+    password=password,
+    authentication_source=db_name
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
