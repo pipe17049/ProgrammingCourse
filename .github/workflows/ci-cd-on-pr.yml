@@ -43,6 +43,6 @@ jobs:
 
     - name: Run coverage
       run: |
-        coverage run Chapter-CI/my_first_ci_project/manage.py test
+        cd Chapter-CI/my_first_ci_project
+        coverage run manage.py test
         coverage report --fail-under=95
-        echo "Coverage report generated in htmlcov/index.html"
