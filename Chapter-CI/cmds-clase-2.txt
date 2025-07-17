@@ -1,0 +1,11 @@
+https://www.mongodb.com/try/download/community
+
+pip install mongoengine
+
+pip install djangorestframework
+
+pip install coverage
+
+pip install django
+
+pip install pytest-cov

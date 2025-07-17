@@ -1,3 +1,8 @@
 from django.db import models
+from mongoengine import Document, StringField, IntField
 
-# Create your models here.
+class Product(Document):
+    nombre = StringField(required=True)
+    precio = IntField()
+    talla = StringField(required=True)
+
