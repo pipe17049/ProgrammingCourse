@@ -32,6 +32,8 @@ jobs:
         pip install coverage
         pip install django
         pip install pytest-cov
+        pip install mongoengine
+        pip install djangorestframework
         if [ -f Chapter-CI/my_first_ci_project/requirements.txt ]; then pip install -r Chapter-CI/my_first_ci_project/requirements.txt; fi
         
     - name: Run Django tests
