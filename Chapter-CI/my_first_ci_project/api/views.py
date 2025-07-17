@@ -8,6 +8,9 @@ from django.http import HttpResponse, JsonResponse
 def home(request):
     return HttpResponse("¡Hola desde la app API!")
 
+def my_func():
+    pass
+
 # http://127.0.0.1:8000/api/product/1/
 def product_detail(request, id):
     data = {
