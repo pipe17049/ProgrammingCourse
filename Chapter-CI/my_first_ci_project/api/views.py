@@ -2,24 +2,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from api.models import Product
-# Create your views here.
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 
 def home(request):
     return HttpResponse("¡Hola desde la app API!")
-
-def my_func():
-    pass
-
-# http://127.0.0.1:8000/api/product/1/
-def product_detail(request, id):
-    data = {
-        "product": "random-name",
-        "id": id,
-        "price": 19.99
-    }
-    return JsonResponse(data)
-
 
 @api_view(['POST'])
 def create_product(request):
@@ -32,27 +18,43 @@ def create_product(request):
     product.save()
     
     return Response({
-        "message": "Product created successfully",
-        "id": str(product.id),  # Convierte a string
+        "id": str(product.id),  # Convertir ObjectId a string
         "nombre": product.nombre,
-        "precio": float(product.precio) if product.precio else None,  # Asegura que sea float
+        "precio": float(product.precio),
         "talla": product.talla
     }, status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])
-def create_product(request):
-    data = request.data
-    product = Product(
-        nombre=data.get('nombre'),
-        precio=data.get('precio'),
-        talla=data.get('talla')
-    )
-    product.save()
+def get_product(request, id):
+    try:
+        product = Product.objects.get(id=id)  # mongoengine maneja ObjectId automáticamente
+        
+        return Response({
+            "id": str(product.id),  # Convertir ObjectId a string
+            "nombre": product.nombre,
+            "precio": float(product.precio),
+            "talla": product.talla
+        }, status=status.HTTP_200_OK)
+        
+    except Product.DoesNotExist:
+        return Response({
+            "error": "Product not found"
+        }, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def list_products(request):
+    """Listar todos los productos para ver los ObjectIds reales"""
+    products = Product.objects.all()
+    product_list = []
+    for product in products:
+        product_list.append({
+            "id": str(product.id),  # ObjectId como string
+            "nombre": product.nombre,
+            "precio": float(product.precio),
+            "talla": product.talla
+        })
     
     return Response({
-        "message": "Product created successfully",
-        "id": str(product.id),  # Convierte a string
-        "nombre": product.nombre,
-        "precio": float(product.precio) if product.precio else None,  # Asegura que sea float
-        "talla": product.talla
-    }, status=status.HTTP_201_CREATED)
+        "count": len(product_list),
+        "products": product_list
+    })
