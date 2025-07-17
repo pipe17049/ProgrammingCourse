@@ -46,3 +46,15 @@ jobs:
         cd Chapter-CI/my_first_ci_project
         coverage run manage.py test
         coverage report --fail-under=95
+        
+  validate-env:
+    runs-on: ubuntu-latest    
+    steps:
+    - shell: bash
+      env:
+        MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
+        MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+      run: |
+        example-command "$MONGO_USERNAME" "$MONGO_PASSWORD"
+
+

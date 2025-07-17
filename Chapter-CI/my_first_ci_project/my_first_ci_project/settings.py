@@ -15,14 +15,15 @@ from mongoengine import connect
 from dotenv import load_dotenv
 import os
 
-# Cargar archivo .env
+# Cargar archivo .env solo si existe (para desarrollo local)
 env_path = Path('.') / '.env'
-load_dotenv(dotenv_path=env_path)
+if env_path.exists():
+    load_dotenv(dotenv_path=env_path)
 
-# Obtener variables del entorno
-db_name = os.getenv('MONGO_DB')
-host = os.getenv('MONGO_HOST')
-port = int(os.getenv('MONGO_PORT'))
+# Obtener variables del entorno con valores por defecto
+db_name = os.getenv('MONGO_DB', 'mi_basedatos')
+host = os.getenv('MONGO_HOST', 'localhost')
+port = int(os.getenv('MONGO_PORT', '27017'))
 username = os.getenv('MONGO_USERNAME')
 password = os.getenv('MONGO_PASSWORD')
 
