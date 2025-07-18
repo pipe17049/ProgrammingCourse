@@ -17,6 +17,7 @@ jobs:
         echo "Commit Message: ${{ github.event.head_commit.message }}"
         
   ci-cd: 
+    environment: master
     runs-on: ubuntu-latest    
     steps:
     - name: Checkout code
@@ -52,10 +53,11 @@ jobs:
     steps:
     - shell: bash
       env:
-        MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
+        MONGO_USERNAME: ${{ vars.MONGO_USERNAME }}
         MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
       run: |
-        echo $MONGO_USERNAME 
-        echo $MONGO_PASSWORD
+        echo "repo variable $MONGO_USERNAME"
+        echo "repo variable $MONGO_USERNAME"
+      
 
 
