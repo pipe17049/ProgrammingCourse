@@ -21,9 +21,9 @@ if env_path.exists():
     load_dotenv(dotenv_path=env_path)
 
 # Obtener variables del entorno con valores por defecto
-db_name = os.getenv('MONGO_DB', 'mi_basedatos')
-host = os.getenv('MONGO_HOST', 'localhost')
-port = int(os.getenv('MONGO_PORT', '27017'))
+db_name = os.getenv('MONGO_DB')
+host = os.getenv('MONGO_HOST')
+port = int(os.getenv('MONGO_PORT',0))
 username = os.getenv('MONGO_USERNAME')
 password = os.getenv('MONGO_PASSWORD')
 
