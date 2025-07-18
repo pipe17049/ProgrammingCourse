@@ -8,3 +8,7 @@
 /Chapter-CI/django_project_env
 /Chapter-CI/my_first_ci_project/django_project_env
 Chapter-CI/my_first_ci_project/.coverage
+Chapter-CI/my_first_ci_project/.env
+Chapter-CI/my_first_ci_project/db.sqlite3
+/.metals
+/.vscode

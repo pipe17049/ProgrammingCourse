@@ -10,3 +10,41 @@ python manage.py test
 
 PR => test
 On push => deploy
+
+# Clase 2 
+
+https://www.mongodb.com/try/download/community
+
+pip install mongoengine
+
+pip install djangorestframework
+
+pip install coverage
+
+pip install django
+
+pip install pytest-cov
+
+coverage run manage.py test
+
+coverage report
+
+# Clase 3
+
+python -m venv django_project_env
+
+django_project_env\Scripts\activate   
+
+# Unix
+. django_project_env/bin/activate
+
+(cada vez que se agregue una lib)
+pip install django djangorestframework mongoengine pymongo coverage pytest pytest-cov mongomock python-dotenv
+pip freeze > requirements.txt
+
+pip install python-dotenv
+
+coverage run manage.py test
+
+(cuando queramos instalar lo que ya hay)
+pip install -r requirements.txt
