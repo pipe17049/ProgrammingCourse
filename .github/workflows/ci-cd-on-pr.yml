@@ -49,12 +49,14 @@ jobs:
         
   validate-env:
     runs-on: ubuntu-latest    
+    env: master
     steps:
     - shell: bash
       env:
         MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
         MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
       run: |
-        example-command "$MONGO_USERNAME" "$MONGO_PASSWORD"
+        echo $MONGO_USERNAME 
+        echo $MONGO_PASSWORD
 
 
