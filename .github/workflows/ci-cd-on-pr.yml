@@ -49,6 +49,7 @@ jobs:
         coverage report --fail-under=95
         
   validate-env:
+    environment: master
     runs-on: ubuntu-latest    
     steps:
     - shell: bash
