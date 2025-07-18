@@ -25,5 +25,8 @@ COPY . /app/
 # Expose port
 EXPOSE 8000
 
-# Run the application
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"] 
+# Expose WebSocket port
+EXPOSE 8765
+
+# Run both Django and WebSocket servers
+CMD ["python", "start_services.py"] 

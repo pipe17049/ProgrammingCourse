@@ -1,11 +1,46 @@
+import asyncio
+import json
+import threading
+import time
+
+import websockets
+from django.http import HttpResponse
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
+
 from api.models import Product
-from django.http import HttpResponse
+
+
+async def send_websocket_notification(message):
+    """Send notification to WebSocket server"""
+    try:
+        async with websockets.connect("ws://localhost:8765", timeout=2) as websocket:
+            await websocket.send(json.dumps(message))
+            print(f"✅ WebSocket notification sent for product: {message.get('product', {}).get('nombre', 'Unknown')}")
+    except Exception as e:
+        print(f"❌ Error sending WebSocket notification: {e}")
+
+
+def notify_websocket_in_thread(message):
+    """Run WebSocket notification in separate thread to avoid blocking Django"""
+    def websocket_thread():
+        try:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            loop.run_until_complete(send_websocket_notification(message))
+            loop.close()
+        except Exception as e:
+            print(f"Error in WebSocket thread: {e}")
+    
+    thread = threading.Thread(target=websocket_thread)
+    thread.daemon = True
+    thread.start()
+
 
 def home(request):
     return HttpResponse("¡Hola desde la app API!")
+
 
 @api_view(['POST'])
 def create_product(request):
@@ -17,12 +52,23 @@ def create_product(request):
     )
     product.save()
     
-    return Response({
+    product_data = {
         "id": str(product.id),  # Convertir ObjectId a string
         "nombre": product.nombre,
         "precio": float(product.precio),
         "talla": product.talla
-    }, status=status.HTTP_201_CREATED)
+    }
+    
+    # Notify WebSocket server about new product
+    message = {
+        "type": "product_created",
+        "product": product_data,
+        "timestamp": time.time()
+    }
+    notify_websocket_in_thread(message)
+    
+    return Response(product_data, status=status.HTTP_201_CREATED)
+
 
 @api_view(['GET'])
 def get_product(request, id):
@@ -40,6 +86,7 @@ def get_product(request, id):
         return Response({
             "error": "Product not found"
         }, status=status.HTTP_404_NOT_FOUND)
+
 
 @api_view(['GET'])
 def list_products(request):
