@@ -10,3 +10,5 @@
 Chapter-CI/my_first_ci_project/.coverage
 Chapter-CI/my_first_ci_project/.env
 Chapter-CI/my_first_ci_project/db.sqlite3
+/.metals
+/.vscode
