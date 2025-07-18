@@ -48,3 +48,35 @@ coverage run manage.py test
 
 (cuando queramos instalar lo que ya hay)
 pip install -r requirements.txt
+
+# Clase 4
+
+# Docker Commands
+
+# Construir y levantar los servicios
+docker-compose up --build
+
+# Levantar en segundo plano
+docker-compose up -d
+
+# Ver logs
+docker-compose logs -f
+
+# Acceder al container de Django
+docker-compose exec web bash
+
+# Ejecutar comandos Django en el container
+docker-compose exec web python manage.py migrate
+docker-compose exec web python manage.py test
+docker-compose exec web python manage.py createsuperuser
+
+# Parar servicios
+docker-compose down
+
+# Parar y eliminar volúmenes
+docker-compose down -v
+
+# Servicios disponibles:
+# - Django: http://localhost:8000
+# - MongoDB: localhost:27017
+# - Mongo Express (UI): http://localhost:8081
