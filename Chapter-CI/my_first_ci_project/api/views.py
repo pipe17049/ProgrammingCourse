@@ -1,5 +1,6 @@
 import asyncio
 import json
+import os
 import threading
 import time
 
@@ -13,17 +14,25 @@ from api.models import Product
 
 
 async def send_websocket_notification(message):
-    """Send notification to WebSocket server"""
+    """Send notification to WebSocket service"""
+    
     try:
-        async with websockets.connect("ws://localhost:8765", timeout=2) as websocket:
-            await websocket.send(json.dumps(message))
-            print(f"✅ WebSocket notification sent for product: {message.get('product', {}).get('nombre', 'Unknown')}")
+        websocket_url = os.getenv('WEBSOCKET_URL', 'ws://websocket-service:8765')
+        async with websockets.connect(websocket_url, timeout=5) as websocket:
+            await websocket.send(json.dumps({
+                "type": "product_notification",
+                "product": message.get('product'),
+                "timestamp": message.get('timestamp')
+            }))
+            print(f"✅ Notified WebSocket service: {message.get('product', {}).get('nombre', 'Unknown')}")
     except Exception as e:
-        print(f"❌ Error sending WebSocket notification: {e}")
+        print(f"❌ Error notifying WebSocket service: {e}")
 
 
 def notify_websocket_in_thread(message):
     """Run WebSocket notification in separate thread to avoid blocking Django"""
+  
+    
     def websocket_thread():
         try:
             loop = asyncio.new_event_loop()
