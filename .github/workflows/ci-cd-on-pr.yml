@@ -58,7 +58,7 @@ jobs:
         MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
       run: |
         echo "repo variable $MONGO_USERNAME"
-        echo "repo variable $MONGO_USERNAME"
+        echo "repo variable $MONGO_PASSWORD"
       
 
 
