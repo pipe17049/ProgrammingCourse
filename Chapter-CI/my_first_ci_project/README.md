@@ -218,7 +218,6 @@ my_first_ci_project/
 ├── docker-compose.prod.yml        # 🏭 Configuración PROD
 ├── Dockerfile                     # 🐳 Imagen Docker
 ├── requirements.txt               # 📦 Dependencias Python
-├── websocket_server.py            # 📡 WebSocket standalone
 ├── DEPLOYMENT_GUIDE.md            # 📚 Guía detallada
 └── README.md                      # 📖 Este archivo
 ```
@@ -227,8 +226,8 @@ my_first_ci_project/
 
 En **modo DEV**, cuando edites:
 - `api/views.py` → Cambios instantáneos en API
-- `websocket_server.py` → WebSocket se recarga automáticamente
 - `templates/` → Frontend se actualiza
+- `models.py` → Cambios en base de datos
 - `requirements.txt` → Necesitas rebuild
 
 ## 🔒 **Seguridad**

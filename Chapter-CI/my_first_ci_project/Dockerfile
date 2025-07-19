@@ -22,11 +22,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project
 COPY . /app/
 
-# Expose port
+# Expose Django port
 EXPOSE 8000
 
-# Expose WebSocket port
-EXPOSE 8765
-
-# Run both Django and WebSocket servers
-CMD ["python", "start_services.py"] 
+# Default command (can be overridden by docker-compose)
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"] 
