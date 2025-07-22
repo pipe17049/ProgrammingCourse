@@ -5,6 +5,9 @@ Un proyecto Django con **API REST** para gestión de productos, que incluye conf
 ## 🎯 **Características**
 
 - **API REST**: CRUD completo de productos
+- **🕷️ Web Scraping**: Integración con MercadoLibre
+- **💰 Price Comparison**: Comparación automática de precios
+- **📊 Cache**: Optimización con Django cache
 - **MongoDB**: Base de datos NoSQL
 - **WebSocket**: Notificaciones en tiempo real (solo DEV)
 - **Docker**: Containerización completa
@@ -33,6 +36,9 @@ docker-compose -f docker-compose.prod.yml up --build -d
 | **POST** | `/api/product/` | Crear producto |
 | **GET** | `/api/product/{id}/` | Obtener producto |
 | **GET** | `/api/products/` | Listar productos |
+| **GET** | `/api/search/mercadolibre/?q={term}` | 🕷️ Buscar en MercadoLibre |
+| **POST** | `/api/compare/prices/` | 🕷️ Comparar precios |
+| **GET** | `/api/scrape/details/?url={url}` | 🕷️ Detalles de ML |
 
 ### **Ejemplo de uso:**
 ```bash
@@ -43,7 +49,79 @@ curl -X POST http://localhost:8000/api/product/ \
 
 # Listar productos
 curl http://localhost:8000/api/products/
+
+# 🕷️ Buscar productos en MercadoLibre
+curl "http://localhost:8000/api/search/mercadolibre/?q=iPhone&limit=3"
+
+# 🕷️ Comparar precios (usar ID de producto creado)
+curl -X POST http://localhost:8000/api/compare/prices/ \
+  -H "Content-Type: application/json" \
+  -d '{"product_id": "PRODUCT_ID_HERE"}'
 ```
+
+## 🕷️ **Web Scraping Features**
+
+### **🔍 Búsqueda en MercadoLibre**
+Busca productos directamente en MercadoLibre México:
+```bash
+curl "http://localhost:8000/api/search/mercadolibre/?q=laptop&limit=5"
+```
+
+**Respuesta ejemplo:**
+```json
+{
+  "query": "laptop",
+  "results_count": 5,
+  "products": [
+    {
+      "title": "Laptop Gamer Asus ROG Strix G15",
+      "price": 25999.0,
+      "url": "https://mercadolibre.com.mx/...",
+      "free_shipping": true,
+      "location": "Distrito Federal",
+      "source": "MercadoLibre"
+    }
+  ]
+}
+```
+
+### **💰 Comparación de Precios**
+Compara productos locales con MercadoLibre:
+```bash
+# 1. Crear producto local
+curl -X POST http://localhost:8000/api/product/ \
+  -H "Content-Type: application/json" \
+  -d '{"nombre": "iPhone 15", "precio": 22000, "talla": "128GB"}'
+
+# 2. Comparar precios (usar ID retornado)
+curl -X POST http://localhost:8000/api/compare/prices/ \
+  -H "Content-Type: application/json" \
+  -d '{"product_id": "67e8a4b..."}'
+```
+
+**Análisis de respuesta:**
+```json
+{
+  "local_product": {
+    "id": "67e8a4b...",
+    "name": "iPhone 15",
+    "price": 22000.0
+  },
+  "mercadolibre_results": [...],
+  "price_analysis": {
+    "our_price": 22000.0,
+    "lowest_ml_price": 19999.0,
+    "price_difference": 2001.0,
+    "is_competitive": false
+  }
+}
+```
+
+### **📊 Cache Inteligente**
+- ✅ **Búsquedas**: Cache por 30 minutos
+- ✅ **Detalles**: Cache por 10 minutos  
+- ✅ **Productos**: Cache por 1 hora
+- ✅ **Rate Limiting**: Evita spam a MercadoLibre
 
 ## 🔥 **DESARROLLO vs 🏭 PRODUCCIÓN**
 
@@ -151,6 +229,24 @@ for i in {1..5}; do
     -d "{\"nombre\": \"Product $i\", \"precio\": $(($i * 100)).99, \"talla\": \"M\"}"
   sleep 1
 done
+```
+
+### **🕷️ Test Web Scraping:**
+```bash
+# Test búsqueda MercadoLibre
+curl "http://localhost:8000/api/search/mercadolibre/?q=iPhone&limit=3"
+
+# Test comparación de precios
+PRODUCT_ID=$(curl -s -X POST http://localhost:8000/api/product/ \
+  -H "Content-Type: application/json" \
+  -d '{"nombre": "iPhone 15", "precio": 25000, "talla": "128GB"}' | jq -r '.id')
+
+curl -X POST http://localhost:8000/api/compare/prices/ \
+  -H "Content-Type: application/json" \
+  -d "{\"product_id\": \"$PRODUCT_ID\"}"
+
+# Test detalles específicos (necesitas una URL real de ML)
+curl "http://localhost:8000/api/scrape/details/?url=https://articulo.mercadolibre.com.mx/MLM-..."
 ```
 
 ## 🔍 **Debugging**
