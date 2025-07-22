@@ -11,7 +11,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://<username>.github.io/chapter-x-react-example",
+  "homepage": "https://ariasaenima.github.io/ProgrammingCourse",
   "dependencies": {
     "gh-pages": "^3.2.3",
     "react": "^17.0.2",
