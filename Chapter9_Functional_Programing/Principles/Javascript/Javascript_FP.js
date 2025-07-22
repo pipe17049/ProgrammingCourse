@@ -70,13 +70,15 @@ function myMapImpl(array, fn) {
 }
 // anonymous function
 // (myVarName) => myOperation
-// (e) => e * 2
+// (e) => e * 2 
 
 function multiplyBy2(e) {
     return e * 2;
 }
 
-//console.log(myMapImpl([1, 2, 3], multiplyBy2 )); // [2, 4, 6]
+console.log(myMapImpl([1, 2, 3], (e)=> e*2)); // [2, 4, 6]
+
+console.log(myMapImpl([1, 2, 3], multiplyBy2 )); // [2, 4, 6]
 
 
 function myMap(array, fn) {
