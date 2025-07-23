@@ -115,7 +115,7 @@ CPU Core 4: Process 4 ████████████████ (trabajan
 
 **❌ FALSO PARALELISMO (Threading con GIL):**
 ```
-1 CPU Core: Thread 1 ████░░░░████░░░░ (alternando)
+1 CPU Core: Thread 1████░░░░████░░░░ (alternando)
            Thread 2 ░░░░████░░░░████ (alternando)
            Thread 3 ░░░░░░░░████░░░░ (alternando)
 ↑ PARECE simultáneo, pero es SECUENCIAL disfrazado

@@ -26,7 +26,7 @@ def download_url_sequential(url: str) -> dict:
     
     try:
         # Simulamos descarga lenta
-        response = requests.get(url, timeout=5)
+        response = requests.get(url, timeout=10)
         duration = time.time() - start_time
         
         result = {
