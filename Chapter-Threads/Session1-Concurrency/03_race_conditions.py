@@ -110,13 +110,22 @@ def add_items_unsafe(thread_id: int, items_count: int):
     global shared_list
     
     for i in range(items_count):
-        # ⚠️ RACE CONDITION: Multiple threads modificando la misma lista
-        current_length = len(shared_list)  # 👈 PROBLEMA 1: Lectura
+        # ⚠️ RACE CONDITION: "Read-Copy-Replace" EXTREMADAMENTE peligroso
         
-        time.sleep(0.00001)  # Simula procesamiento
+        # STEP 1: Read current list (snapshot)
+        current_snapshot = shared_list[:]  # Create copy
+        current_length = len(current_snapshot)
         
+        # STEP 2: Vulnerability window - otros threads pueden modificar shared_list
+        time.sleep(0.0001)  # Critical section sin protección
+        
+        # STEP 3: Modify the copy (basado en snapshot "stale")
         new_item = f"Thread-{thread_id}-Item-{i}"
-        shared_list.append(new_item)
+        current_snapshot.append(new_item)
+        
+        # STEP 4: Replace entire list with modified copy (DANGEROUS!)
+        # ¡Si otro thread modificó shared_list, esos cambios se pierden!
+        shared_list = current_snapshot  # 💥 DESTRUCTIVE WRITE
         
         if i % 500 == 0:
             print(f"🧵 Thread {thread_id}: Agregados {i}/{items_count}, lista tiene {len(shared_list)} items")
@@ -296,10 +305,10 @@ def demonstrate_banking_race_condition():
     print(f"   - Transacciones por thread: {transactions_per_thread}")
     
     print(f"\n💰 TRANSACCIONES PLANIFICADAS (valores fijos):")
-    print(f"Thread 1: +$100, -$15, +$75   (neto: +$160)")
-    print(f"Thread 2: +$25,  -$25, +$20   (neto: +$20)")  
-    print(f"Thread 3: +$40,  -$35, +$35   (neto: +$40)")
-    print(f"Balance esperado SIN race conditions: $1000 + $220 = $1220")
+    print(f"Thread 1: +$100, -$10, +$50   (neto: +$140)")
+    print(f"Thread 2: +$25,  -$20, +$30   (neto: +$35)")  
+    print(f"Thread 3: +$40,  -$30, +$60   (neto: +$70)")
+    print(f"Balance esperado SIN race conditions: $1000 + $245 = $1245")
     
     # Lanzar threads concurrentes
     threads = []
