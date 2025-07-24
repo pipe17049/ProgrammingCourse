@@ -245,15 +245,40 @@ queue.put(task)
 ## 📁 Archivos
 
 - `01_process_communication.py` - Demostración completa de todos los métodos IPC
+- `objects_vs_results_demo.py` - ¿Qué ves al imprimir threads, async y objetos IPC?
 
 ## 🚀 Ejecución
 
 ```bash
+# Demostración completa de IPC
 python 01_process_communication.py
+
+# Ver qué pasa al imprimir objetos (threads, async, IPC)
+python objects_vs_results_demo.py
 ```
 
 ## 🚀 Estado
 ✅ **Completado** - Todos los métodos IPC principales implementados y documentados.
 
 ---
-**Nota**: Este contenido corresponde a la **Sesión 4** del temario de 7 sesiones. 
+
+## 🎯 **ARCHIVO EDUCATIVO ADICIONAL:**
+
+### **`objects_vs_results_demo.py`** 
+Este archivo resuelve una **confusión muy común**: ¿Por qué al imprimir ciertos objetos no veo lo que espero?
+
+**🔍 Demuestra:**
+- **🧵 Threads**: Estados (initial → started → stopped), no resultados
+- **⚡ Async**: Diferencia entre `<coroutine object>` y resultado real
+- **🔄 IPC Objects**: Wrappers vs contenido real
+- **🚫 Errores comunes** y cómo evitarlos
+
+**💡 Aprendes:**
+- `Objects ≠ Results` (regla de oro)
+- Cómo acceder al contenido real (`array[:]`, `value.value`, `await`)
+- Por qué necesitas métodos específicos para cada tipo
+
+**🎓 Ideal para:** Principiantes que se confunden al ver `<Thread object>` o `<coroutine object>` en lugar de sus datos.
+
+---
+**Nota**: Este contenido corresponde a la **Sesión 4** del temario de 7 sesiones.

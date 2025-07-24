@@ -4,8 +4,9 @@
 
 Este capítulo cubre **concurrencia y paralelismo en Python** con un enfoque práctico y progresivo. Los estudiantes aprenderán desde los problemas de la ejecución secuencial hasta las soluciones avanzadas de multiprocessing.
 
-**⏱️ Duración total**: 1.5 horas (2 sesiones de 45 minutos)  
-**🎯 Nivel**: Intermedio  
+**⏱️ Duración Principal**: 1.5 horas (2 sesiones de 45 minutos)  
+**⏱️ Duración Completa**: 4+ horas (4 sesiones disponibles + futuras)  
+**🎯 Nivel**: Intermedio a Avanzado  
 **🔧 Lenguaje**: Python 3.7+
 
 ## 🎯 Objetivos del Capítulo
@@ -46,13 +47,13 @@ Al completar este capítulo, los estudiantes podrán:
 
 | Sesión | Enfoque | Estado |
 |---------|---------|---------|
-| **Session3-Async/** | ⚡ async/await y asyncio | 🔄 En desarrollo |
-| **Session4-IPC/** | 🔄 Comunicación entre procesos | 🔄 En desarrollo |
+| **Session3-Async/** | ⚡ async/await y asyncio | ✅ **Completado** |
+| **Session4-IPC/** | 🔄 Comunicación entre procesos | ✅ **Completado** |
 | **Session5-Projects/** | 🚀 Proyectos prácticos I | 📋 Planificado |
 | **Session6-Projects/** | 🚀 Proyectos prácticos II | 📋 Planificado |
 | **Session7-Distributed/** | 🌐 Sistemas distribuidos | 📋 Planificado |
 
-**Nota**: Este capítulo se enfoca **solo en las sesiones 1-2** del temario completo.
+**Nota**: Las **sesiones 1-2 son el núcleo** del temario (obligatorio). Las **sesiones 3-4 son extensiones** avanzadas (opcional).
 
 ## 🚀 Inicio Rápido
 
@@ -78,6 +79,15 @@ python 04_locks_solution.py
 cd ../Session2-Parallelism/
 python 01_gil_limitations.py
 python 02_multiprocessing_basics.py
+
+# Sesión 3: Async/Await (Opcional - Avanzado)
+cd ../Session3-Async/
+python async_complete_guide.py
+
+# Sesión 4: IPC - Comunicación entre Procesos (Opcional - Avanzado)
+cd ../Session4-IPC/
+python 01_process_communication.py
+python objects_vs_results_demo.py
 ```
 
 ## 📊 Progresión del Aprendizaje
@@ -343,10 +353,20 @@ def is_prime(n):
 - 🔢 **Cálculos matemáticos** (simulaciones, algoritmos)
 
 ### ⚡ Para operaciones Async:
-*Contenido disponible en **Session3-Async/** (próxima sesión)*
-- 🕷️ Web scraping masivo
-- 🌐 APIs de alta concurrencia  
+*Contenido disponible en **Session3-Async/** ✅*
+- 🕷️ Web scraping masivo (1000+ URLs concurrentes)
+- 🌐 APIs de alta concurrencia (WebSocket servers)
 - 🔄 Streaming de datos
+- 📊 **Archivo disponible**: `async_complete_guide.py` - Guía consolidada completa
+
+### 🔄 Para comunicación entre procesos:
+*Contenido disponible en **Session4-IPC/** ✅*
+- 🔄 Queue (Producer-Consumer patterns)  
+- 📞 Pipe (Comunicación bidireccional)
+- 💾 Shared Memory (Alta performance)
+- 🗂️ Manager (Objetos compartidos inteligentes)
+- 🚦 Event (Sincronización entre procesos)
+- 📊 **Archivos disponibles**: `01_process_communication.py`, `objects_vs_results_demo.py`
 
 ## 🎓 ¿Por qué Números Primos como Ejemplo?
 
@@ -470,6 +490,7 @@ ranges = [(500000, 600000), ...]  # 5-8s → GIL obvio
 
 Habrás dominado:
 
+### 🎯 **Sesiones Principales (1-2):**
 ✅ **I/O-bound vs CPU-bound** (distinción fundamental)  
 ✅ **Diferencias entre concurrencia y paralelismo**  
 ✅ **VERDADERO vs FALSO paralelismo** (concepto clave)  
@@ -477,17 +498,47 @@ Habrás dominado:
 ✅ **Cómo evitar y resolver race conditions**  
 ✅ **Por qué el GIL limita threading para CPU-bound**  
 ✅ **Implementación de verdadero paralelismo con multiprocessing**  
-✅ **Comunicación entre procesos (IPC)**  
-✅ **Guía de decisión para cada caso de uso**  
+✅ **Guía de decisión para cada caso de uso**
+
+### ⚡ **Sesión Adicional 3 - Async/Await:**
+✅ **Diferencias entre concurrencia preemptiva vs cooperativa**  
+✅ **Por qué async NO puede tener race conditions**  
+✅ **Escalabilidad masiva** (1000+ corrutinas vs 5000 threads max)  
+✅ **Cuándo usar Async vs Threading vs Multiprocessing**  
+✅ **Event loop y puntos de cedencia explícitos**
+
+### 🔄 **Sesión Adicional 4 - IPC:**
+✅ **5 métodos de comunicación entre procesos**  
+✅ **Queue** (Producer-Consumer), **Pipe** (Bidireccional)  
+✅ **Shared Memory** (Alta performance) vs **Manager** (Facilidad)  
+✅ **Event** (Sincronización) y **coordinación** entre procesos  
+✅ **Objects vs Results** - Diferencia entre contenedores y contenido  
+
+## 📚 Archivos Educativos Especiales
+
+### 🎯 **`objects_vs_results_demo.py`** (Session4-IPC)
+Archivo **único y educativo** que resuelve confusiones comunes:
+- ¿Por qué `print(thread)` muestra `<Thread object>` y no mi resultado?
+- ¿Qué es `<coroutine object>` cuando olvido `await`?
+- ¿Por qué `print(shared_array)` muestra wrapper y no `[1,2,3]`?
+
+**💡 Regla de oro**: `Objects ≠ Results` - Aprende a acceder al contenido real.
+
+### ⚡ **`async_complete_guide.py`** (Session3-Async)  
+Guía **consolidada** que unifica TODO sobre async:
+- 🪄 Por qué async es "mágico"
+- 🔍 Prueba matemática: NO race conditions
+- 📊 Comparación completa: Threading vs Multiprocessing vs Async
+- 🎯 Guías de decisión práctica
 
 ## 🚀 Próximos Pasos
 
 Después de dominar este capítulo, puedes continuar con:
 
-- **Async/Await avanzado** con `asyncio`
 - **Distributed computing** con `celery` o `dask`
 - **GPU computing** con `numba` o `cupy`
 - **Reactive programming** con `RxPY`
+- **Microservices** con patrones async
 
 ---
 
