@@ -16,7 +16,6 @@ import threading
 import multiprocessing as mp
 import asyncio
 import concurrent.futures
-import requests
 import math
 from typing import List, Dict
 
@@ -24,31 +23,33 @@ from typing import List, Dict
 # 🧪 TAREA DE PRUEBA 1: I/O-bound (Descargas de URLs)
 # ============================================================================
 
-def download_url_sync(url: str) -> Dict:
-    """Descarga síncrona de URL"""
+def simulate_io_task_sync(task_name: str, delay: float = 1.0) -> Dict:
+    """Simula tarea I/O-bound (ej: descarga, lectura DB, etc.)"""
     try:
-        response = requests.get(url, timeout=3)
+        # ✅ PREDECIBLE: Simular I/O con time.sleep (vs httpbin inconsistente)
+        time.sleep(delay)  # Simula operación I/O que tarda 'delay' segundos
+        
         return {
-            'url': url,
-            'status': response.status_code,
-            'size': len(response.content),
+            'task': task_name,
+            'status': 'completed',
+            'delay': delay,
             'method': 'sync'
         }
     except Exception as e:
         return {
-            'url': url,
+            'task': task_name,
             'error': str(e),
             'method': 'sync'
         }
 
-def test_sequential_io(urls: List[str]) -> Dict:
+def test_sequential_io(tasks: List[str]) -> Dict:
     """Test secuencial para I/O-bound"""
     print("🐌 TEST SECUENCIAL (I/O-bound)")
     start = time.time()
     
     results = []
-    for url in urls:
-        result = download_url_sync(url)
+    for task in tasks:
+        result = simulate_io_task_sync(task, delay=1.0)
         results.append(result)
     
     duration = time.time() - start
@@ -60,13 +61,16 @@ def test_sequential_io(urls: List[str]) -> Dict:
         'results': results
     }
 
-def test_threading_io(urls: List[str]) -> Dict:
+def test_threading_io(tasks: List[str]) -> Dict:
     """Test threading para I/O-bound"""
     print("🧵 TEST THREADING (I/O-bound)")
     start = time.time()
     
+    # Usar lambda para pasar el delay
+    task_with_delay = lambda task: simulate_io_task_sync(task, delay=1.0)
+    
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
-        results = list(executor.map(download_url_sync, urls))
+        results = list(executor.map(task_with_delay, tasks))
     
     duration = time.time() - start
     print(f"⏱️ Tiempo threading: {duration:.2f}s")
@@ -77,13 +81,16 @@ def test_threading_io(urls: List[str]) -> Dict:
         'results': results
     }
 
-def test_multiprocessing_io(urls: List[str]) -> Dict:
+def test_multiprocessing_io(tasks: List[str]) -> Dict:
     """Test multiprocessing para I/O-bound (no recomendado)"""
     print("🔥 TEST MULTIPROCESSING (I/O-bound - overhead innecesario)")
     start = time.time()
     
+    # Usar lambda para pasar el delay
+    task_with_delay = lambda task: simulate_io_task_sync(task, delay=1.0)
+    
     with concurrent.futures.ProcessPoolExecutor(max_workers=4) as executor:
-        results = list(executor.map(download_url_sync, urls))
+        results = list(executor.map(task_with_delay, tasks))
     
     duration = time.time() - start
     print(f"⏱️ Tiempo multiprocessing: {duration:.2f}s")
@@ -94,33 +101,32 @@ def test_multiprocessing_io(urls: List[str]) -> Dict:
         'results': results
     }
 
-async def download_url_async(url: str) -> Dict:
-    """Descarga asíncrona de URL"""
-    import aiohttp
+async def simulate_io_task_async(task_name: str, delay: float = 1.0) -> Dict:
+    """Simula tarea I/O-bound asíncrona (ej: descarga, lectura DB, etc.)"""
     try:
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url, timeout=3) as response:
-                content = await response.read()
-                return {
-                    'url': url,
-                    'status': response.status,
-                    'size': len(content),
-                    'method': 'async'
-                }
+        # ✅ PREDECIBLE: Simular I/O asíncrono con asyncio.sleep
+        await asyncio.sleep(delay)  # Simula operación I/O asíncrona
+        
+        return {
+            'task': task_name,
+            'status': 'completed',
+            'delay': delay,
+            'method': 'async'
+        }
     except Exception as e:
         return {
-            'url': url,
+            'task': task_name,
             'error': str(e),
             'method': 'async'
         }
 
-async def test_async_io(urls: List[str]) -> Dict:
+async def test_async_io(tasks: List[str]) -> Dict:
     """Test async para I/O-bound"""
     print("⚡ TEST ASYNC (I/O-bound)")
     start = time.time()
     
-    tasks = [download_url_async(url) for url in urls]
-    results = await asyncio.gather(*tasks)
+    async_tasks = [simulate_io_task_async(task, delay=1.0) for task in tasks]
+    results = await asyncio.gather(*async_tasks)
     
     duration = time.time() - start
     print(f"⏱️ Tiempo async: {duration:.2f}s")
@@ -227,56 +233,67 @@ def test_multiprocessing_cpu(ranges: List[tuple]) -> Dict:
 def compare_io_bound():
     """Comparar todos los métodos para I/O-bound"""
     print("\n" + "📊" + "="*70)
-    print("📊 COMPARACIÓN COMPLETA: I/O-BOUND (Descargas)")
+    print("📊 COMPARACIÓN COMPLETA: I/O-BOUND (Simulaciones)")
     print("="*70)
     
-    # URLs de prueba (simulamos con httpbin)
-    urls = [
-        "https://httpbin.org/delay/1",
-        "https://httpbin.org/delay/1", 
-        "https://httpbin.org/delay/1",
-        "https://httpbin.org/delay/1"
+    # Tareas de simulación I/O-bound (predicibles con time.sleep)
+    tasks = [
+        "Descargar archivo A",
+        "Consultar base de datos B", 
+        "Leer archivo de configuración C",
+        "Conectar API externa D"
     ]
     
-    print(f"🎯 Tarea: Descargar {len(urls)} URLs con delay de 1s cada una")
-    print(f"⏱️ Tiempo esperado secuencial: ~{len(urls)} segundos")
+    print(f"🎯 Tarea: Ejecutar {len(tasks)} operaciones I/O de 1s cada una")
+    print(f"⏱️ Tiempo esperado secuencial: ~{len(tasks)} segundos")
     print(f"⏱️ Tiempo esperado concurrente: ~1 segundo")
     
     results = {}
     
     # Test secuencial
     try:
-        results['sequential'] = test_sequential_io(urls)
+        results['sequential'] = test_sequential_io(tasks)
     except Exception as e:
         print(f"❌ Error en test secuencial: {e}")
         results['sequential'] = {'method': 'sequential', 'time': float('inf')}
     
     # Test threading
     try:
-        results['threading'] = test_threading_io(urls)
+        results['threading'] = test_threading_io(tasks)
     except Exception as e:
         print(f"❌ Error en test threading: {e}")
         results['threading'] = {'method': 'threading', 'time': float('inf')}
     
     # Test multiprocessing
     try:
-        results['multiprocessing'] = test_multiprocessing_io(urls)
+        results['multiprocessing'] = test_multiprocessing_io(tasks)
     except Exception as e:
         print(f"❌ Error en test multiprocessing: {e}")
         results['multiprocessing'] = {'method': 'multiprocessing', 'time': float('inf')}
     
-    # Test async (comentado porque requiere aiohttp)
-    print("⚡ TEST ASYNC: Requiere 'pip install aiohttp' - omitido")
+    # Test async (ahora funciona sin dependencias externas!)
+    try:
+        print("⚡ TEST ASYNC: Ejecutando...")
+        async_result = asyncio.run(test_async_io(tasks))
+        results['async'] = async_result
+    except Exception as e:
+        print(f"❌ Error en test async: {e}")
+        results['async'] = {'method': 'async', 'time': float('inf')}
     
     # Análisis de resultados
     print(f"\n📈 ANÁLISIS I/O-BOUND:")
     seq_time = results['sequential']['time']
     thread_time = results['threading']['time']
     mp_time = results['multiprocessing']['time']
+    async_time = results.get('async', {}).get('time', float('inf'))
     
     if thread_time < float('inf'):
         thread_speedup = seq_time / thread_time
         print(f"🧵 Threading speedup: {thread_speedup:.1f}x")
+        
+    if async_time < float('inf'):
+        async_speedup = seq_time / async_time
+        print(f"⚡ Async speedup: {async_speedup:.1f}x")
         
     if mp_time < float('inf'):
         mp_speedup = seq_time / mp_time
