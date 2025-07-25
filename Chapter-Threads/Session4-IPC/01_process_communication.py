@@ -124,87 +124,159 @@ def demonstrate_queue_communication():
 # 🔄 MÉTODO 2: Pipe - Comunicación Bidireccional
 # ============================================================================
 
-def pipe_sender(conn, worker_id: int, messages: int):
-    """Proceso que envía mensajes por pipe"""
+def pipe_bidirectional_worker(conn, worker_id: int, partner_id: int):
+    """🔄 Proceso que ENVÍA y RECIBE mensajes por pipe (VERDADERAMENTE BIDIRECCIONAL)"""
     process_name = mp.current_process().name
-    print(f"📞 Sender {worker_id} ({process_name}): Iniciando envío")
+    print(f"🔄 Worker {worker_id} ({process_name}): Iniciando comunicación BIDIRECCIONAL con Worker {partner_id}")
     
-    for i in range(messages):
+    messages_sent = 0
+    messages_received = 0
+    
+    # 📤 ENVIAR mensajes (cada worker envía 3 mensajes)
+    for i in range(3):
         message = {
+            'from': worker_id,
+            'to': partner_id,
             'id': i,
-            'sender': worker_id,
-            'content': f"Mensaje-{worker_id}-{i}",
+            'content': f"Hola {partner_id}, soy {worker_id} - mensaje #{i}",
             'timestamp': time.time()
         }
         
         conn.send(message)
-        print(f"📞 Sender {worker_id}: Enviado {message['content']}")
-        time.sleep(0.2)
+        print(f"📤 Worker {worker_id} → {partner_id}: {message['content']}")
+        messages_sent += 1
+        time.sleep(0.1)
+        
+        # 📥 RECIBIR respuesta del otro proceso
+        try:
+            response = conn.recv()
+            if response != "FIN":
+                print(f"📥 Worker {worker_id} ← {response['from']}: {response['content']}")
+                messages_received += 1
+        except:
+            break
     
     # Enviar señal de fin
     conn.send("FIN")
+    
+    print(f"✅ Worker {worker_id}: Enviados {messages_sent}, Recibidos {messages_received}")
     conn.close()
-    print(f"✅ Sender {worker_id}: Completado")
 
-def pipe_receiver(conn, worker_id: int):
-    """Proceso que recibe mensajes por pipe"""
+def pipe_chat_worker(conn, worker_id: int, partner_id: int):
+    """🗨️ Trabajador que simula una conversación real bidireccional"""
     process_name = mp.current_process().name
-    print(f"📞 Receiver {worker_id} ({process_name}): Esperando mensajes")
+    print(f"🗨️ Chat Worker {worker_id} ({process_name}): Iniciando chat con {partner_id}")
     
-    messages_received = 0
+    # Diferentes conversaciones según el worker
+    if worker_id == 1:
+        conversation = [
+            "¡Hola! ¿Cómo estás?",
+            "Perfecto, ¿y tú qué tal?", 
+            "¡Genial! Nos vemos luego"
+        ]
+    else:
+        conversation = [
+            "¡Hola! Todo bien por aquí",
+            "Muy bien también, gracias",
+            "¡Hasta luego!"
+        ]
     
-    while True:
-        try:
-            message = conn.recv()
-            
-            if message == "FIN":
-                print(f"📞 Receiver {worker_id}: Recibida señal de fin")
+    import threading
+    
+    def sender():
+        """Hilo para enviar mensajes"""
+        for msg in conversation:
+            time.sleep(0.5)  # Esperar antes de responder
+            message = {
+                'from': worker_id,
+                'to': partner_id,
+                'content': msg,
+                'timestamp': time.time()
+            }
+            conn.send(message)
+            print(f"💬 {worker_id} dice: {msg}")
+        
+        # Señal de fin
+        conn.send("FIN")
+    
+    def receiver():
+        """Hilo para recibir mensajes"""
+        while True:
+            try:
+                message = conn.recv()
+                if message == "FIN":
+                    break
+                print(f"👂 {worker_id} escucha: {message['content']}")
+            except:
                 break
-            
-            print(f"📞 Receiver {worker_id}: Recibido {message['content']}")
-            messages_received += 1
-            
-        except EOFError:
-            print(f"📞 Receiver {worker_id}: Conexión cerrada")
-            break
+    
+    # 🚀 AQUÍ ESTÁ LA MAGIA: Ambos procesos ENVÍAN Y RECIBEN simultáneamente
+    sender_thread = threading.Thread(target=sender)
+    receiver_thread = threading.Thread(target=receiver)
+    
+    sender_thread.start()
+    receiver_thread.start()
+    
+    sender_thread.join()
+    receiver_thread.join()
     
     conn.close()
-    print(f"✅ Receiver {worker_id}: Recibidos {messages_received} mensajes")
+    print(f"✅ Chat Worker {worker_id}: Conversación terminada")
 
 def demonstrate_pipe_communication():
-    """🔄 DEMOSTRACIÓN: Comunicación con Pipe"""
+    """🔄 DEMOSTRACIÓN: Comunicación VERDADERAMENTE BIDIRECCIONAL con Pipe"""
     print("\n" + "🔄" + "="*60)
-    print("🔄 COMUNICACIÓN CON PIPE - Bidireccional")
+    print("🔄 COMUNICACIÓN CON PIPE - VERDADERAMENTE BIDIRECCIONAL")
     print("="*60)
     
-    # Crear pipe bidireccional
-    parent_conn, child_conn = Pipe()
+    print("💡 ANTES: Un proceso enviaba, otro recibía (UNIDIRECCIONAL)")
+    print("🚀 AHORA: Ambos procesos envían Y reciben (BIDIRECCIONAL)")
+    print("-" * 60)
     
-    print(f"📞 Pipe creado para comunicación bidireccional")
+    # 🔥 EJEMPLO 1: Intercambio simple bidireccional
+    print("\n🔥 EJEMPLO 1: Intercambio Básico Bidireccional")
+    conn1, conn2 = Pipe()
+    
+    process1 = mp.Process(target=pipe_bidirectional_worker, args=(conn1, 1, 2))
+    process2 = mp.Process(target=pipe_bidirectional_worker, args=(conn2, 2, 1))
     
     start_time = time.time()
     
-    # Crear procesos
-    sender_process = mp.Process(
-        target=pipe_sender,
-        args=(child_conn, 1, 3)
-    )
+    process1.start()
+    process2.start()
     
-    receiver_process = mp.Process(
-        target=pipe_receiver,
-        args=(parent_conn, 1)
-    )
+    process1.join()
+    process2.join()
     
-    # Iniciar procesos
-    sender_process.start()
-    receiver_process.start()
+    time1 = time.time() - start_time
+    print(f"⏱️ Intercambio básico completado en {time1:.2f} segundos")
     
-    # Esperar que terminen
-    sender_process.join()
-    receiver_process.join()
+    # 🗨️ EJEMPLO 2: Chat realista bidireccional
+    print("\n🗨️ EJEMPLO 2: Chat Realista Bidireccional")
+    print("(Usando threading para enviar y recibir simultáneamente)")
     
-    total_time = time.time() - start_time
-    print(f"\n⏱️ Comunicación por pipe completada en {total_time:.2f} segundos")
+    chat_conn1, chat_conn2 = Pipe()
+    
+    chat_process1 = mp.Process(target=pipe_chat_worker, args=(chat_conn1, 1, 2))
+    chat_process2 = mp.Process(target=pipe_chat_worker, args=(chat_conn2, 2, 1))
+    
+    start_time = time.time()
+    
+    chat_process1.start()
+    chat_process2.start()
+    
+    chat_process1.join()
+    chat_process2.join()
+    
+    time2 = time.time() - start_time
+    print(f"⏱️ Chat bidireccional completado en {time2:.2f} segundos")
+    
+    # 📊 Resumen
+    print(f"\n📊 RESUMEN:")
+    print(f"🔄 Pipe es verdaderamente BIDIRECCIONAL")
+    print(f"🔥 Ambos extremos pueden send() y recv()")
+    print(f"🗨️ Perfecto para comunicación entre 2 procesos")
+    print(f"⚡ Más rápido que Queue para comunicación directa")
 
 # ============================================================================
 # 🔄 MÉTODO 3: Shared Memory - Memoria Compartida
@@ -362,9 +434,9 @@ def compare_communication_methods():
             "uso": "Producer-Consumer patterns"
         },
         "Pipe": {
-            "pros": ["Bidirectional", "Fast", "Direct connection"],
-            "cons": ["Only 2 processes", "No built-in synchronization"],
-            "uso": "Communication between 2 processes"
+            "pros": ["VERDADERAMENTE Bidirectional", "Fast", "Direct connection", "Ambos extremos send/recv"],
+            "cons": ["Only 2 processes", "Need threading for simultaneous send/recv"],
+            "uso": "Communication between 2 processes, chat systems"
         },
         "Shared Memory": {
             "pros": ["Very fast", "No serialization", "Direct access"],
