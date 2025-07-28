@@ -26,7 +26,7 @@ from pathlib import Path
 # 🌐 CONFIGURACIÓN
 SERVERS = ["http://localhost:8001", "http://localhost:8002", "http://localhost:8003"]
 PORTS = [8001, 8002, 8003]
-SESSION5_PATH = "../Session5-Projects"
+SESSION5_PATH = "../Projects"
 
 # 📊 ESTADO GLOBAL
 server_processes = []
@@ -319,7 +319,7 @@ def main():
     """🎭 Demo completo de la sesión"""
     print("🎭 DEMO COMPLETO: Session 6 - Sistemas Distribuidos")
     print("🎯 Duración estimada: 45 minutos")
-    print("📋 Prerequisito: Session5-Projects funcionando")
+    print("📋 Prerequisito: Projects funcionando")
     print("=" * 70)
     
     # Configurar manejo de señales

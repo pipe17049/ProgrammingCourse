@@ -49,9 +49,8 @@ Al completar este capítulo, los estudiantes podrán:
 |---------|---------|---------|
 | **Session3-Async/** | ⚡ async/await y asyncio | ✅ **Completado** |
 | **Session4-IPC/** | 🔄 Comunicación entre procesos | ✅ **Completado** |
-| **Session5-Projects/** | 🚀 Proyectos prácticos I | 📋 Planificado |
-| **Session6-Projects/** | 🚀 Proyectos prácticos II | 📋 Planificado |
-| **Session7-Distributed/** | 🌐 Sistemas distribuidos | 📋 Planificado |
+| **Projects/** | 🚀 Proyectos prácticos | ✅ Completo |
+| **Session5-DistributedSystems/** | 🌐 Sistemas distribuidos | ✅ **Completado** |
 
 **Nota**: Las **sesiones 1-2 son el núcleo** del temario (obligatorio). Las **sesiones 3-4 son extensiones** avanzadas (opcional).
 

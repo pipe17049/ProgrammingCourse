@@ -17,7 +17,7 @@ from pathlib import Path
 
 # 📋 CONFIGURACIÓN
 PORTS = [8001, 8002, 8003]
-SESSION5_PATH = "../Session5-Projects"
+SESSION5_PATH = "../Projects"
 
 # 📊 PROCESOS ACTIVOS
 processes = []
@@ -27,7 +27,7 @@ def start_django_server(port: int):
     print(f"🚀 Iniciando servidor en puerto {port}...")
     
     try:
-        # Cambiar al directorio de Session5-Projects
+        # Cambiar al directorio de Projects
         cmd = [
             "python", "manage.py", "runserver", str(port)
         ]
@@ -49,13 +49,13 @@ def start_django_server(port: int):
         return None
 
 def check_session5_exists():
-    """🔍 Verificar que existe Session5-Projects"""
+    """🔍 Verificar que existe Projects"""
     session5_full_path = Path(__file__).parent / SESSION5_PATH
     
     if not session5_full_path.exists():
         print(f"❌ No se encuentra {SESSION5_PATH}")
         print(f"   Ruta buscada: {session5_full_path.absolute()}")
-        print(f"   Por favor ejecuta desde Session6-DistributedSystems/")
+        print(f"   Por favor ejecuta desde Session5-DistributedSystems/")
         return False
     
     manage_py = session5_full_path / "manage.py"
@@ -63,7 +63,7 @@ def check_session5_exists():
         print(f"❌ No se encuentra manage.py en {session5_full_path}")
         return False
     
-    print(f"✅ Session5-Projects encontrado: {session5_full_path.absolute()}")
+    print(f"✅ Projects encontrado: {session5_full_path.absolute()}")
     return True
 
 def stop_all_servers():

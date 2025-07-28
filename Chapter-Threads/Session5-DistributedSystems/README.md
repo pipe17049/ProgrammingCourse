@@ -103,13 +103,13 @@ Shared Memory     →  Distributed database
 
 ### **1. Pre-requisitos**
 ```bash
-# Verificar que Session5-Projects funciona
-cd ../Session5-Projects
+# Verificar que Projects funciona
+cd ../Projects
 python manage.py runserver 8000
 # Probar: curl http://localhost:8000/
 
 # Instalar dependencias adicionales
-cd ../Session6-DistributedSystems  
+cd ../Session5-DistributedSystems  
 pip install -r requirements.txt
 ```
 
@@ -273,8 +273,8 @@ request_count = Counter('requests_total')
 # Verificar puerto libre
 lsof -i :8001
 
-# Verificar desde Session5-Projects
-cd ../Session5-Projects
+# Verificar desde Projects
+cd ../Projects
 python manage.py check
 ```
 

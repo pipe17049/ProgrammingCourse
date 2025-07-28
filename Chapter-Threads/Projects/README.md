@@ -14,7 +14,7 @@ Este proyecto demuestra:
 
 ### 1. Instalar dependencias
 ```bash
-# Desde Chapter-Threads/Session5-Projects/
+# Desde Chapter-Threads/Projects/
 pip install -r requirements.txt
 ```
 

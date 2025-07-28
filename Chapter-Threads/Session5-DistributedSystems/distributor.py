@@ -263,7 +263,7 @@ if __name__ == "__main__":
     print("🌐 INICIANDO LOAD BALANCER DISTRIBUIDO")
     print("📋 INSTRUCCIONES:")
     print("   1. Asegúrate de tener servidores corriendo en puertos 8001, 8002, 8003")
-    print("   2. Comando: python manage.py runserver PUERTO (desde Session5-Projects)")
+    print("   2. Comando: python manage.py runserver PUERTO (desde Projects)")
     print("   3. Ejemplo: python manage.py runserver 8001")
     print()
     
@@ -281,7 +281,7 @@ if __name__ == "__main__":
     
     if available_count == 0:
         print("❌ No hay servidores disponibles. Por favor:")
-        print("   1. Ve a Chapter-Threads/Session5-Projects/")
+        print("   1. Ve a Chapter-Threads/Projects/")
         print("   2. Ejecuta: python manage.py runserver 8001")
         print("   3. En otra terminal: python manage.py runserver 8002")
         print("   4. En otra terminal: python manage.py runserver 8003")
