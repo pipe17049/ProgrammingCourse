@@ -22,4 +22,9 @@ urlpatterns = [
     
     # 📊 Estadísticas del servidor
     path('stats/', views.get_server_stats, name='get_server_stats'),
+    
+    # 🚀 PROJECT DAY 1: Batch processing endpoints
+    path('process-batch/sequential/', views.process_batch_sequential, name='process_batch_sequential'),
+    path('process-batch/threading/', views.process_batch_threading, name='process_batch_threading'),
+    path('process-batch/compare/', views.compare_performance, name='compare_performance'),
 ] 

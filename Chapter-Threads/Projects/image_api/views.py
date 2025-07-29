@@ -224,4 +224,165 @@ def get_server_stats(request):
             "multiprocessing": f"Máximo recomendado: {cpu_count} workers",
             "async": "Excelente para alta concurrencia"
         }
-    }) 
+    })
+
+# ============================================================================
+# 🚀 PROJECT DAY 1: BATCH PROCESSING ENDPOINTS
+# ============================================================================
+
+import json
+from django.views.decorators.csrf import csrf_exempt
+from .processors import ImageProcessor
+from .filters import FilterFactory
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def process_batch_sequential(request):
+    """
+    🐌 Procesamiento secuencial (LENTO) - para comparar con threading
+    
+    Demo de Day 1: Procesa múltiples filtros secuencialmente
+    """
+    try:
+        data = json.loads(request.body)
+        filters = data.get('filters', ['resize', 'blur', 'brightness'])
+        count = data.get('count', 5)
+        
+        start_time = time.time()
+        
+        # Procesamiento SECUENCIAL usando imágenes REALES
+        processor = ImageProcessor()
+        results = []
+        
+        # Usar imágenes reales de static/images/
+        available_images = [
+            "static/images/sample_4k.jpg",
+            "static/images/misurina-sunset.jpg"
+        ]
+        
+        for i in range(count):
+            # Alternar entre las imágenes disponibles
+            image_path = available_images[i % len(available_images)]
+            result = processor.process_single_image(image_path, filters)
+            results.append(result)
+        
+        total_time = time.time() - start_time
+        
+        return JsonResponse({
+            "method": "sequential",
+            "processed_count": len(results),
+            "filters_used": filters,
+            "total_time": round(total_time, 3),
+            "avg_time_per_image": round(total_time / count, 3),
+            "performance": "🐌 LENTO - sin concurrencia"
+        })
+        
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def process_batch_threading(request):
+    """
+    🚀 Procesamiento con THREADING (RÁPIDO) - objetivo Day 1
+    
+    Demo de Day 1: Muestra el speedup con threading
+    """
+    try:
+        data = json.loads(request.body)
+        filters = data.get('filters', ['resize', 'blur', 'brightness'])
+        count = data.get('count', 5)
+        
+        start_time = time.time()
+        
+        # Procesamiento con THREADING usando imágenes REALES
+        processor = ImageProcessor()
+        
+        # Usar imágenes reales de static/images/
+        available_images = [
+            "static/images/sample_4k.jpg",
+            "static/images/misurina-sunset.jpg"
+        ]
+        
+        # Generar lista de imágenes reales para procesar
+        real_images = [available_images[i % len(available_images)] for i in range(count)]
+        results = processor.process_batch_threading(real_images, filters)
+        
+        total_time = time.time() - start_time
+        
+        return JsonResponse({
+            "method": "threading",
+            "processed_count": len(results),
+            "filters_used": filters,
+            "total_time": round(total_time, 3),
+            "avg_time_per_image": round(total_time / count, 3),
+            "speedup_estimate": "🚀 2-3x más rápido que secuencial",
+            "performance": "⚡ RÁPIDO - con threading"
+        })
+        
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+@csrf_exempt 
+@require_http_methods(["POST"])
+def compare_performance(request):
+    """
+    📊 DEMO PRINCIPAL Day 1: Compara secuencial vs threading
+    
+    Este es el endpoint estrella para mostrar el speedup
+    """
+    try:
+        data = json.loads(request.body)
+        filters = data.get('filters', ['resize', 'blur', 'brightness'])
+        count = data.get('count', 5)
+        
+        processor = ImageProcessor()
+        
+        # Usar imágenes reales para ambos tests
+        available_images = [
+            "static/images/sample_4k.jpg",
+            "static/images/misurina-sunset.jpg"
+        ]
+        
+        # Test SECUENCIAL con imágenes REALES
+        start_seq = time.time()
+        results_seq = []
+        for i in range(count):
+            image_path = available_images[i % len(available_images)]
+            result = processor.process_single_image(image_path, filters)
+            results_seq.append(result)
+        time_sequential = time.time() - start_seq
+        
+        # Test THREADING con imágenes REALES
+        start_thr = time.time()
+        real_images = [available_images[i % len(available_images)] for i in range(count)]
+        results_threading = processor.process_batch_threading(real_images, filters)
+        time_threading = time.time() - start_thr
+        
+        # Calcular speedup
+        speedup = round(time_sequential / time_threading, 2)
+        
+        return JsonResponse({
+            "comparison": {
+                "sequential": {
+                    "time": round(time_sequential, 3),
+                    "method": "🐌 Uno por uno",
+                    "processed": len(results_seq)
+                },
+                "threading": {
+                    "time": round(time_threading, 3), 
+                    "method": "🚀 Paralelo",
+                    "processed": len(results_threading)
+                }
+            },
+            "results": {
+                "speedup": f"{speedup}x",
+                "improvement": f"{((speedup-1)*100):.1f}% más rápido",
+                "recommendation": "🎯 Threading es perfecto para I/O-bound operations"
+            },
+            "filters_tested": filters,
+            "images_processed": count
+        })
+        
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500) 

@@ -42,14 +42,14 @@ class ImageProcessor:
         """
         📸 Procesar una imagen individual con múltiples filtros
         
-        TODO DÍA 1:
-        1. Cargar imagen con PIL
-        2. Aplicar filtros en secuencia 
-        3. Guardar resultado
-        4. Retornar metadata
+        DÍA 1: Usar imágenes reales de static/images/
+        1. Cargar imagen real con PIL/basic processing
+        2. Aplicar filtros básicos 
+        3. Simular I/O processing time
+        4. Retornar metadata real
         
         Args:
-            image_path: Ruta de la imagen original
+            image_path: Ruta de la imagen original (ej: static/images/sample_4k.jpg)
             filters: Lista de filtros a aplicar ['resize', 'blur', 'brightness']
             
         Returns:
@@ -67,22 +67,46 @@ class ImageProcessor:
         
         logger.info(f"🧵 Thread {thread_id}: Procesando {image_path} con filtros {filters}")
         
-        # TODO: Implementar procesamiento real
-        # Por ahora solo simulamos
-        time.sleep(1)  # Simular procesamiento
-        
-        with self.processing_lock:
-            self.processed_count += 1
+        # 📁 Procesar imagen REAL
+        try:
+            # Verificar que la imagen existe
+            if not Path(image_path).exists():
+                logger.warning(f"⚠️ Imagen no encontrada: {image_path}")
+                # Usar imagen por defecto
+                image_path = "static/images/sample_4k.jpg"
+            
+            # Simular procesamiento I/O-bound (leer, procesar, escribir)
+            with open(image_path, 'rb') as f:
+                image_data = f.read()
+                file_size = len(image_data)
+            
+            # Simular filtros aplicados (tiempo de procesamiento realista)
+            processing_delay = len(filters) * 0.3  # 0.3s por filtro
+            time.sleep(processing_delay)
+            
+            # TODO DÍA 1: Los estudiantes implementarán filtros reales aquí
+            # from .filters import FilterFactory
+            # for filter_name in filters:
+            #     image_data = FilterFactory.apply_filter(image_data, filter_name)
+            
+            with self.processing_lock:
+                self.processed_count += 1
+                
+        except Exception as e:
+            logger.error(f"❌ Error procesando {image_path}: {e}")
+            file_size = 0
+            processing_delay = 0.1
             
         processing_time = time.time() - start_time
         
         return {
             'original_path': image_path,
-            'processed_path': f'static/processed/{Path(image_path).stem}_processed.jpg',
+            'processed_path': f'static/processed/{Path(image_path).stem}_filtered.jpg',
             'filters_applied': filters,
             'processing_time': processing_time,
-            'file_size': 1024,  # TODO: Tamaño real
-            'thread_id': str(thread_id)
+            'file_size': file_size,
+            'thread_id': str(thread_id),
+            'status': 'success' if Path(image_path).exists() else 'used_fallback'
         }
     
     def process_batch_threading(self, image_paths: List[str], filters: List[str]) -> List[Dict[str, Any]]:
