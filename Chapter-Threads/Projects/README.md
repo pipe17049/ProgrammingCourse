@@ -196,7 +196,7 @@ python -m venv venv
 venv\Scripts\activate
 
 # 3. Instalar dependencias
-pip install Django==4.2.7 psutil==5.9.6 Pillow opencv-python numpy
+pip install -r requirements.txt
 
 # 4. Crear directorio
 mkdir static\processed
