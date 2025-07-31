@@ -496,18 +496,34 @@ class FilterFactory:
         return cls.AVAILABLE_FILTERS[filter_name]
     
     @classmethod
-    def apply_filter_chain(cls, image_data: Any, filter_names: list) -> Any:
+    def apply_filter_chain(cls, image_data: Any, filter_names: list, filter_params: dict = None) -> Any:
         """
         🔗 Aplicar cadena de filtros secuencialmente
         
         DÍA 2: Actualizado para manejar dict return format con guardado de imágenes
+        DÍA 3: Añadido soporte para filter_params
         """
         result = image_data
         all_results = []
+        filter_params = filter_params or {}
         
         for filter_name in filter_names:
             filter_func = cls.get_filter(filter_name)
-            filter_result = filter_func(result)
+            
+            # Obtener parámetros específicos para este filtro
+            params = filter_params.get(filter_name, {})
+            
+            # Convertir parámetros según el filtro
+            if filter_name == 'resize' and params:
+                # Convertir {width: 800, height: 600} a size=(800, 600)
+                if 'width' in params and 'height' in params:
+                    params = {'size': (int(params['width']), int(params['height']))}
+            
+            # Aplicar filtro con parámetros
+            if params:
+                filter_result = filter_func(result, **params)
+            else:
+                filter_result = filter_func(result)
             
             # Los filtros ahora devuelven dict con metadata
             if isinstance(filter_result, dict) and 'image' in filter_result:

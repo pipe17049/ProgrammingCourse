@@ -1,0 +1,252 @@
+2025-07-31 23:09:45,474 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-07-31 23:09:45,475 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-07-31 23:09:45,477 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-07-31 23:09:45,474 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-07-31 23:09:45,477 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-07-31 23:09:45,478 - __main__ - INFO - 📋 Capabilities: ['sharpen', 'edges']
+2025-07-31 23:09:45,478 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-07-31 23:09:45,477 - __main__ - INFO - 🎯 Worker type: general
+2025-07-31 23:09:45,481 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-07-31 23:09:45,481 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-07-31 23:09:45,481 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness']
+2025-07-31 23:09:45,482 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-07-31 23:09:45,485 - __main__ - INFO - ✅ Redis connection successful
+2025-07-31 23:09:45,485 - __main__ - INFO - ✅ Redis connection successful
+2025-07-31 23:09:45,485 - __main__ - INFO - ✅ Redis connection successful
+2025-07-31 23:09:45,487 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-07-31 23:09:45,487 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-07-31 23:09:45,487 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-07-31 23:12:05,588 - __main__ - INFO - 📝 Processing task d4644ef4-d1f7-4645-a178-670c2e841150
+2025-07-31 23:12:05,590 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['resize']
+2025-07-31 23:12:05,662 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:12:05,710 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:12:05,711 - __main__ - ERROR - ❌ Task d4644ef4-d1f7-4645-a178-670c2e841150 failed: Object of type Image is not JSON serializable
+2025-07-31 23:18:56,883 - __main__ - INFO - 📡 Received signal 15, initiating graceful shutdown...
+2025-07-31 23:18:56,891 - __main__ - INFO - 📡 Received signal 15, initiating graceful shutdown...
+2025-07-31 23:18:56,894 - __main__ - INFO - 📡 Received signal 15, initiating graceful shutdown...
+2025-07-31 23:18:59,847 - __main__ - INFO - 🛑 Shutting down worker worker-3
+2025-07-31 23:19:01,208 - __main__ - INFO - 🛑 Shutting down worker worker-2
+2025-07-31 23:19:01,208 - __main__ - INFO - 🛑 Shutting down worker worker-1
+2025-07-31 23:19:04,860 - __main__ - INFO - 📊 Final stats for worker-3:
+2025-07-31 23:19:04,860 - __main__ - INFO -    Tasks completed: 0
+2025-07-31 23:19:04,860 - __main__ - INFO -    Tasks failed: 1
+2025-07-31 23:19:04,861 - __main__ - INFO -    Total processing time: 0.00s
+2025-07-31 23:19:04,861 - __main__ - INFO - 👋 Worker worker-3 shutdown complete
+2025-07-31 23:19:06,220 - __main__ - INFO - 📊 Final stats for worker-2:
+2025-07-31 23:19:06,220 - __main__ - INFO - 📊 Final stats for worker-1:
+2025-07-31 23:19:06,221 - __main__ - INFO -    Tasks completed: 0
+2025-07-31 23:19:06,221 - __main__ - INFO -    Tasks completed: 0
+2025-07-31 23:19:06,221 - __main__ - INFO -    Tasks failed: 0
+2025-07-31 23:19:06,222 - __main__ - INFO -    Total processing time: 0.00s
+2025-07-31 23:19:06,222 - __main__ - INFO - 👋 Worker worker-2 shutdown complete
+2025-07-31 23:19:06,221 - __main__ - INFO -    Tasks failed: 0
+2025-07-31 23:19:06,225 - __main__ - INFO -    Total processing time: 0.00s
+2025-07-31 23:19:06,225 - __main__ - INFO - 👋 Worker worker-1 shutdown complete
+2025-07-31 23:19:07,500 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-07-31 23:19:07,501 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-07-31 23:19:07,501 - __main__ - INFO - 📋 Capabilities: ['sharpen', 'edges']
+2025-07-31 23:19:07,501 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-07-31 23:19:07,501 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-07-31 23:19:07,503 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-07-31 23:19:07,504 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-07-31 23:19:07,504 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-07-31 23:19:07,504 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-07-31 23:19:07,504 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness']
+2025-07-31 23:19:07,504 - __main__ - INFO - 🎯 Worker type: general
+2025-07-31 23:19:07,504 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-07-31 23:19:07,506 - __main__ - INFO - ✅ Redis connection successful
+2025-07-31 23:19:07,507 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-07-31 23:19:07,507 - __main__ - INFO - ✅ Redis connection successful
+2025-07-31 23:19:07,508 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-07-31 23:19:07,508 - __main__ - INFO - ✅ Redis connection successful
+2025-07-31 23:19:07,509 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-07-31 23:19:33,170 - __main__ - INFO - 📝 Processing task 90f1ac70-c369-40ca-86b3-2944c7948eb0
+2025-07-31 23:19:33,171 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['resize']
+2025-07-31 23:19:33,172 - __main__ - ERROR - ❌ Task 90f1ac70-c369-40ca-86b3-2944c7948eb0 failed: Worker worker-2 cannot handle filters: ['resize']
+2025-07-31 23:20:47,333 - __main__ - INFO - 📡 Received signal 15, initiating graceful shutdown...
+2025-07-31 23:20:47,333 - __main__ - INFO - 📡 Received signal 15, initiating graceful shutdown...
+2025-07-31 23:20:47,339 - __main__ - INFO - 📡 Received signal 15, initiating graceful shutdown...
+2025-07-31 23:20:48,549 - __main__ - INFO - 🛑 Shutting down worker worker-1
+2025-07-31 23:20:48,549 - __main__ - INFO - 🛑 Shutting down worker worker-3
+2025-07-31 23:20:48,969 - __main__ - INFO - 🛑 Shutting down worker worker-2
+2025-07-31 23:20:53,560 - __main__ - INFO - 📊 Final stats for worker-1:
+2025-07-31 23:20:53,560 - __main__ - INFO - 📊 Final stats for worker-3:
+2025-07-31 23:20:53,561 - __main__ - INFO -    Tasks completed: 0
+2025-07-31 23:20:53,561 - __main__ - INFO -    Tasks completed: 0
+2025-07-31 23:20:53,561 - __main__ - INFO -    Tasks failed: 0
+2025-07-31 23:20:53,562 - __main__ - INFO -    Tasks failed: 0
+2025-07-31 23:20:53,562 - __main__ - INFO -    Total processing time: 0.00s
+2025-07-31 23:20:53,562 - __main__ - INFO -    Total processing time: 0.00s
+2025-07-31 23:20:53,562 - __main__ - INFO - 👋 Worker worker-1 shutdown complete
+2025-07-31 23:20:53,563 - __main__ - INFO - 👋 Worker worker-3 shutdown complete
+2025-07-31 23:20:53,974 - __main__ - INFO - 📊 Final stats for worker-2:
+2025-07-31 23:20:53,975 - __main__ - INFO -    Tasks completed: 0
+2025-07-31 23:20:53,975 - __main__ - INFO -    Tasks failed: 1
+2025-07-31 23:20:53,975 - __main__ - INFO -    Total processing time: 0.00s
+2025-07-31 23:20:53,975 - __main__ - INFO - 👋 Worker worker-2 shutdown complete
+2025-07-31 23:20:55,187 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-07-31 23:20:55,187 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-07-31 23:20:55,188 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-07-31 23:20:55,188 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness']
+2025-07-31 23:20:55,188 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-07-31 23:20:55,187 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-07-31 23:20:55,188 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-07-31 23:20:55,188 - __main__ - INFO - 🎯 Worker type: general
+2025-07-31 23:20:55,188 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-07-31 23:20:55,188 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-07-31 23:20:55,191 - __main__ - INFO - 📋 Capabilities: ['sharpen', 'edges']
+2025-07-31 23:20:55,191 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-07-31 23:20:55,195 - __main__ - INFO - ✅ Redis connection successful
+2025-07-31 23:20:55,195 - __main__ - INFO - ✅ Redis connection successful
+2025-07-31 23:20:55,196 - __main__ - INFO - ✅ Redis connection successful
+2025-07-31 23:20:55,196 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-07-31 23:20:55,196 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-07-31 23:20:55,197 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-07-31 23:21:19,374 - __main__ - INFO - 📝 Processing task 27c77842-e224-4c1f-a86b-44cacfc0f01f
+2025-07-31 23:21:19,375 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['resize']
+2025-07-31 23:21:19,438 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:21:19,489 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:21:19,490 - __main__ - ERROR - ❌ Task 27c77842-e224-4c1f-a86b-44cacfc0f01f failed: Object of type Image is not JSON serializable
+2025-07-31 23:22:15,805 - __main__ - INFO - 📝 Processing task 808c0b3b-2f06-45cd-bff2-bf411c3e2f68
+2025-07-31 23:22:15,808 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['resize']
+2025-07-31 23:22:15,810 - __main__ - ERROR - ❌ Task 808c0b3b-2f06-45cd-bff2-bf411c3e2f68 failed: Worker worker-2 cannot handle filters: ['resize']
+2025-07-31 23:23:02,023 - __main__ - INFO - 📝 Processing task f25cecab-a44e-4239-8782-fdc545d12421
+2025-07-31 23:23:02,024 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['resize']
+2025-07-31 23:23:02,083 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:23:02,126 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:23:02,127 - __main__ - ERROR - ❌ Task f25cecab-a44e-4239-8782-fdc545d12421 failed: Object of type Image is not JSON serializable
+2025-07-31 23:23:57,226 - __main__ - INFO - 📡 Received signal 15, initiating graceful shutdown...
+2025-07-31 23:23:57,228 - __main__ - INFO - 📡 Received signal 15, initiating graceful shutdown...
+2025-07-31 23:23:57,228 - __main__ - INFO - 📡 Received signal 15, initiating graceful shutdown...
+2025-07-31 23:23:57,608 - __main__ - INFO - 🛑 Shutting down worker worker-3
+2025-07-31 23:24:01,987 - __main__ - INFO - 🛑 Shutting down worker worker-2
+2025-07-31 23:24:02,092 - __main__ - INFO - 🛑 Shutting down worker worker-1
+2025-07-31 23:24:02,616 - __main__ - INFO - 📊 Final stats for worker-3:
+2025-07-31 23:24:02,616 - __main__ - INFO -    Tasks completed: 0
+2025-07-31 23:24:02,617 - __main__ - INFO -    Tasks failed: 2
+2025-07-31 23:24:02,617 - __main__ - INFO -    Total processing time: 0.00s
+2025-07-31 23:24:02,617 - __main__ - INFO - 👋 Worker worker-3 shutdown complete
+2025-07-31 23:24:06,993 - __main__ - INFO - 📊 Final stats for worker-2:
+2025-07-31 23:24:06,994 - __main__ - INFO -    Tasks completed: 0
+2025-07-31 23:24:06,994 - __main__ - INFO -    Tasks failed: 1
+2025-07-31 23:24:06,999 - __main__ - INFO -    Total processing time: 0.00s
+2025-07-31 23:24:06,999 - __main__ - INFO - 👋 Worker worker-2 shutdown complete
+2025-07-31 23:24:07,095 - __main__ - INFO - 📊 Final stats for worker-1:
+2025-07-31 23:24:07,095 - __main__ - INFO -    Tasks completed: 0
+2025-07-31 23:24:07,095 - __main__ - INFO -    Tasks failed: 0
+2025-07-31 23:24:07,095 - __main__ - INFO -    Total processing time: 0.00s
+2025-07-31 23:24:07,095 - __main__ - INFO - 👋 Worker worker-1 shutdown complete
+2025-07-31 23:24:08,229 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-07-31 23:24:08,230 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-07-31 23:24:08,230 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness']
+2025-07-31 23:24:08,230 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-07-31 23:24:08,234 - __main__ - INFO - ✅ Redis connection successful
+2025-07-31 23:24:08,235 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-07-31 23:24:08,246 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-07-31 23:24:08,246 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-07-31 23:24:08,246 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-07-31 23:24:08,246 - __main__ - INFO - 🎯 Worker type: general
+2025-07-31 23:24:08,250 - __main__ - INFO - ✅ Redis connection successful
+2025-07-31 23:24:08,251 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-07-31 23:24:08,254 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-07-31 23:24:08,255 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-07-31 23:24:08,255 - __main__ - INFO - 📋 Capabilities: ['sharpen', 'edges']
+2025-07-31 23:24:08,255 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-07-31 23:24:08,258 - __main__ - INFO - ✅ Redis connection successful
+2025-07-31 23:24:08,259 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-07-31 23:24:27,406 - __main__ - INFO - 📝 Processing task ebbf9a23-f2d4-4c18-aa89-3beb8c5acd22
+2025-07-31 23:24:27,406 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['resize']
+2025-07-31 23:24:27,458 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:24:27,502 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:24:27,503 - __main__ - INFO - ✅ Task ebbf9a23-f2d4-4c18-aa89-3beb8c5acd22 completed in 0.10s
+2025-07-31 23:25:10,808 - __main__ - INFO - 📝 Processing task 1571d32b-b9f3-46e0-81f5-9285bc2f226c
+2025-07-31 23:25:10,810 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['resize', 'blur']
+2025-07-31 23:25:10,852 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:25:10,891 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:25:10,892 - __main__ - INFO - ✅ Task 1571d32b-b9f3-46e0-81f5-9285bc2f226c completed in 0.08s
+2025-07-31 23:28:08,117 - __main__ - INFO - 📝 Processing task 04ad359e-b7c3-4dfd-b78b-defdc29176e1
+2025-07-31 23:28:08,119 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['resize']
+2025-07-31 23:28:08,157 - __main__ - INFO - 📝 Processing task 36d53b97-1bc1-4033-bf05-059aef284dfb
+2025-07-31 23:28:08,161 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen']
+2025-07-31 23:28:08,179 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:28:08,182 - __main__ - INFO - 📝 Processing task 661254b4-02ee-4f52-9f50-16a31a25e42c
+2025-07-31 23:28:08,184 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['blur']
+2025-07-31 23:28:08,225 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:28:08,226 - __main__ - INFO - ✅ Task 04ad359e-b7c3-4dfd-b78b-defdc29176e1 completed in 0.11s
+2025-07-31 23:28:08,324 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:28:08,338 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:28:08,444 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:28:08,445 - __main__ - INFO - ✅ Task 661254b4-02ee-4f52-9f50-16a31a25e42c completed in 0.26s
+2025-07-31 23:28:08,463 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:28:08,464 - __main__ - INFO - ✅ Task 36d53b97-1bc1-4033-bf05-059aef284dfb completed in 0.30s
+2025-07-31 23:28:35,716 - __main__ - INFO - 📝 Processing task 78f58d18-bc63-4705-8d08-ab86e2870979
+2025-07-31 23:28:35,716 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['resize']
+2025-07-31 23:28:35,729 - __main__ - INFO - 📝 Processing task 5a62d831-9a62-4858-b0c7-e2a6c4f8bd86
+2025-07-31 23:28:35,729 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen']
+2025-07-31 23:28:35,750 - __main__ - INFO - 📝 Processing task 541c0b3b-8d6c-4a63-a423-3ccac23f136f
+2025-07-31 23:28:35,750 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['edges']
+2025-07-31 23:28:35,776 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:28:35,830 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:28:35,831 - __main__ - INFO - ✅ Task 78f58d18-bc63-4705-8d08-ab86e2870979 completed in 0.11s
+2025-07-31 23:28:35,832 - __main__ - INFO - 📝 Processing task 77e0a855-9f49-4a0d-ab8a-145f2a2500a1
+2025-07-31 23:28:35,833 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['blur']
+2025-07-31 23:28:35,886 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:28:35,967 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:28:36,013 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:28:36,014 - __main__ - INFO - ✅ Task 5a62d831-9a62-4858-b0c7-e2a6c4f8bd86 completed in 0.28s
+2025-07-31 23:28:36,016 - __main__ - INFO - 📝 Processing task 6c96497c-21cc-4eaa-a18c-f119a3fe1d3c
+2025-07-31 23:28:36,016 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['brightness']
+2025-07-31 23:28:36,017 - __main__ - ERROR - ❌ Task 6c96497c-21cc-4eaa-a18c-f119a3fe1d3c failed: Worker worker-2 cannot handle filters: ['brightness']
+2025-07-31 23:28:36,017 - __main__ - INFO - 📝 Processing task 84016c86-8174-424c-abd7-8b2b53f7a3b3
+2025-07-31 23:28:36,017 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['resize']
+2025-07-31 23:28:36,017 - __main__ - ERROR - ❌ Task 84016c86-8174-424c-abd7-8b2b53f7a3b3 failed: Worker worker-2 cannot handle filters: ['resize']
+2025-07-31 23:28:36,081 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:28:36,082 - __main__ - INFO - ✅ Task 77e0a855-9f49-4a0d-ab8a-145f2a2500a1 completed in 0.25s
+2025-07-31 23:28:37,741 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:28:39,401 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:28:39,402 - __main__ - INFO - ✅ Task 541c0b3b-8d6c-4a63-a423-3ccac23f136f completed in 3.65s
+2025-07-31 23:31:14,797 - __main__ - INFO - 📝 Processing task d2560a16-edcc-4db5-95cd-213ffb32e66a
+2025-07-31 23:31:14,798 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen']
+2025-07-31 23:31:14,930 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:31:15,047 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:31:15,048 - __main__ - INFO - ✅ Task d2560a16-edcc-4db5-95cd-213ffb32e66a completed in 0.25s
+2025-07-31 23:31:54,436 - __main__ - INFO - 📡 Received signal 15, initiating graceful shutdown...
+2025-07-31 23:31:55,449 - __main__ - INFO - 🛑 Shutting down worker worker-3
+2025-07-31 23:32:00,458 - __main__ - INFO - 📊 Final stats for worker-3:
+2025-07-31 23:32:00,459 - __main__ - INFO -    Tasks completed: 5
+2025-07-31 23:32:00,460 - __main__ - INFO -    Tasks failed: 0
+2025-07-31 23:32:00,460 - __main__ - INFO -    Total processing time: 4.34s
+2025-07-31 23:32:00,460 - __main__ - INFO -    Average task time: 0.87s
+2025-07-31 23:32:00,460 - __main__ - INFO - 👋 Worker worker-3 shutdown complete
+2025-07-31 23:32:55,851 - __main__ - INFO - 📝 Processing task 8ed77ab0-f7d5-4b10-9a1e-f2b8626b9af6
+2025-07-31 23:32:55,853 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['edges']
+2025-07-31 23:32:57,536 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:32:59,195 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:32:59,196 - __main__ - INFO - ✅ Task 8ed77ab0-f7d5-4b10-9a1e-f2b8626b9af6 completed in 3.34s
+2025-07-31 23:33:28,866 - __main__ - INFO - 📝 Processing task ce080629-ad9f-4a94-a2cc-00a5c7a159fb
+2025-07-31 23:33:28,868 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['edges']
+2025-07-31 23:33:28,869 - __main__ - ERROR - ❌ Task ce080629-ad9f-4a94-a2cc-00a5c7a159fb failed: Worker worker-1 cannot handle filters: ['edges']
+2025-07-31 23:33:30,467 - __main__ - INFO - 📝 Processing task 26498dfd-3b4a-4d71-9ab0-a94b09b333e4
+2025-07-31 23:33:30,467 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['edges']
+2025-07-31 23:33:30,468 - __main__ - ERROR - ❌ Task 26498dfd-3b4a-4d71-9ab0-a94b09b333e4 failed: Worker worker-1 cannot handle filters: ['edges']
+2025-07-31 23:33:32,050 - __main__ - INFO - 📝 Processing task a61b9c00-fa89-499b-a0c1-de87b91c6c59
+2025-07-31 23:33:32,052 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['edges']
+2025-07-31 23:33:33,832 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:33:35,459 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:33:35,461 - __main__ - INFO - ✅ Task a61b9c00-fa89-499b-a0c1-de87b91c6c59 completed in 3.41s
+2025-07-31 23:33:36,639 - __main__ - INFO - 📝 Processing task 12f67210-41fb-467b-b3b9-c8b27eaa7d11
+2025-07-31 23:33:36,640 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['edges']
+2025-07-31 23:33:38,239 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:33:39,821 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:33:39,823 - __main__ - INFO - ✅ Task 12f67210-41fb-467b-b3b9-c8b27eaa7d11 completed in 3.18s
+2025-07-31 23:33:41,235 - __main__ - INFO - 📝 Processing task 88e0d245-402e-461e-8e85-17e33492d410
+2025-07-31 23:33:41,235 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['edges']
+2025-07-31 23:33:42,846 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-07-31 23:33:44,453 - __main__ - INFO - ✅ Processed /app/static/images/misurina-sunset.jpg successfully
+2025-07-31 23:33:44,455 - __main__ - INFO - ✅ Task 88e0d245-402e-461e-8e85-17e33492d410 completed in 3.22s
+2025-07-31 23:34:26,535 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-07-31 23:34:26,535 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-07-31 23:34:26,535 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-07-31 23:34:26,535 - __main__ - INFO - 🎯 Worker type: general
+2025-07-31 23:34:26,539 - __main__ - INFO - ✅ Redis connection successful
+2025-07-31 23:34:26,540 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...

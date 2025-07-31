@@ -1,38 +1,127 @@
-# 🖼️ Django Image Server - Session 5 Projects
+# 🖼️ Pipeline de Procesamiento de Imágenes Distribuido
 
-Servidor Django para servir imágenes 4K y demostrar **operaciones I/O-bound** en contexto de Threading vs Multiprocessing.
+**Proyecto de 4 días: De Threading a Sistemas Distribuidos**
 
-## 🎯 Objetivos
+Este proyecto evoluciona desde un servidor Django básico hasta un **sistema distribuido de procesamiento de imágenes** completo, demostrando conceptos de concurrencia, paralelismo y arquitecturas distribuidas.
 
-Este proyecto demuestra:
+## 🎯 Objetivos del Proyecto
+
+### **📅 DÍA 1: Foundation** 
 - ✅ **I/O-bound operations**: Leer archivos grandes del disco
 - ✅ **Threading vs Multiprocessing**: Comparación de rendimiento  
 - ✅ **Load testing**: Medición de concurrencia
-- ✅ **Real-world scenario**: Servidor web sirviendo contenido estático
 
-## 🚀 Setup Rápido
+### **📅 DÍA 2: Real Processing**
+- ✅ **Filtros reales**: PIL (Pillow) y OpenCV 
+- ✅ **CPU-bound tasks**: Blur, sharpen, edge detection, resize
+- ✅ **Performance benchmarking**: Sequential vs Threading vs Multiprocessing
+- ✅ **Resource monitoring**: CPU, memory, processing time
 
-### 1. Instalar dependencias
+### **📅 DÍA 3: Distributed System** 
+- ✅ **Sistema distribuido**: Redis + Worker containers
+- ✅ **Load balancing**: FIFO queue con workers especializados
+- ✅ **Fault tolerance**: Worker registration, heartbeat, failure handling
+- ✅ **Docker orchestration**: docker-compose con múltiples servicios
+- ✅ **Monitoring**: Worker status, task tracking, performance metrics
+
+## 🏗️ Arquitectura del Sistema
+
+```
+                    🌐 Client
+                (curl requests)
+                       |
+                ⚖️ Load Balancer
+               (Docker Compose)
+                  /    |    \
+                 /     |     \
+            🐍 API-1  🐍 API-2  🐍 API-3
+            :8000     :8001     :8002
+                 \     |     /
+                  \    |    /
+                📡 Redis Queue
+              (Task Distribution
+               Worker Registry)
+                   /  |  \
+                  /   |   \
+                 /    |    \
+            👷 Worker-1  👷 Worker-2  👷 Worker-3
+           I/O Specialist CPU Specialist General Purpose
+           resize, blur,   sharpen,      ALL FILTERS
+           brightness     edges         (救世主)
+                |           |              |
+                |           |              |
+           🖼️ Static Images ←→ 💾 Processed Images
+           sample_4k.jpg      static/processed/
+           misurina-sunset.jpg
+                
+    📊 Monitoring Dashboard
+    ├── Worker Status & Heartbeat
+    ├── Task Queue Length  
+    ├── Processing Times
+    └── Success/Failure Rates
+```
+
+### **🔄 Flujo de Procesamiento:**
+
+```
+1. 📤 Client: POST /api/process-batch/distributed/
+                    ↓
+2. 🐍 API: Crea tasks en Redis Queue (FIFO)
+                    ↓
+3. 📡 Redis: [task1, task2, task3] → Workers pull (BRPOP)
+                    ↓
+4. 👷 Worker: Revisa capabilities DESPUÉS de tomar task
+                    ↓
+5a. ✅ Compatible: Procesa → Guarda resultado
+5b. ❌ Incompatible: Marca como FAILED (💀 Se pierde)
+                    ↓
+6. 📊 Client: Recibe respuesta con resultados/errores
+```
+
+## 🚀 Setup y Ejecución
+
+### **Opción A: Setup Local (Días 1-2)**
+
 ```bash
-# Desde Chapter-Threads/Projects/
+# 1. Instalar dependencias
 pip install -r requirements.txt
-```
 
-### 2. Colocar imagen 4K
-Coloca tu imagen 4K en:
-```
-static/images/sample_4k.jpg
-```
+# 2. Crear directorios necesarios
+mkdir -p static/processed
 
-### 3. Ejecutar servidor
-```bash
+# 3. Ejecutar servidor local
 python manage.py runserver 8000
 ```
 
-### 4. Probar endpoints
+### **Opción B: Setup Distribuido con Docker (Día 3)**
+
+```bash
+# 1. Construir imágenes
+docker-compose build
+
+# 2. Levantar sistema completo
+docker-compose up -d
+
+# 3. Verificar servicios
+docker-compose ps
+```
+
+### **Verificar instalación:**
 ```bash
 # Health check
-curl http://localhost:8000/
+curl http://localhost:8000/api/health/
+
+# Ver workers activos (solo Docker)
+curl http://localhost:8000/api/workers/status/
+```
+
+## 🧪 Testing y Comandos
+
+### **📅 DÍA 1: Endpoints Básicos**
+
+```bash
+# Health check
+curl http://localhost:8000/api/health/
 
 # Información de imagen (rápido)
 curl http://localhost:8000/api/image/info/
@@ -47,142 +136,239 @@ curl "http://localhost:8000/api/image/slow/?delay=3.0" -o slow_4k.jpg
 curl http://localhost:8000/api/stats/
 ```
 
-## 🧪 Testing de Concurrencia
+### **📅 DÍA 2: Filtros Reales (PIL/OpenCV)**
 
-### Threading vs Multiprocessing Test
+```bash
+# Procesamiento con filtros secuencial
+curl -X POST http://localhost:8000/api/process-batch/sequential/ \
+  -H "Content-Type: application/json" \
+  -d '{"filters": ["resize", "blur"], "filter_params": {"resize": {"width": 800, "height": 600}, "blur": {"radius": 3.0}}}'
 
-Crear archivo `test_concurrency.py`:
+# Procesamiento con threading
+curl -X POST http://localhost:8000/api/process-batch/threading/ \
+  -H "Content-Type: application/json" \
+  -d '{"filters": ["sharpen", "edges"]}'
 
-```python
-import requests
-import time
-import threading
-import multiprocessing
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+# Procesamiento con multiprocessing
+curl -X POST http://localhost:8000/api/process-batch/multiprocessing/ \
+  -H "Content-Type: application/json" \
+  -d '{"filters": ["brightness"], "filter_params": {"brightness": {"factor": 1.5}}}'
 
-BASE_URL = "http://localhost:8000"
+# Comparar todos los métodos
+curl -X POST http://localhost:8000/api/process-batch/compare-all/ \
+  -H "Content-Type: application/json" \
+  -d '{"filters": ["resize", "blur"]}'
 
-def fetch_image():
-    """Fetch 4K image - I/O bound operation"""
-    start = time.time()
-    response = requests.get(f"{BASE_URL}/api/image/4k/")
-    elapsed = time.time() - start
-    return elapsed, len(response.content)
+# Stress test
+curl -X POST http://localhost:8000/api/process-batch/stress/ \
+  -H "Content-Type: application/json" \
+  -d '{"filters": ["sharpen", "edges"], "num_iterations": 5}'
+```
 
-def test_sequential(num_requests=10):
-    """Test secuencial (baseline)"""
-    print("🐌 Testing Sequential...")
-    start = time.time()
-    
-    results = []
-    for i in range(num_requests):
-        elapsed, size = fetch_image()
-        results.append(elapsed)
-        print(f"Request {i+1}: {elapsed:.2f}s")
-    
-    total_time = time.time() - start
-    print(f"📊 Sequential Total: {total_time:.2f}s")
-    return total_time
+### **📅 DÍA 3: Sistema Distribuido (Docker)**
 
-def test_threading(num_requests=10, max_workers=5):
-    """Test con Threading - perfecto para I/O-bound"""
-    print(f"🧵 Testing Threading (workers={max_workers})...")
-    start = time.time()
-    
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = [executor.submit(fetch_image) for _ in range(num_requests)]
-        results = [future.result() for future in futures]
-    
-    total_time = time.time() - start
-    print(f"📊 Threading Total: {total_time:.2f}s")
-    return total_time
+```bash
+# Procesamiento distribuido
+curl -X POST http://localhost:8000/api/process-batch/distributed/ \
+  -H "Content-Type: application/json" \
+  -d '{"filters": ["resize", "sharpen", "edges"], "filter_params": {"resize": {"width": 1024, "height": 768}}}'
 
-def test_multiprocessing(num_requests=10, max_workers=4):
-    """Test con Multiprocessing - menos eficiente para I/O-bound"""
-    print(f"🔄 Testing Multiprocessing (workers={max_workers})...")
-    start = time.time()
-    
-    with ProcessPoolExecutor(max_workers=max_workers) as executor:
-        futures = [executor.submit(fetch_image) for _ in range(num_requests)]
-        results = [future.result() for future in futures]
-    
-    total_time = time.time() - start
-    print(f"📊 Multiprocessing Total: {total_time:.2f}s")
-    return total_time
+# Estado de workers
+curl http://localhost:8000/api/workers/status/ | python -m json.tool
 
-if __name__ == "__main__":
-    NUM_REQUESTS = 20
-    
-    # Tests
-    seq_time = test_sequential(NUM_REQUESTS)
-    thread_time = test_threading(NUM_REQUESTS, max_workers=10)
-    mp_time = test_multiprocessing(NUM_REQUESTS, max_workers=4)
-    
-    # Comparación
-    print(f"\n🏆 RESULTADOS ({NUM_REQUESTS} requests):")
-    print(f"Sequential:      {seq_time:.2f}s (baseline)")
-    print(f"Threading:       {thread_time:.2f}s ({seq_time/thread_time:.1f}x faster)")
-    print(f"Multiprocessing: {mp_time:.2f}s ({seq_time/mp_time:.1f}x faster)")
+# Monitoreo en tiempo real
+watch -n 2 'curl -s http://localhost:8000/api/workers/status/ | python -m json.tool'
+
+# Consultar estado de task individual (usar task_id de la respuesta anterior)
+curl http://localhost:8000/api/task/{TASK_ID}/status/ | python -m json.tool
+```
+
+### **🎯 Testing Worker Specialization**
+
+```bash
+# Test: Solo worker-2 puede hacer 'sharpen'
+# 1. Parar worker-3: docker-compose stop worker-3
+# 2. Enviar múltiples tareas sharpen:
+for i in {1..5}; do
+  curl -X POST http://localhost:8000/api/process-batch/distributed/ \
+    -H "Content-Type: application/json" \
+    -d '{"filters": ["sharpen"]}' &
+done
+
+# 3. Ver resultados: worker-1 falla, worker-2 procesa
+curl http://localhost:8000/api/workers/status/
+```
+
+### **🔍 Testing Job Failure vs Worker Failure**
+
+```bash
+# SCENARIO 1: Job Failure (Worker incompatible)
+# 1. Enviar task que worker-1 no puede manejar
+curl -X POST http://localhost:8000/api/process-batch/distributed/ \
+  -H "Content-Type: application/json" \
+  -d '{"filters": ["sharpen"]}' \
+  | jq '.task_id' # Guardar task_id
+
+# 2. Consultar status específico del job
+curl http://localhost:8000/api/task/{TASK_ID}/status/ | jq '
+{
+  status: .status,
+  failure_type: .failure_type,
+  failure_reason: .failure_reason,
+  explanation: .explanation,
+  error: .error
+}'
+
+# RESPUESTA de Job Failure:
+# {
+#   "status": "failed",
+#   "failure_type": "job_failure",
+#   "failure_reason": "worker_capability_mismatch", 
+#   "explanation": "Worker tomó task pero no puede manejar el filtro requerido",
+#   "error": "Worker worker-1 cannot handle filters: ['sharpen']"
+# }
+
+# SCENARIO 2: Worker Failure (Worker caído)
+# 1. Parar todos los workers
+docker-compose stop worker-1 worker-2 worker-3
+
+# 2. Enviar task
+curl -X POST http://localhost:8000/api/process-batch/distributed/ \
+  -H "Content-Type: application/json" \
+  -d '{"filters": ["resize"]}' \
+  | jq '.task_id'
+
+# 3. Consultar después de timeout
+curl http://localhost:8000/api/task/{TASK_ID}/status/ | jq '
+{
+  status: .status,
+  explanation: "No workers available to process task"
+}'
+
+# RESPUESTA de Worker Failure:
+# {
+#   "status": "pending",  # Task nunca fue tomada
+#   "explanation": "No workers available to process task"
+# }
 ```
 
 ## 📊 Endpoints Disponibles
 
-| Endpoint | Descripción | Uso |
-|----------|-------------|-----|
-| `GET /` | Health check | Verificar que el servidor funciona |
-| `GET /api/image/info/` | Info de imagen | Metadata sin transferir archivo |
-| `GET /api/image/4k/` | **Imagen 4K** | **Endpoint principal I/O-bound** |
-| `GET /api/image/slow/?delay=N` | Imagen con delay | Simular procesamiento + I/O |
-| `GET /api/stats/` | Estadísticas servidor | Monitoreo durante tests |
+### **DÍA 1: Básicos**
+| Endpoint | Método | Descripción |
+|----------|--------|-------------|
+| `/api/health/` | GET | Health check del servidor |
+| `/api/image/info/` | GET | Metadata de imagen sin transferir |
+| `/api/image/4k/` | GET | Descargar imagen 4K (I/O-bound) |
+| `/api/image/slow/?delay=N` | GET | Imagen con delay simulado |
+| `/api/stats/` | GET | Estadísticas del servidor |
 
-## 🔍 Análisis Esperado
+### **DÍA 2: Procesamiento Real**
+| Endpoint | Método | Descripción |
+|----------|--------|-------------|
+| `/api/process-batch/sequential/` | POST | Procesamiento secuencial con filtros |
+| `/api/process-batch/threading/` | POST | Procesamiento con threading |
+| `/api/process-batch/multiprocessing/` | POST | Procesamiento con multiprocessing |
+| `/api/process-batch/compare/` | POST | Comparar threading vs multiprocessing |
+| `/api/process-batch/compare-all/` | POST | Comparar todos los métodos |
+| `/api/process-batch/stress/` | POST | Test de estrés con múltiples iteraciones |
 
-### ¿Por qué Threading es mejor para este caso?
+### **DÍA 3: Sistema Distribuido**
+| Endpoint | Método | Descripción |
+|----------|--------|-------------|
+| `/api/process-batch/distributed/` | POST | Procesamiento distribuido con workers |
+| `/api/workers/status/` | GET | Estado de todos los workers |
+| `/api/task/<task_id>/status/` | GET | **Estado de task individual** (job failure vs worker failure) |
 
-1. **I/O-bound operations**: Leer archivos del disco
-2. **GIL no es problema**: Threads se bloquean en I/O, liberando GIL
-3. **Menos overhead**: Crear threads es más rápido que procesos
-4. **Shared memory**: Django puede compartir configuración
+### **Filtros Disponibles:**
+- **`resize`**: Cambiar tamaño (PIL) - I/O-bound
+- **`blur`**: Difuminado gaussiano (PIL) - I/O-bound  
+- **`brightness`**: Ajuste de brillo (PIL) - I/O-bound
+- **`sharpen`**: Nitidez avanzada (OpenCV) - CPU-bound
+- **`edges`**: Detección de bordes (OpenCV) - CPU-bound
 
-### ¿Cuándo usar Multiprocessing?
+## 🔍 Análisis de Rendimiento
 
-- CPU-bound tasks (resize, filters, compression)
-- Operaciones que saturan CPU
-- Cuando necesitas verdadero paralelismo
+### **🏃‍♂️ DÍA 2: Threading vs Multiprocessing**
+
+**Para filtros I/O-bound (resize, blur, brightness):**
+- ✅ **Threading wins**: ~3-5x más rápido que secuencial
+- ⚡ **Multiprocessing**: ~2-3x más rápido (overhead de procesos)
+- 🧠 **Razón**: GIL se libera durante I/O, threading es más eficiente
+
+**Para filtros CPU-bound (sharpen, edges):**
+- ✅ **Multiprocessing wins**: ~4-6x más rápido que secuencial  
+- 🐌 **Threading**: ~1.2x más rápido (limitado por GIL)
+- 🧠 **Razón**: CPU-bound necesita verdadero paralelismo
+
+### **🌐 DÍA 3: Sistema Distribuido**
+
+**Características del FIFO Queue:**
+- ⚖️ **Load Balancing**: Simple FIFO, no inteligente
+- ❌ **Fault Tolerance**: Tareas fallan si worker incompatible las toma
+- 🎯 **Worker Specialization**: Configurado por `WORKER_CAPABILITIES`
+- 📊 **Monitoring**: Worker registry con heartbeat
+
+**Worker-3 como "Salvador":**
+- 🛡️ Worker-3 (`capabilities=all`) previene fallos
+- 🎲 Distribución basada en timing, no capabilities
+- ⚠️ Si worker-3 se cae, tareas incompatibles fallan para siempre
 
 ## 🛠️ Troubleshooting
 
-### Imagen no encontrada
+### **Local Setup Issues**
 ```bash
-# Verificar que existe
-ls -la static/images/sample_4k.jpg
+# Dependencias faltantes
+pip install -r requirements.txt
 
-# Descargar imagen de ejemplo (4K sample)
-wget https://sample-4k.jpg -O static/images/sample_4k.jpg
+# Directorios faltantes  
+mkdir -p static/processed static/images
+
+# Puerto en uso
+python manage.py runserver 8080
 ```
 
-### Error de dependencias
+### **Docker Issues**
 ```bash
-pip install Django==4.2.7 psutil==5.9.6 requests
+# Servicios no inician
+docker-compose down && docker-compose up --build
+
+# Redis connection failed
+docker-compose logs redis
+
+# Workers no registran
+docker-compose logs worker-1
 ```
 
-### Puerto en uso
+### **Workers No Processan**
 ```bash
-python manage.py runserver 8080  # Cambiar puerto
+# Verificar workers activos
+curl http://localhost:8000/api/workers/status/
+
+# Verificar cola Redis
+docker-compose exec redis redis-cli LLEN task_queue
+
+# Restart workers
+docker-compose restart worker-1 worker-2 worker-3
 ```
 
-## 📚 Siguientes Pasos
+## 🏆 Logros del Proyecto
 
-1. **Load testing con wrk**: `wrk -t10 -c100 -d30s http://localhost:8000/api/image/4k/`
-2. **Async version**: Implementar con `aiohttp` o Django async views
-3. **Caching**: Agregar Redis/Memcached para imágenes  
-4. **Monitoring**: Integrar Prometheus + Grafana
-5. **Docker**: Containerizar para deployment
+### **📈 Progresión Técnica:**
+1. **Día 1**: Servidor básico I/O-bound → Threading fundamentals
+2. **Día 2**: Filtros reales PIL/OpenCV → CPU vs I/O bound analysis  
+3. **Día 3**: Sistema distribuido → Redis, Docker, Load balancing
+
+### **🎯 Conceptos Demostrados:**
+- ✅ **GIL Impact**: Threading vs Multiprocessing en diferentes workloads
+- ✅ **Real-world Libraries**: PIL, OpenCV, Redis en production
+- ✅ **Distributed Architectures**: Message queues, worker pools, fault tolerance
+- ✅ **DevOps Integration**: Docker, docker-compose, multi-service systems
+- ✅ **Performance Analysis**: Benchmarking, monitoring, bottleneck identification
 
 ---
 
-**¡Perfecto para demostrar por qué Threading domina en operaciones I/O-bound!** 🚀 
----
+**🚀 De conceptos básicos de concurrencia a sistemas distribuidos production-ready en 3 días!**
 
 ## 🖥️ **SETUP PARA WINDOWS**
 

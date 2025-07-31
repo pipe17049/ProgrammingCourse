@@ -38,6 +38,79 @@ def health_check(request):
         }
     })
 
+@require_http_methods(["GET"])
+def task_status(request, task_id):
+    """
+    📋 Get individual task status - distingue entre job failure vs worker failure
+    
+    Args:
+        task_id: UUID del task a consultar
+        
+    Returns:
+        Detailed task status with failure reasons
+    """
+    try:
+        import os
+        redis_host = os.getenv('REDIS_HOST', 'localhost')
+        redis_port = int(os.getenv('REDIS_PORT', 6379))
+        task_queue = DistributedTaskQueue(redis_host, redis_port)
+        
+        task_status = task_queue.get_task_status(task_id)
+        
+        if not task_status:
+            return JsonResponse({
+                "error": f"Task {task_id} not found",
+                "suggestion": "Verifique que el task_id sea correcto"
+            }, status=404)
+        
+        # Parse task data for better presentation
+        status_info = {
+            "task_id": task_id,
+            "status": task_status.get('status', 'unknown'),
+            "created_at": task_status.get('created_at'),
+            "started_at": task_status.get('started_at'),
+            "completed_at": task_status.get('completed_at'),
+        }
+        
+        # Add timing information
+        if status_info['created_at'] and status_info['completed_at']:
+            status_info['total_duration'] = status_info['completed_at'] - status_info['created_at']
+        
+        # Add result or error information
+        if task_status.get('status') == 'completed':
+            result_raw = task_status.get('result', '{}')
+            try:
+                status_info['result'] = json.loads(result_raw)
+            except:
+                status_info['result_raw'] = result_raw
+                
+        elif task_status.get('status') == 'failed':
+            status_info['error'] = task_status.get('error', 'Unknown error')
+            status_info['failure_type'] = 'job_failure'  # vs worker_failure
+            
+            # Analyze error type
+            error_msg = status_info['error'].lower()
+            if 'cannot handle filters' in error_msg:
+                status_info['failure_reason'] = 'worker_capability_mismatch'
+                status_info['explanation'] = 'Worker tomó task pero no puede manejar el filtro requerido'
+            elif 'connection' in error_msg or 'timeout' in error_msg:
+                status_info['failure_reason'] = 'communication_error'
+                status_info['explanation'] = 'Error de comunicación con Redis o worker'
+            else:
+                status_info['failure_reason'] = 'processing_error'
+                status_info['explanation'] = 'Error durante el procesamiento de la imagen'
+        
+        # Add raw task data for debugging
+        status_info['raw_task_data'] = task_status
+        
+        return JsonResponse(status_info)
+        
+    except Exception as e:
+        import traceback
+        logger.error(f"❌ Error getting task status: {e}")
+        logger.error(f"📋 Full traceback: {traceback.format_exc()}")
+        return JsonResponse({"error": str(e)}, status=500)
+
 # ============================================================================
 # 🖼️ IMAGE SERVING ENDPOINTS
 # ============================================================================
@@ -599,4 +672,210 @@ def stress_test(request):
         
     except Exception as e:
         logger.error(f"❌ Stress test error: {e}")
-        return JsonResponse({"error": str(e)}, status=500) 
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+# ============================================================================
+# 🌐 DISTRIBUTED PROCESSING ENDPOINTS
+# ============================================================================
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def process_batch_distributed(request):
+    """
+    🌐 Distributed batch processing using Redis queue and workers
+    
+    Distribuye tareas entre múltiples workers containerizados.
+    """
+    import json
+    from distributed.redis_queue import DistributedTaskQueue
+    from distributed.worker_registry import WorkerRegistry
+    
+    try:
+        data = json.loads(request.body)
+        filters = data.get('filters', ['resize'])
+        filter_params = data.get('filter_params', {})
+        count = data.get('count', 2)
+        
+        # Initialize distributed components with Docker environment variables
+        import os
+        redis_host = os.getenv('REDIS_HOST', 'localhost')
+        redis_port = int(os.getenv('REDIS_PORT', 6379))
+        task_queue = DistributedTaskQueue(redis_host, redis_port)
+        registry = WorkerRegistry(redis_host, redis_port)
+        
+        # Check available workers
+        active_workers = registry.get_active_workers()
+        if not active_workers:
+            return JsonResponse({
+                "error": "No active workers available",
+                "suggestion": "Start workers with: docker-compose up -d"
+            }, status=503)
+        
+        # Prepare image list
+        image_paths = []
+        static_dir = Path(settings.BASE_DIR) / 'static' / 'images'
+        available_images = [
+            'sample_4k.jpg',
+            'misurina-sunset.jpg'
+        ]
+        
+        for i in range(count):
+            image_path = static_dir / available_images[i % len(available_images)]
+            if image_path.exists():
+                image_paths.append(str(image_path))
+        
+        # Enqueue task for distributed processing
+        task_data = {
+            'filters': filters,
+            'filter_params': filter_params,
+            'images': image_paths,
+            'distributed': True
+        }
+        
+        start_time = time.time()
+        task_id = task_queue.enqueue_task(task_data)
+        
+        # Wait for task completion (with timeout)
+        timeout = 60  # seconds
+        check_interval = 0.5
+        elapsed = 0
+        
+        while elapsed < timeout:
+            task_status = task_queue.get_task_status(task_id)
+            if not task_status:
+                break
+                
+            if task_status['status'] == 'completed':
+                # Task completed successfully
+                result_data = json.loads(task_status.get('result', '{}'))
+                total_time = time.time() - start_time
+                
+                return JsonResponse({
+                    "success": True,
+                    "method": "distributed",
+                    "task_id": task_id,
+                    "processing_time": round(total_time, 3),
+                    "worker_info": {
+                        "worker_id": result_data.get('worker_id'),
+                        "worker_type": result_data.get('worker_type'),
+                        "active_workers": len(active_workers)
+                    },
+                    "results": result_data.get('results', []),
+                    "performance": {
+                        "images_processed": result_data.get('images_processed', 0),
+                        "filters_applied": result_data.get('filters_applied', []),
+                        "worker_processing_time": result_data.get('total_processing_time', 0),
+                        "total_system_time": round(total_time, 3)
+                    },
+                    "distributed_stats": {
+                        "queue_used": True,
+                        "fault_tolerant": True,
+                        "scalable": True
+                    }
+                })
+            
+            elif task_status['status'] == 'failed':
+                # Task failed
+                error_msg = task_status.get('error', 'Unknown error')
+                return JsonResponse({
+                    "error": f"Distributed processing failed: {error_msg}",
+                    "task_id": task_id,
+                    "task_status": task_status
+                }, status=500)
+            
+            # Still processing, wait a bit
+            time.sleep(check_interval)
+            elapsed += check_interval
+        
+        # Timeout reached
+        return JsonResponse({
+            "error": "Distributed processing timeout",
+            "task_id": task_id,
+            "timeout": timeout,
+            "suggestion": "Check worker logs: docker-compose logs worker-1 worker-2 worker-3"
+        }, status=504)
+        
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON in request body"}, status=400)
+    except Exception as e:
+        import traceback
+        logger.error(f"❌ Distributed processing error: {e}")
+        logger.error(f"📋 Full traceback: {traceback.format_exc()}")
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+@require_http_methods(["GET"])
+def workers_status(request):
+    """
+    👥 Get status of all distributed workers
+    
+    Endpoint para monitorear el estado de workers distribuidos.
+    """
+    try:
+        import os
+        from distributed.redis_queue import DistributedTaskQueue
+        from distributed.worker_registry import WorkerRegistry
+        
+        # Use Docker environment variables for Redis connection
+        redis_host = os.getenv('REDIS_HOST', 'localhost')
+        redis_port = int(os.getenv('REDIS_PORT', 6379))
+        registry = WorkerRegistry(redis_host, redis_port)
+        task_queue = DistributedTaskQueue(redis_host, redis_port)
+        
+        # Get active workers
+        active_workers = registry.get_active_workers()
+        
+        # Get registry and queue statistics
+        registry_stats = registry.get_registry_stats()
+        queue_stats = task_queue.get_queue_stats()
+        
+        # Format worker information
+        workers_info = []
+        for worker in active_workers:
+            worker_info = {
+                "id": worker['id'],
+                "status": worker.get('status', 'unknown'),
+                "capabilities": worker.get('capabilities', []),
+                "last_heartbeat": worker.get('time_since_heartbeat', 0),
+                "tasks_completed": worker.get('tasks_completed', 0),
+                "tasks_failed": worker.get('tasks_failed', 0),
+                "uptime": time.time() - worker.get('registered_at', time.time()),
+                "health": "healthy" if worker.get('time_since_heartbeat', 0) < 60 else "warning"
+            }
+            workers_info.append(worker_info)
+        
+        return JsonResponse({
+            "success": True,
+            "timestamp": time.time(),
+            "system_status": "healthy" if active_workers else "no_workers",
+            "workers": {
+                "active_count": len(active_workers),
+                "total_registered": registry_stats['total_workers'],
+                "workers_detail": workers_info
+            },
+            "queue_stats": {
+                "pending_tasks": queue_stats['queue_length'],
+                "total_tasks_processed": queue_stats['total_tasks'],
+                "task_status_breakdown": queue_stats['status_breakdown']
+            },
+            "system_capabilities": registry_stats['available_capabilities'],
+            "performance": {
+                "total_tasks_completed": registry_stats['total_tasks_completed'],
+                "total_failures": registry_stats['total_failures'],
+                "success_rate": f"{registry_stats['success_rate']:.1f}%"
+            },
+            "recommendations": {
+                "scaling": "Add more workers if queue_length > 10",
+                "monitoring": "Check worker health if any show 'warning' status",
+                "maintenance": "Consider restarting workers with high failure rates"
+            }
+        })
+        
+    except Exception as e:
+        logger.error(f"❌ Workers status error: {e}")
+        return JsonResponse({
+            "error": str(e),
+            "system_status": "error",
+            "suggestion": "Check Redis connection and worker containers"
+        }, status=500) 

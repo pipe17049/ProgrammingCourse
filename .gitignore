@@ -13,3 +13,4 @@ Chapter-CI/my_first_ci_project/db.sqlite3
 /.metals
 /.vscode
 /Chapter-Threads/Projects/venv
+/Chapter-Threads/Projects/static/processed
