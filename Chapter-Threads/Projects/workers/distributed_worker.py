@@ -197,7 +197,7 @@ class DistributedImageWorker:
             
             if not images:
                 # Use default images if none specified
-                images = ['static/images/sample_4k.jpg', 'static/images/misurina-sunset.jpg']
+                images = ['static/images/sample_4k.jpg', 'static/images/Clocktower_Panorama_20080622_20mb.jpg']
             
             logger.info(f"🖼️ Processing {len(images)} images with filters: {filters}")
             

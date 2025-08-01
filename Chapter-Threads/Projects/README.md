@@ -19,7 +19,7 @@ Este proyecto evoluciona desde un servidor Django básico hasta un **sistema dis
 
 ### **📅 DÍA 3: Distributed System** 
 - ✅ **Sistema distribuido**: Redis + Worker containers
-- ✅ **Load balancing**: FIFO queue con workers especializados
+- ✅ **Task distribution**: FIFO queue distribuyendo tareas entre workers especializados
 - ✅ **Fault tolerance**: Worker registration, heartbeat, failure handling
 - ✅ **Docker orchestration**: docker-compose con múltiples servicios
 - ✅ **Monitoring**: Worker status, task tracking, performance metrics
@@ -30,14 +30,10 @@ Este proyecto evoluciona desde un servidor Django básico hasta un **sistema dis
                     🌐 Client
                 (curl requests)
                        |
-                ⚖️ Load Balancer
-               (Docker Compose)
-                  /    |    \
-                 /     |     \
-            🐍 API-1  🐍 API-2  🐍 API-3
-            :8000     :8001     :8002
-                 \     |     /
-                  \    |    /
+                   🐍 Django API
+                    :8000
+                 (Single Instance)
+                       |
                 📡 Redis Queue
               (Task Distribution
                Worker Registry)
@@ -54,7 +50,7 @@ Este proyecto evoluciona desde un servidor Django básico hasta un **sistema dis
            sample_4k.jpg      static/processed/
            misurina-sunset.jpg
                 
-    📊 Monitoring Dashboard
+    📊 Monitoring Available
     ├── Worker Status & Heartbeat
     ├── Task Queue Length  
     ├── Processing Times
@@ -66,16 +62,18 @@ Este proyecto evoluciona desde un servidor Django básico hasta un **sistema dis
 ```
 1. 📤 Client: POST /api/process-batch/distributed/
                     ↓
-2. 🐍 API: Crea tasks en Redis Queue (FIFO)
+2. 🐍 Django API: Crea task_id único y encola en Redis (LPUSH)
                     ↓
-3. 📡 Redis: [task1, task2, task3] → Workers pull (BRPOP)
+3. 📡 Redis Queue: [task1, task2, task3] → Workers pull (BRPOP)
                     ↓
-4. 👷 Worker: Revisa capabilities DESPUÉS de tomar task
+4. 👷 Worker: Toma próximo task disponible (FIFO)
                     ↓
-5a. ✅ Compatible: Procesa → Guarda resultado
-5b. ❌ Incompatible: Marca como FAILED (💀 Se pierde)
+5. 🔍 Worker: Revisa capabilities DESPUÉS de tomar task
                     ↓
-6. 📊 Client: Revisar respuesta con resultados/errores
+6a. ✅ Compatible: Procesa filtros → Guarda en static/processed/
+6b. ❌ Incompatible: Marca task como FAILED (💀 Tarea perdida)
+                    ↓
+7. 📊 Client: Consulta status con /api/task/{task_id}/status/
 ```
 
 ## 🚀 Setup y Ejecución

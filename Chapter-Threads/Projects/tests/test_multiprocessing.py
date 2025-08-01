@@ -34,9 +34,9 @@ class TestMultiprocessing(unittest.TestCase):
         if not IMPORTS_SUCCESS:
             self.skipTest("Required modules not available")
         
-        self.test_images = [
+        self.test_images =         [
             "static/images/sample_4k.jpg",
-            "static/images/misurina-sunset.jpg"
+            "static/images/Clocktower_Panorama_20080622_20mb.jpg"
         ]
         self.light_filters = ["resize", "blur", "brightness"]
         self.heavy_filters = ["heavy_sharpen", "edge_detection"]

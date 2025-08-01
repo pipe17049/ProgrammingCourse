@@ -26,8 +26,6 @@ Un **sistema completo de procesamiento de imágenes distribuido** que evoluciona
 ├─────────────────────────────────────────────────────────┤
 │  API Gateway (Django)                                  │
 │      ↓                                                 │
-│  Load Balancer (Python)                               │
-│      ↓                                                 │
 │  Redis Queue (Distributed)                            │
 │      ↓                                                 │
 │  Worker Pool (Docker containers)                       │
@@ -51,7 +49,7 @@ Un **sistema completo de procesamiento de imágenes distribuido** que evoluciona
 **🟡 OBJETIVO (mayoría debería lograr):**
 - 5+ filtros incluyendo CPU-intensivos
 - Multiprocessing + threading coordinados
-- Load balancer distribuyendo trabajo
+- Task distribution automática entre workers especializados
 - Testing automatizado
 
 **🔴 AVANZADO (algunos lograrán):**
@@ -188,7 +186,7 @@ python benchmarks/threading_vs_mp.py
 #### **📋 Entregables:**
 1. **Dockerized workers** independientes
 2. **Distributed task queue** (Redis)
-3. **Load balancer** para workers
+3. **Task distribution system** con workers especializados
 
 #### **🛠️ Tareas (1.75h total):**
 

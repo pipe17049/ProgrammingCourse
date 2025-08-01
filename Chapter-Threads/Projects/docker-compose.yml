@@ -53,7 +53,7 @@ services:
       - WORKER_NAME=IO-Specialist
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - WORKER_CAPABILITIES=resize,blur,brightness
+      - WORKER_CAPABILITIES=all  # 🎯 DEMO: All filters for auto-scaling demo
       - WORKER_TYPE=io_bound
     depends_on:
       redis:
@@ -76,7 +76,7 @@ services:
       - WORKER_NAME=CPU-Specialist
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - WORKER_CAPABILITIES=sharpen,edges
+      - WORKER_CAPABILITIES=all  # 🎯 DEMO: All filters for auto-scaling demo
       - WORKER_TYPE=cpu_bound
     depends_on:
       redis:

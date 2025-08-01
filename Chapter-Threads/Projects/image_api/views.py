@@ -7,17 +7,37 @@ Perfecto para testing con Threading vs Multiprocessing.
 
 import os
 import time
+import json
 import logging
+import threading
+import random
+import traceback
 from pathlib import Path
 
 from django.http import HttpResponse, JsonResponse, Http404
 from django.conf import settings
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views import View
 
+# Import distributed components
+from distributed.redis_queue import DistributedTaskQueue
+
 logger = logging.getLogger(__name__)
+
+def get_available_images():
+    """🖼️ UTILITY: Get available images dynamically - NO MORE HARDCODED LISTS!"""
+    static_images_path = Path('static/images')
+    if static_images_path.exists():
+        valid_extensions = {'.jpg', '.jpeg', '.png', '.webp'}
+        images = []
+        for img_path in static_images_path.glob('*'):
+            if img_path.suffix.lower() in valid_extensions:
+                images.append(str(img_path))
+        return images
+    return ["static/images/sample_4k.jpg"]  # Fallback
 
 # ============================================================================
 # 🏠 HEALTH CHECK ENDPOINT
@@ -327,11 +347,8 @@ def process_batch_sequential(request):
         processor = ImageProcessor()
         results = []
         
-        # Usar imágenes reales de static/images/
-        available_images = [
-            "static/images/sample_4k.jpg",
-            "static/images/misurina-sunset.jpg"
-        ]
+        # 🎯 IMPROVED: Get images dynamically
+        available_images = get_available_images()
         
         for i in range(count):
             # Alternar entre las imágenes disponibles
@@ -371,11 +388,8 @@ def process_batch_threading(request):
         # Procesamiento con THREADING usando imágenes REALES
         processor = ImageProcessor()
         
-        # Usar imágenes reales de static/images/
-        available_images = [
-            "static/images/sample_4k.jpg",
-            "static/images/misurina-sunset.jpg"
-        ]
+        # 🎯 IMPROVED: Get images dynamically
+        available_images = get_available_images()
         
         # Generar lista de imágenes reales para procesar
         real_images = [available_images[i % len(available_images)] for i in range(count)]
@@ -414,7 +428,7 @@ def compare_performance(request):
         # Usar imágenes reales para ambos tests
         available_images = [
             "static/images/sample_4k.jpg",
-            "static/images/misurina-sunset.jpg"
+            "static/images/Clocktower_Panorama_20080622_20mb.jpg"
         ]
         
         # Test SECUENCIAL con imágenes REALES
@@ -717,7 +731,7 @@ def process_batch_distributed(request):
         static_dir = Path(settings.BASE_DIR) / 'static' / 'images'
         available_images = [
             'sample_4k.jpg',
-            'misurina-sunset.jpg'
+            'Clocktower_Panorama_20080622_20mb.jpg'
         ]
         
         for i in range(count):
@@ -878,4 +892,118 @@ def workers_status(request):
             "error": str(e),
             "system_status": "error",
             "suggestion": "Check Redis connection and worker containers"
+        }, status=500)
+
+def health_check(request):
+    """Health check endpoint"""
+    return JsonResponse({
+        'status': 'healthy',
+        'timestamp': time.time(),
+        'message': 'Django Image Processing API is running'
+    })
+
+@require_http_methods(["POST"])
+@csrf_exempt
+def stress_test(request):
+    """Endpoint para generar carga de stress testing"""
+    try:
+        # Parámetros del stress test
+        num_tasks = request.POST.get('num_tasks', 20)
+        try:
+            num_tasks = int(num_tasks)
+        except:
+            num_tasks = 20
+        
+        # Limitar para evitar sobrecargar
+        num_tasks = min(num_tasks, 50)
+        
+        # Filtros para stress test
+        stress_filters = ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+        
+        task_ids = []
+        
+        # Crear múltiples tasks en paralelo
+        def create_stress_task():
+            # Seleccionar filtros aleatorios
+            selected_filters = random.sample(stress_filters, k=random.randint(1, 3))
+            
+            # Crear task usando el sistema distribuido
+            redis_host = os.getenv('REDIS_HOST', 'localhost')
+            redis_port = int(os.getenv('REDIS_PORT', 6379))
+            
+            task_queue = DistributedTaskQueue(redis_host, redis_port)
+            task_id = task_queue.enqueue_task({
+                'filters': selected_filters,
+                'images': ['sample_4k.jpg'],  # Usar imagen fija para stress test
+                'created_by': 'stress_test'
+            })
+            
+            return task_id
+        
+        # Crear tasks en paralelo usando threading
+        threads = []
+        for i in range(num_tasks):
+            thread = threading.Thread(target=lambda: task_ids.append(create_stress_task()))
+            threads.append(thread)
+            thread.start()
+        
+        # Esperar a que terminen todos los threads
+        for thread in threads:
+            thread.join()
+        
+        return JsonResponse({
+            'status': 'success',
+            'message': f'Stress test initiated with {len(task_ids)} tasks',
+            'task_count': len(task_ids),
+            'task_ids': task_ids[:10],  # Solo mostrar primeros 10
+            'total_tasks': len(task_ids),
+            'filters_used': stress_filters,
+            'timestamp': time.time()
+        })
+        
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': f'Stress test failed: {str(e)}',
+            'timestamp': time.time()
+        }, status=500)
+
+@require_http_methods(["GET"])
+def system_metrics(request):
+    """Endpoint para obtener métricas del sistema"""
+    try:
+        # Importar aquí para evitar errores si no está disponible
+        from monitoring.metrics_collector import MetricsCollector
+        from monitoring.worker_manager import WorkerManager
+        
+        # Obtener métricas actuales
+        redis_host = os.getenv('REDIS_HOST', 'localhost')
+        redis_port = int(os.getenv('REDIS_PORT', 6379))
+        
+        collector = MetricsCollector(redis_host, redis_port)
+        manager = WorkerManager(redis_host, redis_port)
+        
+        metrics = collector.collect_current_metrics()
+        status = manager.get_current_status()
+        
+        return JsonResponse({
+            'status': 'success',
+            'metrics': metrics,
+            'scaling_decision': status['scaling_decision'],
+            'scaling_config': status['scaling_config'],
+            'is_auto_scaling': status['is_monitoring'],
+            'timestamp': time.time()
+        })
+        
+    except ImportError:
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Monitoring system not available',
+            'timestamp': time.time()
+        }, status=503)
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': f'Failed to get metrics: {str(e)}',
+            'timestamp': time.time()
         }, status=500) 

@@ -334,7 +334,7 @@ def test_multiprocessing_performance():
     
     # Datos de prueba - usar imágenes reales si existen
     test_images = []
-    for img_name in ['sample_4k.jpg', 'misurina-sunset.jpg']:
+    for img_name in ['sample_4k.jpg', 'Clocktower_Panorama_20080622_20mb.jpg']:
         img_path = f'static/images/{img_name}'
         if Path(img_path).exists():
             test_images.append(img_path)
