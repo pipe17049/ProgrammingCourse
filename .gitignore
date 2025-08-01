@@ -14,3 +14,4 @@ Chapter-CI/my_first_ci_project/db.sqlite3
 /.vscode
 /Chapter-Threads/Projects/venv
 /Chapter-Threads/Projects/static/processed
+/Chapter-Threads/Projects/logs/**
