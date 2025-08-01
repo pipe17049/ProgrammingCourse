@@ -47,7 +47,7 @@ Este proyecto evoluciona desde un servidor Django básico hasta un **sistema dis
             👷 Worker-1  👷 Worker-2  👷 Worker-3
            I/O Specialist CPU Specialist General Purpose
            resize, blur,   sharpen,      ALL FILTERS
-           brightness     edges         (救世主)
+           brightness     edges            |
                 |           |              |
                 |           |              |
            🖼️ Static Images ←→ 💾 Processed Images
