@@ -75,7 +75,7 @@ Este proyecto evoluciona desde un servidor Django básico hasta un **sistema dis
 5a. ✅ Compatible: Procesa → Guarda resultado
 5b. ❌ Incompatible: Marca como FAILED (💀 Se pierde)
                     ↓
-6. 📊 Client: Recibe respuesta con resultados/errores
+6. 📊 Client: Revisar respuesta con resultados/errores
 ```
 
 ## 🚀 Setup y Ejecución
