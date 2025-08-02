@@ -25,7 +25,9 @@ def rapid_task():
             task_id = data.get('task_id', 'unknown')
             print(f"✅ {task_id[:8]}")
             return True
-    except:
+            
+    except Exception as e:
+        print(f"⚡ Error: {e}")
         print("⚡ Queued")
         return True
 
