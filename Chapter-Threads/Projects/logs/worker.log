@@ -6150,3 +6150,791 @@
 2025-08-02 00:07:34,895 - __main__ - INFO - 📝 Processing task 0b2084d1-1abb-4130-aa0f-06f24e7d5e25
 2025-08-02 00:07:34,895 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
 2025-08-02 00:07:36,979 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:07:57,819 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:07:57,820 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:07:57,820 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:07:57,820 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:07:57,835 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:07:57,837 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:07:57,838 - __main__ - INFO - 📝 Processing task 486d599d-bb1b-496b-a2eb-50e9142c937d
+2025-08-02 00:07:57,838 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:08:00,117 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:08:17,270 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:08:17,271 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:08:17,271 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:08:17,271 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:08:17,280 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:08:17,281 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:08:17,282 - __main__ - INFO - 📝 Processing task d4d5d992-7896-4a00-a1b5-1fac71e255d9
+2025-08-02 00:08:17,282 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:08:19,157 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:08:34,453 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:08:34,454 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:08:34,454 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:08:34,455 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:08:34,464 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:08:34,464 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:08:34,465 - __main__ - INFO - 📝 Processing task 5b783524-00bc-4e3d-9b04-68816fe8f92d
+2025-08-02 00:08:34,465 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:08:36,446 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:08:51,810 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:08:51,810 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:08:51,811 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:08:51,811 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:08:51,820 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:08:51,821 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:08:51,822 - __main__ - INFO - 📝 Processing task 1e5f6dde-aa8b-4478-83f0-d09471e2ccee
+2025-08-02 00:08:51,823 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:08:53,702 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:09:03,320 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:09:03,321 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:09:03,321 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:09:03,321 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:09:03,331 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:09:03,333 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:09:03,334 - __main__ - INFO - 📝 Processing task 950e667c-b41c-4033-9f14-a3c70a31bc6a
+2025-08-02 00:09:03,334 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:09:05,689 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:09:16,986 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:09:16,987 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:09:16,988 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:09:16,988 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:09:16,998 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:09:16,999 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:09:17,001 - __main__ - INFO - 📝 Processing task dcd89dec-bc04-445f-8503-c3e4af28e30f
+2025-08-02 00:09:17,001 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:09:18,899 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:09:29,881 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:09:29,881 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:09:29,882 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:09:29,882 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:09:29,895 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:09:29,896 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:09:29,897 - __main__ - INFO - 📝 Processing task 4bb336d5-06d6-4ec2-923c-62304cd8bc52
+2025-08-02 00:09:29,898 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:09:32,081 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:09:43,186 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:09:43,186 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:09:43,186 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:09:43,187 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:09:43,197 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:09:43,198 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:09:43,200 - __main__ - INFO - 📝 Processing task c44ff317-6a64-46c6-9455-b49993ece355
+2025-08-02 00:09:43,201 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:09:45,103 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:09:57,132 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:09:57,132 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:09:57,132 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:09:57,133 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:09:57,146 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:09:57,148 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:09:57,149 - __main__ - INFO - 📝 Processing task 20c08ac9-8107-4563-866c-0709d93863fe
+2025-08-02 00:09:57,150 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:09:59,122 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:10:10,564 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:10:10,564 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:10:10,565 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:10:10,566 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:10:10,587 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:10:10,590 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:10:10,594 - __main__ - INFO - 📝 Processing task 2f7eb86e-6202-483c-868e-51dcc770e966
+2025-08-02 00:10:10,594 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:10:12,821 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:10:24,987 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:10:24,987 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:10:24,988 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:10:24,989 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:10:25,006 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:10:25,008 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:10:25,009 - __main__ - INFO - 📝 Processing task dc0f6982-edd1-4bda-bf02-cfb9b944c120
+2025-08-02 00:10:25,009 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:10:26,953 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:10:39,824 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:10:39,825 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:10:39,825 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:10:39,826 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:10:39,846 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:10:39,848 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:10:39,851 - __main__ - INFO - 📝 Processing task b3d4fe8d-0493-445d-84ae-796a17176226
+2025-08-02 00:10:39,851 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:10:41,895 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:10:54,371 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:10:54,372 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:10:54,372 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:10:54,373 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:10:54,388 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:10:54,390 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:10:54,393 - __main__ - INFO - 📝 Processing task c63eecfa-5f53-4900-824b-c2a7ad6fd49d
+2025-08-02 00:10:54,393 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:10:56,406 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:11:09,220 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:11:09,221 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:11:09,221 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:11:09,221 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:11:09,233 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:11:09,240 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:11:09,248 - __main__ - INFO - 📝 Processing task ad1ce9f5-7dd7-4482-847c-a8f8d5a8fa16
+2025-08-02 00:11:09,248 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:11:11,312 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:11:23,107 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:11:23,108 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:11:23,108 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:11:23,109 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:11:23,120 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:11:23,123 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:11:23,124 - __main__ - INFO - 📝 Processing task fd8ba114-33d3-4b87-a3a8-44aff83925e6
+2025-08-02 00:11:23,124 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:11:25,071 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:11:37,229 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:11:37,230 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:11:37,230 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:11:37,230 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:11:37,242 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:11:37,245 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:11:37,247 - __main__ - INFO - 📝 Processing task 9df0a25d-633d-4bc2-a6b8-35516e83b985
+2025-08-02 00:11:37,247 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:11:39,253 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:11:51,869 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:11:51,869 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:11:51,869 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:11:51,870 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:11:51,881 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:11:51,882 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:11:51,884 - __main__ - INFO - 📝 Processing task d4b160b7-0db0-40e2-bad7-b02ddb2f9198
+2025-08-02 00:11:51,884 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:11:53,770 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:12:05,334 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:12:05,335 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:12:05,335 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:12:05,335 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:12:05,354 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:12:05,355 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:12:05,356 - __main__ - INFO - 📝 Processing task cbc02dd5-c350-41cd-a047-2da2c5a248f6
+2025-08-02 00:12:05,356 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:12:07,246 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:12:20,026 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:12:20,026 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:12:20,026 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:12:20,027 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:12:20,038 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:12:20,040 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:12:20,042 - __main__ - INFO - 📝 Processing task a6099c15-d42e-46d5-80cf-e4923ddd6ceb
+2025-08-02 00:12:20,043 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:12:22,028 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:12:35,518 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:12:35,519 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:12:35,519 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:12:35,520 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:12:35,540 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:12:35,543 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:12:35,545 - __main__ - INFO - 📝 Processing task aca6ef03-c85a-4aa9-a839-0c4c34bef324
+2025-08-02 00:12:35,545 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:12:37,571 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:12:47,708 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:12:47,708 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:12:47,708 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:12:47,708 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:12:47,718 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:12:47,719 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:12:47,720 - __main__ - INFO - 📝 Processing task 26f88730-2a80-4ec5-8633-2bc2e1edc849
+2025-08-02 00:12:47,721 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:12:49,568 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:13:07,506 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:13:07,507 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:13:07,507 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:13:07,508 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:13:07,527 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:13:07,529 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:13:07,532 - __main__ - INFO - 📝 Processing task 14beb9d5-1298-4cf6-924e-26137007ee13
+2025-08-02 00:13:07,532 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:13:09,816 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:13:22,760 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:13:22,761 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:13:22,761 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:13:22,761 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:13:22,773 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:13:22,776 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:13:22,779 - __main__ - INFO - 📝 Processing task 5b7562ad-6295-4f80-b348-92050f34a31d
+2025-08-02 00:13:22,779 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:13:24,696 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:13:36,173 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:13:36,173 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:13:36,174 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:13:36,174 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:13:36,185 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:13:36,187 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:13:36,188 - __main__ - INFO - 📝 Processing task 83271443-292e-40a1-b283-b4a691fe28dc
+2025-08-02 00:13:36,188 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:13:38,104 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:13:51,021 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:13:51,022 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:13:51,022 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:13:51,022 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:13:51,032 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:13:51,034 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:13:51,036 - __main__ - INFO - 📝 Processing task 59090b16-262a-4acb-a1d7-f7cfaa83c2d5
+2025-08-02 00:13:51,036 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:13:52,970 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:14:05,279 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:14:05,279 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:14:05,279 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:14:05,279 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:14:05,289 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:14:05,291 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:14:05,292 - __main__ - INFO - 📝 Processing task edbdd816-f8af-4d99-b4d6-5f039be59240
+2025-08-02 00:14:05,293 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:14:07,272 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:14:18,895 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:14:18,895 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:14:18,895 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:14:18,896 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:14:18,908 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:14:18,911 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:14:18,913 - __main__ - INFO - 📝 Processing task 65d1d2cf-fde2-4153-86de-453372536345
+2025-08-02 00:14:18,913 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:14:20,973 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:14:32,172 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:14:32,173 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:14:32,173 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:14:32,173 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:14:32,186 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:14:32,189 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:14:32,191 - __main__ - INFO - 📝 Processing task a4f925e7-a050-4f55-80c5-52cad1a38d0f
+2025-08-02 00:14:32,191 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:14:34,695 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:14:47,574 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:14:47,574 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:14:47,574 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:14:47,575 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:14:47,588 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:14:47,591 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:14:47,594 - __main__ - INFO - 📝 Processing task e73813c0-8165-45a3-9ee1-6d151ef41423
+2025-08-02 00:14:47,595 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:14:49,578 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:15:01,328 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:15:01,329 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:15:01,329 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:15:01,329 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:15:01,345 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:15:01,346 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:15:01,348 - __main__ - INFO - 📝 Processing task 08d6e7b3-6e57-47de-9e5b-5ca48fa66abd
+2025-08-02 00:15:01,348 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:15:03,333 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:15:14,743 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:15:14,744 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:15:14,744 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:15:14,745 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:15:14,763 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:15:14,765 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:15:14,767 - __main__ - INFO - 📝 Processing task e4cecb36-35a8-4c43-bd66-918ff19392f7
+2025-08-02 00:15:14,767 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:15:16,808 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:15:30,479 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:15:30,480 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:15:30,480 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:15:30,481 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:15:30,498 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:15:30,502 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:15:30,507 - __main__ - INFO - 📝 Processing task cabf2945-8dde-4efa-b142-4edc5d45fb8b
+2025-08-02 00:15:30,508 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:15:32,750 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:15:46,449 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:15:46,450 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:15:46,450 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:15:46,450 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:15:46,467 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:15:46,468 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:15:46,470 - __main__ - INFO - 📝 Processing task 2b49d9bc-60f4-4af8-bf2d-466e5a7c663b
+2025-08-02 00:15:46,471 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:15:48,476 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:16:01,349 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:16:01,349 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:16:01,349 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:16:01,350 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:16:01,359 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:16:01,360 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:16:01,362 - __main__ - INFO - 📝 Processing task 9c8f0648-b528-46f0-9a53-d21b1915581a
+2025-08-02 00:16:01,362 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:16:03,404 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:16:14,157 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:16:14,157 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:16:14,158 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:16:14,158 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:16:14,166 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:16:14,168 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:16:14,169 - __main__ - INFO - 📝 Processing task 11240a7b-648a-45a8-aea9-ee8e38aec9e5
+2025-08-02 00:16:14,170 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:16:16,312 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:16:27,060 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:16:27,061 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:16:27,061 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:16:27,062 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:16:27,079 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:16:27,080 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:16:27,083 - __main__ - INFO - 📝 Processing task 2c43e9e0-4b15-417a-9121-35a2e64dcd8d
+2025-08-02 00:16:27,084 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:16:28,963 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:16:39,735 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:16:39,735 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:16:39,735 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:16:39,736 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:16:39,742 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:16:39,743 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:16:39,744 - __main__ - INFO - 📝 Processing task 8d34096d-336e-4d14-bf4d-fa746b68eff9
+2025-08-02 00:16:39,744 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:16:41,672 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:16:51,834 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:16:51,835 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:16:51,835 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:16:51,835 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:16:51,845 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:16:51,847 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:16:51,849 - __main__ - INFO - 📝 Processing task 69ed474f-a046-4367-906a-712feb403f2b
+2025-08-02 00:16:51,849 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:16:53,739 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:17:04,481 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:17:04,484 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:17:04,484 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:17:04,484 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:17:04,497 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:17:04,499 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:17:04,502 - __main__ - INFO - 📝 Processing task 03811ad0-091d-462d-90b1-aca75a49685c
+2025-08-02 00:17:04,502 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:17:06,399 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:17:18,023 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:17:18,024 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:17:18,024 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:17:18,024 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:17:18,034 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:17:18,036 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:17:18,038 - __main__ - INFO - 📝 Processing task 4715a258-1c5b-45cd-8abd-a595ce804ceb
+2025-08-02 00:17:18,038 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:17:20,031 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:17:33,007 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:17:33,008 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:17:33,008 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:17:33,009 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:17:33,023 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:17:33,025 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:17:33,027 - __main__ - INFO - 📝 Processing task 08cc7299-c353-4957-8a62-33209c36a6a5
+2025-08-02 00:17:33,029 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:17:34,978 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:17:47,231 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:17:47,232 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:17:47,232 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:17:47,232 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:17:47,240 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:17:47,241 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:17:47,243 - __main__ - INFO - 📝 Processing task 98ec3bf5-dba1-495a-992f-d275a49a7ea7
+2025-08-02 00:17:47,243 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:17:49,125 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:18:01,947 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:18:01,948 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:18:01,948 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:18:01,948 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:18:01,958 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:18:01,959 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:18:01,961 - __main__ - INFO - 📝 Processing task df4f69dc-6fdc-44db-a9bf-ffd20ffab58a
+2025-08-02 00:18:01,961 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:18:04,410 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:18:16,259 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:18:16,260 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:18:16,260 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:18:16,260 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:18:16,272 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:18:16,273 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:18:16,275 - __main__ - INFO - 📝 Processing task 9c1b60f9-8fce-4cf8-bb38-444394202563
+2025-08-02 00:18:16,276 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:18:18,211 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:18:28,785 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:18:28,785 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:18:28,785 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:18:28,786 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:18:28,795 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:18:28,797 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:18:28,799 - __main__ - INFO - 📝 Processing task fcb4e0de-7e19-4a55-baa1-9c1a3e7544c1
+2025-08-02 00:18:28,800 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:18:30,660 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:18:42,093 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:18:42,094 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:18:42,095 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:18:42,095 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:18:42,104 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:18:42,105 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:18:42,107 - __main__ - INFO - 📝 Processing task c57ea712-ce37-469c-aeef-7fadd549e75a
+2025-08-02 00:18:42,107 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:18:43,958 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:18:54,958 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:18:54,958 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:18:54,959 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:18:54,959 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:18:54,976 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:18:54,978 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:18:54,980 - __main__ - INFO - 📝 Processing task b111a3e3-de66-44b0-a7ad-87b91738655c
+2025-08-02 00:18:54,981 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:18:56,967 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:19:07,621 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:19:07,622 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:19:07,622 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:19:07,622 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:19:07,630 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:19:07,631 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:19:07,632 - __main__ - INFO - 📝 Processing task dc92f8f5-2772-401d-9e22-02dde28d8402
+2025-08-02 00:19:07,633 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:19:09,481 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:19:21,391 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:19:21,391 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:19:21,391 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:19:21,392 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:19:21,405 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:19:21,407 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:19:21,408 - __main__ - INFO - 📝 Processing task 286f021e-9fdd-484a-bb8e-03bfe2cbef91
+2025-08-02 00:19:21,409 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:19:24,160 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:19:35,163 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:19:35,163 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:19:35,164 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:19:35,164 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:19:35,172 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:19:35,174 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:19:35,175 - __main__ - INFO - 📝 Processing task 7524fab1-0df0-47bb-a595-83994187008e
+2025-08-02 00:19:35,175 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:19:37,006 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:19:50,149 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:19:50,149 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:19:50,149 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:19:50,149 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:19:50,159 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:19:50,160 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:19:50,162 - __main__ - INFO - 📝 Processing task 1d503d8f-8b1e-4571-ad57-880d8ba1d362
+2025-08-02 00:19:50,162 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:19:52,328 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:20:03,799 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:20:03,799 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:20:03,800 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:20:03,800 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:20:03,812 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:20:03,813 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:20:03,815 - __main__ - INFO - 📝 Processing task 57ab73d5-1872-458a-9f69-6b2f61c5d84f
+2025-08-02 00:20:03,816 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:20:05,681 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:20:18,002 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:20:18,003 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:20:18,003 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:20:18,003 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:20:18,013 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:20:18,015 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:20:18,016 - __main__ - INFO - 📝 Processing task 83015a3b-0d5c-4996-83a3-ce788402c89a
+2025-08-02 00:20:18,016 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:20:20,009 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:20:30,736 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:20:30,736 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:20:30,736 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:20:30,737 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:20:30,747 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:20:30,749 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:20:30,750 - __main__ - INFO - 📝 Processing task a3969401-3461-4c92-a33c-1c430a47e005
+2025-08-02 00:20:30,751 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:20:32,667 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:20:44,372 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:20:44,372 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:20:44,372 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:20:44,373 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:20:44,385 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:20:44,387 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:20:44,391 - __main__ - INFO - 📝 Processing task 84d4228e-2cc7-4263-bb59-396c7fc5f407
+2025-08-02 00:20:44,391 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:20:46,306 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:20:56,596 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:20:56,597 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:20:56,597 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:20:56,598 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:20:56,605 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:20:56,607 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:20:56,608 - __main__ - INFO - 📝 Processing task 11c22a46-f0d0-4c97-a5b9-97f5e5ce8816
+2025-08-02 00:20:56,609 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:20:58,500 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:21:09,020 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:21:09,020 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:21:09,020 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:21:09,020 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:21:09,030 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:21:09,032 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:21:09,033 - __main__ - INFO - 📝 Processing task c05caa02-d561-477e-9e08-9b0e01acd30e
+2025-08-02 00:21:09,034 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:21:10,911 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:21:20,920 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:21:20,920 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:21:20,920 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:21:20,922 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:21:20,933 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:21:20,934 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:21:20,936 - __main__ - INFO - 📝 Processing task 7e6ede10-19a9-4284-95aa-956806842d18
+2025-08-02 00:21:20,937 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:21:22,944 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:21:33,324 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:21:33,324 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:21:33,324 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:21:33,324 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:21:33,327 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:21:33,328 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:21:33,329 - __main__ - INFO - 📝 Processing task 6207344e-122a-474a-b908-9a01ee503dea
+2025-08-02 00:21:33,330 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:21:35,176 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:21:46,388 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:21:46,389 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:21:46,389 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:21:46,389 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:21:46,400 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:21:46,402 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:21:46,404 - __main__ - INFO - 📝 Processing task 9e09c09a-a451-4b86-9a12-6ca579c0ed30
+2025-08-02 00:21:46,404 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:21:48,315 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:21:58,205 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:21:58,205 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:21:58,205 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:21:58,205 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:21:58,212 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:21:58,214 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:21:58,215 - __main__ - INFO - 📝 Processing task 5cf15b13-19f5-41cb-8f1c-89b7e1e6c329
+2025-08-02 00:21:58,215 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:22:00,084 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:22:05,036 - __main__ - INFO - ✅ Processed /app/static/images/Clocktower_Panorama_20080622_20mb.jpg successfully
+2025-08-02 00:22:05,078 - __main__ - INFO - ✅ Task 11c22a46-f0d0-4c97-a5b9-97f5e5ce8816 completed successfully in 68.44s
+2025-08-02 00:22:05,087 - __main__ - INFO - 📝 Processing task 24e8c260-c37a-43f8-ab24-2e845531ee27
+2025-08-02 00:22:05,088 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:22:08,194 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:22:21,989 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:22:21,989 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:22:21,989 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:22:21,990 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:22:21,994 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:22:21,995 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:22:21,996 - __main__ - INFO - 📝 Processing task 3bd194c8-328d-4c84-8f87-5c6e017622b8
+2025-08-02 00:22:21,997 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:22:23,912 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:22:36,215 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:22:36,216 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:22:36,216 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:22:36,216 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:22:36,223 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:22:36,224 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:22:36,226 - __main__ - INFO - 📝 Processing task 781677dc-1d69-4501-9a59-1a4a251497dc
+2025-08-02 00:22:36,226 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:22:38,468 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:22:51,247 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:22:51,248 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:22:51,248 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:22:51,248 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:22:51,258 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:22:51,259 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:22:51,262 - __main__ - INFO - 📝 Processing task c84d8ced-d5a3-458a-982b-7b6fc3920b5f
+2025-08-02 00:22:51,262 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:22:53,113 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:23:02,900 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:23:02,900 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:23:02,901 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:23:02,902 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:23:02,913 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:23:02,914 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:23:02,918 - __main__ - INFO - 📝 Processing task 9affde4b-e0fe-48d5-8409-868432d92b4e
+2025-08-02 00:23:02,918 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:23:04,756 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:23:14,033 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:23:14,034 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:23:14,034 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:23:14,035 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:23:14,045 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:23:14,046 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:23:14,048 - __main__ - INFO - 📝 Processing task be948763-eed6-4213-b06a-603ed4d8a160
+2025-08-02 00:23:14,048 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:23:15,941 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:23:25,809 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:23:25,809 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:23:25,809 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:23:25,809 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:23:25,819 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:23:25,821 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:23:25,823 - __main__ - INFO - 📝 Processing task f243bf61-7497-4b0a-97dd-347ea9372368
+2025-08-02 00:23:25,824 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:23:27,664 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:23:37,246 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:23:37,247 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:23:37,247 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:23:37,247 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:23:37,258 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:23:37,260 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:23:37,261 - __main__ - INFO - 📝 Processing task 702151d4-ceb6-4b00-90e3-0bd09300fdc5
+2025-08-02 00:23:37,262 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:23:39,122 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:23:49,706 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:23:49,706 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:23:49,707 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:23:49,708 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:23:49,712 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:23:49,713 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:23:49,714 - __main__ - INFO - 📝 Processing task c4adeaec-762d-4e42-8aaf-9d049f63e7d1
+2025-08-02 00:23:49,714 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:23:51,527 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:24:00,186 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:24:00,186 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:24:00,186 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:24:00,187 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:24:00,197 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:24:00,199 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:24:00,201 - __main__ - INFO - 📝 Processing task f3ff86a0-6fd1-4eb5-b894-58b5eae41d4c
+2025-08-02 00:24:00,204 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:24:02,123 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:24:11,128 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:24:11,128 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:24:11,128 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:24:11,129 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:24:11,143 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:24:11,144 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:24:11,147 - __main__ - INFO - 📝 Processing task 6613d269-143f-4003-ae8b-8f5fdcc30c94
+2025-08-02 00:24:11,147 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:24:13,014 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:24:23,208 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:24:23,208 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:24:23,209 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:24:23,209 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:24:23,219 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:24:23,220 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:24:23,222 - __main__ - INFO - 📝 Processing task 2388da2e-0181-4b86-8ff0-00b687775fb4
+2025-08-02 00:24:23,222 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:24:25,086 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:24:34,740 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:24:34,741 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:24:34,741 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:24:34,741 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:24:34,757 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:24:34,760 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:24:34,762 - __main__ - INFO - 📝 Processing task 63767703-01cd-44a6-b146-71c9628788bd
+2025-08-02 00:24:34,763 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:24:36,717 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:24:48,557 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:24:48,557 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:24:48,559 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:24:48,559 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:24:48,567 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:24:48,568 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:24:48,570 - __main__ - INFO - 📝 Processing task 10e5a475-ec55-4a33-bbb3-a40be41b3296
+2025-08-02 00:24:48,570 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:24:50,436 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:25:00,542 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:25:00,542 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:25:00,543 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:25:00,543 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:25:00,556 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:25:00,557 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:25:00,559 - __main__ - INFO - 📝 Processing task d843c4f1-8c09-472d-a465-0ddfa27cf574
+2025-08-02 00:25:00,559 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:25:02,427 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:25:12,284 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:25:12,284 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:25:12,284 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:25:12,285 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:25:12,295 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:25:12,297 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:25:12,298 - __main__ - INFO - 📝 Processing task 5ba7b1eb-4ca4-42d1-b446-3ef9eabf5033
+2025-08-02 00:25:12,299 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:25:14,148 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:25:24,748 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:25:24,748 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:25:24,748 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:25:24,749 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:25:24,752 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:25:24,753 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:25:24,754 - __main__ - INFO - 📝 Processing task f9be3a04-033a-4163-b8cf-3843a95543e0
+2025-08-02 00:25:24,754 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:25:26,592 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:25:35,929 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:25:35,929 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:25:35,930 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:25:35,930 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:25:35,940 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:25:35,941 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:25:35,944 - __main__ - INFO - 📝 Processing task cce7f364-615b-4644-8943-b680fc688d91
+2025-08-02 00:25:35,944 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:25:37,834 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:25:49,678 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:25:49,679 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:25:49,679 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:25:49,679 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:25:49,685 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:25:49,687 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:25:49,688 - __main__ - INFO - 📝 Processing task 597adb3e-8b74-4e5d-971e-eaf3cbe681d8
+2025-08-02 00:25:49,688 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:25:51,532 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:26:02,763 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:26:02,764 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:26:02,764 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:26:02,764 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:26:02,773 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:26:02,774 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:26:02,776 - __main__ - INFO - 📝 Processing task ced41872-ceb6-49d0-9641-7bf3d5005035
+2025-08-02 00:26:02,776 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:26:04,810 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:26:16,321 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:26:16,321 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:26:16,322 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:26:16,322 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:26:16,332 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:26:16,333 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:26:16,336 - __main__ - INFO - 📝 Processing task 5b0a4baa-fd64-4e13-b607-5c43c08cc9d8
+2025-08-02 00:26:16,336 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:26:18,244 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:26:29,037 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:26:29,037 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:26:29,038 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:26:29,038 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:26:29,046 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:26:29,047 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:26:29,049 - __main__ - INFO - 📝 Processing task 36ebd0fc-bbdc-473e-830f-43190b6d83c7
+2025-08-02 00:26:29,049 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:26:30,932 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:26:40,653 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:26:40,654 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:26:40,654 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:26:40,654 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:26:40,665 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:26:40,666 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:26:40,669 - __main__ - INFO - 📝 Processing task 89758a52-9f36-4851-97b5-03dbb431a0fa
+2025-08-02 00:26:40,669 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:26:42,564 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:26:53,673 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:26:53,673 - __main__ - INFO - 🚀 Initialized worker worker-3 (General-Purpose)
+2025-08-02 00:26:53,673 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:26:53,673 - __main__ - INFO - 🎯 Worker type: general
+2025-08-02 00:26:53,684 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:26:53,685 - __main__ - INFO - 🎯 Worker worker-3 started, waiting for tasks...
+2025-08-02 00:26:53,686 - __main__ - INFO - 📝 Processing task eab234cb-dcfc-48b2-8b07-6d4b52db4a70
+2025-08-02 00:26:53,688 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:26:55,543 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:27:06,154 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:27:06,154 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:27:06,154 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:27:06,155 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:27:06,164 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:27:06,166 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:27:06,168 - __main__ - INFO - 📝 Processing task 12842572-c747-4377-86fe-23329a9afc00
+2025-08-02 00:27:06,168 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:27:08,046 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:27:17,964 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:27:17,965 - __main__ - INFO - 🚀 Initialized worker worker-2 (CPU-Specialist)
+2025-08-02 00:27:17,965 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:27:17,966 - __main__ - INFO - 🎯 Worker type: cpu_bound
+2025-08-02 00:27:17,975 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:27:17,976 - __main__ - INFO - 🎯 Worker worker-2 started, waiting for tasks...
+2025-08-02 00:27:17,977 - __main__ - INFO - 📝 Processing task 3bb8ca63-b5c0-4fac-ba0b-bcfd7574c541
+2025-08-02 00:27:17,977 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:27:19,810 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully
+2025-08-02 00:27:29,916 - image_api.processors - INFO - 🎯 ImageProcessor initialized - Threading: 4, MP: 10
+2025-08-02 00:27:29,917 - __main__ - INFO - 🚀 Initialized worker worker-1 (IO-Specialist)
+2025-08-02 00:27:29,917 - __main__ - INFO - 📋 Capabilities: ['resize', 'blur', 'brightness', 'sharpen', 'edges']
+2025-08-02 00:27:29,917 - __main__ - INFO - 🎯 Worker type: io_bound
+2025-08-02 00:27:29,919 - __main__ - INFO - ✅ Redis connection successful
+2025-08-02 00:27:29,920 - __main__ - INFO - 🎯 Worker worker-1 started, waiting for tasks...
+2025-08-02 00:27:29,922 - __main__ - INFO - 📝 Processing task 17f34198-8c99-43db-8d59-4c41c69ba519
+2025-08-02 00:27:29,922 - __main__ - INFO - 🖼️ Processing 2 images with filters: ['sharpen', 'edges', 'blur', 'resize', 'brightness']
+2025-08-02 00:27:32,679 - __main__ - INFO - ✅ Processed /app/static/images/sample_4k.jpg successfully

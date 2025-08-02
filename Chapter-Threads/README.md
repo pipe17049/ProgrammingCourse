@@ -49,10 +49,26 @@ Al completar este capítulo, los estudiantes podrán:
 |---------|---------|---------|
 | **Session3-Async/** | ⚡ async/await y asyncio | ✅ **Completado** |
 | **Session4-IPC/** | 🔄 Comunicación entre procesos | ✅ **Completado** |
-| **Projects/** | 🚀 Proyectos prácticos | ✅ Completo |
+| **Projects/** | 🚀 **Pipeline Distribuido Completo** | ✅ **COMPLETADO** |
 | **Session5-DistributedSystems/** | 🌐 Sistemas distribuidos | ✅ **Completado** |
 
 **Nota**: Las **sesiones 1-2 son el núcleo** del temario (obligatorio). Las **sesiones 3-4 son extensiones** avanzadas (opcional).
+
+### 🏆 **Proyecto Destacado: Pipeline de Procesamiento Distribuido** ✅
+
+**📁 Ubicación:** `Projects/` - **Sistema completo de 4 días**
+
+🎯 **Evolución completa**: Django básico → Sistema distribuido con monitoreo real  
+🚀 **Tecnologías**: Redis, Docker, PIL/OpenCV, psutil, stress testing  
+📊 **Métricas reales**: CPU/Memory, worker utilization, scaling recommendations  
+⚡ **Demo en < 5 segundos**: Ver workers pasar de 0% a 100% utilización  
+
+```bash
+# Ver el proyecto funcionando inmediatamente:
+cd Projects/
+python burst_stress.py 50               # Generar carga
+python simple_monitoring/cli.py metrics # Ver métricas cambiar
+```
 
 ## 🚀 Inicio Rápido
 

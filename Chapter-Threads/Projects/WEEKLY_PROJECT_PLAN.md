@@ -224,54 +224,62 @@ curl -X POST -F "image=@huge_4k.jpg" http://localhost:8000/api/process/
 
 ---
 
-### **🚀 DÍA 4 - VIERNES: CI/CD Pipeline + Demo Final**
-**Objetivo**: Sistema manual → Pipeline automatizado + presentación
+### **🚀 DÍA 4 - VIERNES: Sistema de Monitoreo Real + Stress Testing** ✅ **COMPLETADO**
+**Objetivo**: Sistema básico → Sistema con métricas reales y debugging production
 
-#### **📋 Entregables:**
-1. **GitHub Actions** para CI/CD
-2. **Automated testing** completo
-3. **Monitoring dashboard** 
-4. **Demo final** funcionando
+#### **📋 Entregables Alcanzados:**
+1. **Sistema de métricas real** con CPU/Memory tracking ✅
+2. **Worker utilization monitoring** en tiempo real ✅
+3. **Scaling recommendations** educativas (sin ejecución automática) ✅ 
+4. **5 scripts de stress testing** para generar carga controlada ✅
+5. **Dashboard tiempo real** via terminal CLI ✅
+6. **Debugging sistemático** de problemas reales (timeouts, métricas) ✅
 
-#### **🛠️ Tareas (1.75h total):**
+#### **🛠️ Tareas Completadas (1.75h total):**
 
 **45min Seguimiento:**
-- ✅ Setup GitHub Actions
-- ✅ Implementar testing pipeline
-- ✅ Deploy automation
-- ✅ Preparar demo final
+- ✅ Implementar sistema de métricas con psutil
+- ✅ Crear 5 tipos de stress tests (burst, continuous, simple, etc.)
+- ✅ Resolver problemas de Docker containers usando código viejo
+- ✅ Debugging de métricas incorrectas y API timeouts
 
 **1h Autónoma:**
-- ✅ Test coverage completo
-- ✅ Performance monitoring
-- ✅ Documentation final
-- ✅ Demo presentation
+- ✅ Sistema funcionando: ver workers pasar de 0% a 100% utilización
+- ✅ Monitoreo que cambia recomendaciones basado en carga real
+- ✅ Documentation completa con troubleshooting real
+- ✅ Demo funcional: métricas cambian en < 5 segundos
 
-#### **📂 Archivos finales:**
+#### **📂 Archivos Reales Creados:**
 ```
 Projects/
-├── .github/workflows/
-│   ├── ci.yml            # ← Continuous Integration
-│   ├── deploy.yml        # ← Deployment pipeline
-│   └── performance.yml   # ← Performance tests
-├── monitoring/
-│   ├── dashboard.py      # ← Real-time monitoring
-│   ├── metrics.py        # ← System metrics
-│   └── alerts.py         # ← Alert system
-└── docs/
-    ├── API.md            # ← API documentation
-    ├── DEPLOYMENT.md     # ← Deploy guide
-    └── ARCHITECTURE.md   # ← System architecture
+├── simple_monitoring/           # ← Sistema de monitoreo real
+│   ├── __init__.py
+│   ├── cli.py                  # ← Terminal CLI para métricas
+│   ├── metrics_collector.py    # ← Recopilación de métricas real
+│   ├── recommendations.py      # ← Lógica de recomendaciones
+│   └── dashboard.py            # ← Dashboard tiempo real
+├── stress testing scripts/      # ← 5 tipos de stress tests
+│   ├── simple_stress.py        # ← Carga controlada
+│   ├── burst_stress.py         # ← Explosivo (50 tareas)
+│   ├── continuous_stress.py    # ← Sostenido (5/seg x tiempo)
+│   ├── sustained_stress.py     # ← Prolongado
+│   └── distributed_stress.py   # ← Específico para distributed
+└── README.md                   # ← Documentation completa con troubleshooting real
 ```
 
-#### **🎭 Demo Final:**
+#### **🎭 Demo Real Funcional:**
 ```bash
-# Full pipeline demo
-1. Upload massive batch of images
-2. Show distributed processing across workers
-3. Real-time monitoring dashboard
-4. Simulate worker failures → auto-recovery
-5. Performance metrics & scaling
+# Demo completo de monitoreo (< 5 segundos para ver resultados)
+1. python simple_monitoring/cli.py metrics   # ⚡ Busy Workers: 0
+2. python burst_stress.py 50               # Lanzar 50 tareas concurrentes  
+3. python simple_monitoring/cli.py metrics   # ⚡ Busy Workers: 3 (100% utilization)
+4. Ver recomendaciones cambiar: MAINTAIN vs SCALE_UP
+5. Dashboard en tiempo real: python simple_monitoring/cli.py monitor
+
+# Troubleshooting demo (problemas reales resueltos)
+- API timeouts → Solución: endpoint async
+- Métricas incorrectas → Solución: rebuild Docker container
+- Workers 0% utilization → Solución: corregir metrics_collector.py
 ```
 
 ---

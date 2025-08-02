@@ -1,8 +1,8 @@
 # 🖼️ Pipeline de Procesamiento de Imágenes Distribuido
 
-**Proyecto de 4 días: De Threading a Sistemas Distribuidos**
+**Proyecto de 4 días: De Threading a Sistemas Distribuidos con Monitoreo Real** ✅
 
-Este proyecto evoluciona desde un servidor Django básico hasta un **sistema distribuido de procesamiento de imágenes** completo, demostrando conceptos de concurrencia, paralelismo y arquitecturas distribuidas.
+Este proyecto evoluciona desde un servidor Django básico hasta un **sistema distribuido de procesamiento de imágenes** completo con **monitoreo en tiempo real**, demostrando conceptos de concurrencia, paralelismo, arquitecturas distribuidas y métricas de producción.
 
 ## 🎯 Objetivos del Proyecto
 
@@ -23,6 +23,14 @@ Este proyecto evoluciona desde un servidor Django básico hasta un **sistema dis
 - ✅ **Fault tolerance**: Worker registration, heartbeat, failure handling
 - ✅ **Docker orchestration**: docker-compose con múltiples servicios
 - ✅ **Monitoring**: Worker status, task tracking, performance metrics
+
+### **📅 DÍA 4: Smart Monitoring & Metrics** ✅ **COMPLETADO**
+- ✅ **Sistema de métricas real**: CPU, memoria, utilización de workers en tiempo real
+- ✅ **Detección de carga**: Queue length, busy workers, success rate
+- ✅ **Recomendaciones educativas**: Cuándo escalar workers (sin ejecución automática)
+- ✅ **Dashboard tiempo real**: Terminal UI mostrando métricas en vivo
+- ✅ **Stress testing funcional**: Scripts para generar carga y ver métricas cambiar
+- ✅ **Debugging completo**: Resueltos timeouts, métricas incorrectas, Docker issues
 
 ## 🏗️ Arquitectura del Sistema
 
@@ -50,11 +58,13 @@ Este proyecto evoluciona desde un servidor Django básico hasta un **sistema dis
            sample_4k.jpg      static/processed/
            misurina-sunset.jpg
                 
-    📊 Monitoring Available
-    ├── Worker Status & Heartbeat
-    ├── Task Queue Length  
-    ├── Processing Times
-    └── Success/Failure Rates
+    📊 Smart Monitoring System (Day 4) ✅
+    ├── 🔥 CPU Usage & 🧠 Memory Usage (psutil)
+    ├── ⚡ Busy Workers & 📈 Worker Utilization  
+    ├── 📋 Queue Length & ✅ Success Rate
+    ├── 🎬 Scaling Recommendations (Educational)
+    ├── 📊 Real-time Terminal Dashboard
+    └── 🚀 Stress Testing Scripts (5 tipos)
 ```
 
 ### **🔄 Flujo de Procesamiento:**
@@ -112,6 +122,26 @@ curl http://localhost:8000/api/health/
 # Ver workers activos (solo Docker)
 curl http://localhost:8000/api/workers/status/
 ```
+
+## ⚡ **DEMO RÁPIDO: Ver Métricas Cambiar** 
+
+**🎯 Para ver el sistema funcionando inmediatamente:**
+
+```bash
+# Terminal 1: Ver métricas limpias
+python simple_monitoring/cli.py metrics
+# ⚡ Busy Workers: 0    📈 Utilization: 0.0%
+
+# Terminal 2: Lanzar stress test  
+python burst_stress.py 50
+
+# Terminal 1: Ver métricas cambiar INMEDIATAMENTE
+python simple_monitoring/cli.py metrics  
+# ⚡ Busy Workers: 3    📈 Utilization: 100.0%
+# 🎬 Action: MAINTAIN   📝 Reason: System at optimal capacity
+```
+
+**🔥 Resultado**: En **< 5 segundos** verás workers pasar de 0% a 100% utilización con recomendaciones inteligentes.
 
 ## 🧪 Testing y Comandos
 
@@ -278,6 +308,19 @@ curl http://localhost:8000/api/task/{TASK_ID}/status/ | jq '
 | `/api/workers/status/` | GET | Estado de todos los workers |
 | `/api/task/<task_id>/status/` | GET | **Estado de task individual** (job failure vs worker failure) |
 
+### **DÍA 4: Sistema de Monitoreo** ✅
+| Endpoint | Método | Descripción |
+|----------|--------|-------------|
+| `/api/metrics/` | GET | **Métricas del sistema** (CPU, memoria, workers, recomendaciones) |
+
+### **Comandos CLI de Monitoreo:**
+| Comando | Descripción |
+|---------|-------------|
+| `python simple_monitoring/cli.py check` | Verificar API disponible |
+| `python simple_monitoring/cli.py metrics` | Ver métricas actuales |
+| `python simple_monitoring/cli.py monitor` | Dashboard en tiempo real |
+| `python simple_monitoring/cli.py stress 10` | Stress test via API |
+
 ### **Filtros Disponibles:**
 - **`resize`**: Cambiar tamaño (PIL) - I/O-bound
 - **`blur`**: Difuminado gaussiano (PIL) - I/O-bound  
@@ -311,6 +354,92 @@ curl http://localhost:8000/api/task/{TASK_ID}/status/ | jq '
 - 🛡️ Worker-3 (`capabilities=all`) previene fallos
 - 🎲 Distribución basada en timing, no capabilities
 - ⚠️ Si worker-3 se cae, tareas incompatibles fallan para siempre
+
+## 📊 **DÍA 4: Sistema de Monitoreo Real** ✅
+
+### **🎯 Métricas en Tiempo Real**
+
+El sistema incluye **monitoreo inteligente** que recopila métricas reales del sistema:
+
+```bash
+# Ver métricas actuales
+python simple_monitoring/cli.py metrics
+
+# Resultado example:
+📊 SYSTEM METRICS
+========================================
+🔥 CPU Usage:          30.5%
+🧠 Memory Usage:       69.5%
+💽 Memory Available:    2.3 GB
+
+⚙️ WORKER METRICS
+--------------------
+👥 Active Workers:        3
+⚡ Busy Workers:          3
+📈 Utilization:      100.0%
+📋 Queue Length:          0
+✅ Success Rate:      100.0%
+
+🎓 SCALING RECOMMENDATION (Educational)
+----------------------------------------
+📊 Current Workers:       3
+🎯 Recommended:           3
+🎬 Action:           MAINTAIN
+📝 Reason:           System operating within optimal parameters
+🎯 Confidence:        80.0%
+⚡ Urgency:          NONE
+```
+
+### **🚀 Stress Testing Scripts**
+
+**5 tipos de stress tests** para generar carga y observar métricas:
+
+```bash
+# 1. SIMPLE STRESS - Controlado
+python simple_stress.py 5        # 5 tareas secuenciales
+
+# 2. BURST STRESS - Explosivo  
+python burst_stress.py 50        # 50 tareas concurrentes
+
+# 3. CONTINUOUS STRESS - Sostenido
+python continuous_stress.py 60   # 5 tareas/seg por 60 segundos
+
+# 4. SUSTAINED STRESS - Prolongado
+python sustained_stress.py       # Mantiene cola llena
+
+# 5. DISTRIBUTED STRESS - Específico
+python distributed_stress.py 20  # 20 tareas distribuidas
+```
+
+### **📈 Ver Métricas Cambiar en Tiempo Real**
+
+```bash
+# Terminal 1: Lanzar stress test
+python burst_stress.py 50
+
+# Terminal 2: Ver métricas cambiar inmediatamente  
+python simple_monitoring/cli.py metrics
+
+# Antes del stress:
+⚡ Busy Workers: 0    📈 Utilization: 0.0%
+
+# Durante el stress:
+⚡ Busy Workers: 3    📈 Utilization: 100.0%
+🎬 Action: MAINTAIN   📝 Reason: System at optimal capacity
+```
+
+### **🎛️ Dashboard en Tiempo Real**
+
+```bash
+# Terminal interactivo con métricas en vivo
+python simple_monitoring/cli.py monitor
+
+# Actualiza métricas cada 2 segundos mostrando:
+# - CPU/Memory usage en tiempo real
+# - Worker utilization dinámica  
+# - Recomendaciones que cambian con la carga
+# - Success rate y estadísticas
+```
 
 ## 🛠️ Troubleshooting
 
@@ -350,12 +479,37 @@ docker-compose exec redis redis-cli LLEN task_queue
 docker-compose restart worker-1 worker-2 worker-3
 ```
 
+### **📊 Problemas de Monitoreo (Resueltos)** ✅
+
+```bash
+# PROBLEMA: Métricas muestran "Busy Workers: 0" durante alta carga
+# CAUSA: API container usando código viejo
+# SOLUCIÓN: Rebuild agresivo del container
+docker-compose stop api && docker-compose rm -f api
+docker rmi projects-api
+docker-compose build api --no-cache && docker-compose up -d api
+
+# PROBLEMA: API timeouts durante stress tests  
+# CAUSA: API esperando sincrónicamente tareas distribuidas
+# SOLUCIÓN: Endpoint distribuido retorna task_id inmediatamente
+
+# PROBLEMA: Métricas incorrectas en Redis
+# CAUSA: Datos viejos acumulados de tests anteriores
+# SOLUCIÓN: Purgar Redis entre tests
+docker exec image_processing_redis redis-cli FLUSHALL
+
+# VERIFICAR: Métricas funcionando correctamente
+python simple_monitoring/cli.py metrics
+# Debe mostrar busy workers > 0 durante carga alta
+```
+
 ## 🏆 Logros del Proyecto
 
 ### **📈 Progresión Técnica:**
 1. **Día 1**: Servidor básico I/O-bound → Threading fundamentals
 2. **Día 2**: Filtros reales PIL/OpenCV → CPU vs I/O bound analysis  
 3. **Día 3**: Sistema distribuido → Redis, Docker, Load balancing
+4. **Día 4**: **Sistema de monitoreo completo** → Métricas reales, stress testing, debugging
 
 ### **🎯 Conceptos Demostrados:**
 - ✅ **GIL Impact**: Threading vs Multiprocessing en diferentes workloads
@@ -363,10 +517,21 @@ docker-compose restart worker-1 worker-2 worker-3
 - ✅ **Distributed Architectures**: Message queues, worker pools, fault tolerance
 - ✅ **DevOps Integration**: Docker, docker-compose, multi-service systems
 - ✅ **Performance Analysis**: Benchmarking, monitoring, bottleneck identification
+- ✅ **Real-time Monitoring**: CPU/Memory tracking, worker utilization metrics
+- ✅ **Stress Testing**: 5 tipos de scripts para generar carga controlada
+- ✅ **Production Debugging**: Resolver timeouts, métricas incorrectas, Docker issues
+
+### **🚀 Logros Únicos de este Proyecto:**
+- 🎯 **Métricas que cambian en tiempo real** - Ver utilización de workers subir de 0% a 100%
+- 🔄 **Debugging sistemático** - Resolver problemas reales de desarrollo distribuido
+- 📊 **Monitoreo educativo** - Recomendaciones de scaling sin ejecución automática  
+- ⚡ **Stress testing científico** - Scripts controlados para generar cargas específicas
+- 🐳 **Docker debugging avanzado** - Resolver containers usando código viejo
+- 📈 **Performance real** - 300+ tareas procesadas, workers al 100% utilización
 
 ---
 
-**🚀 De conceptos básicos de concurrencia a sistemas distribuidos production-ready en 3 días!**
+**🚀 De conceptos básicos de concurrencia a sistemas distribuidos con monitoreo real en 4 días!**
 
 ## 🖥️ **SETUP PARA WINDOWS**
 
