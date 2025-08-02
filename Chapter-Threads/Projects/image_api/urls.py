@@ -39,9 +39,8 @@ urlpatterns = [
     path('workers/status/', views.workers_status, name='workers_status'),
     path('task/<str:task_id>/status/', views.task_status, name='task_status'),
     
-    # 🚀 PROJECT DAY 4: Auto-scaling endpoints
-    path('stress-test/', views.stress_test, name='stress_test'),
-    path('system/metrics/', views.system_metrics, name='system_metrics'),
+    # 📊 Simple monitoring endpoints
+    path('metrics/', views.simple_metrics, name='simple_metrics'),
     path('health/', views.health_check, name='health_check_explicit'),
     path('', views.health_check, name='health_check'),
 ] 

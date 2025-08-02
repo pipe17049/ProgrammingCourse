@@ -750,65 +750,25 @@ def process_batch_distributed(request):
         start_time = time.time()
         task_id = task_queue.enqueue_task(task_data)
         
-        # Wait for task completion (with timeout)
-        timeout = 60  # seconds
-        check_interval = 0.5
-        elapsed = 0
+        # Return task ID immediately (ASYNC pattern)
+        total_time = time.time() - start_time
         
-        while elapsed < timeout:
-            task_status = task_queue.get_task_status(task_id)
-            if not task_status:
-                break
-                
-            if task_status['status'] == 'completed':
-                # Task completed successfully
-                result_data = json.loads(task_status.get('result', '{}'))
-                total_time = time.time() - start_time
-                
-                return JsonResponse({
-                    "success": True,
-                    "method": "distributed",
-                    "task_id": task_id,
-                    "processing_time": round(total_time, 3),
-                    "worker_info": {
-                        "worker_id": result_data.get('worker_id'),
-                        "worker_type": result_data.get('worker_type'),
-                        "active_workers": len(active_workers)
-                    },
-                    "results": result_data.get('results', []),
-                    "performance": {
-                        "images_processed": result_data.get('images_processed', 0),
-                        "filters_applied": result_data.get('filters_applied', []),
-                        "worker_processing_time": result_data.get('total_processing_time', 0),
-                        "total_system_time": round(total_time, 3)
-                    },
-                    "distributed_stats": {
-                        "queue_used": True,
-                        "fault_tolerant": True,
-                        "scalable": True
-                    }
-                })
-            
-            elif task_status['status'] == 'failed':
-                # Task failed
-                error_msg = task_status.get('error', 'Unknown error')
-                return JsonResponse({
-                    "error": f"Distributed processing failed: {error_msg}",
-                    "task_id": task_id,
-                    "task_status": task_status
-                }, status=500)
-            
-            # Still processing, wait a bit
-            time.sleep(check_interval)
-            elapsed += check_interval
-        
-        # Timeout reached
         return JsonResponse({
-            "error": "Distributed processing timeout",
+            "success": True,
+            "method": "distributed",
             "task_id": task_id,
-            "timeout": timeout,
-            "suggestion": "Check worker logs: docker-compose logs worker-1 worker-2 worker-3"
-        }, status=504)
+            "processing_time": round(total_time, 3),
+            "worker_info": {
+                "active_workers": len(active_workers)
+            },
+            "status": "enqueued",
+            "message": "Task queued successfully - check status with /api/task-status/{task_id}",
+            "distributed_stats": {
+                "queue_used": True,
+                "fault_tolerant": True,
+                "scalable": True
+            }
+        })
         
     except json.JSONDecodeError:
         return JsonResponse({"error": "Invalid JSON in request body"}, status=400)
@@ -902,108 +862,60 @@ def health_check(request):
         'message': 'Django Image Processing API is running'
     })
 
-@require_http_methods(["POST"])
-@csrf_exempt
-def stress_test(request):
-    """Endpoint para generar carga de stress testing"""
-    try:
-        # Parámetros del stress test
-        num_tasks = request.POST.get('num_tasks', 20)
-        try:
-            num_tasks = int(num_tasks)
-        except:
-            num_tasks = 20
-        
-        # Limitar para evitar sobrecargar
-        num_tasks = min(num_tasks, 50)
-        
-        # Filtros para stress test
-        stress_filters = ['resize', 'blur', 'brightness', 'sharpen', 'edges']
-        
-        task_ids = []
-        
-        # Crear múltiples tasks en paralelo
-        def create_stress_task():
-            # Seleccionar filtros aleatorios
-            selected_filters = random.sample(stress_filters, k=random.randint(1, 3))
-            
-            # Crear task usando el sistema distribuido
-            redis_host = os.getenv('REDIS_HOST', 'localhost')
-            redis_port = int(os.getenv('REDIS_PORT', 6379))
-            
-            task_queue = DistributedTaskQueue(redis_host, redis_port)
-            task_id = task_queue.enqueue_task({
-                'filters': selected_filters,
-                'images': ['sample_4k.jpg'],  # Usar imagen fija para stress test
-                'created_by': 'stress_test'
-            })
-            
-            return task_id
-        
-        # Crear tasks en paralelo usando threading
-        threads = []
-        for i in range(num_tasks):
-            thread = threading.Thread(target=lambda: task_ids.append(create_stress_task()))
-            threads.append(thread)
-            thread.start()
-        
-        # Esperar a que terminen todos los threads
-        for thread in threads:
-            thread.join()
-        
-        return JsonResponse({
-            'status': 'success',
-            'message': f'Stress test initiated with {len(task_ids)} tasks',
-            'task_count': len(task_ids),
-            'task_ids': task_ids[:10],  # Solo mostrar primeros 10
-            'total_tasks': len(task_ids),
-            'filters_used': stress_filters,
-            'timestamp': time.time()
-        })
-        
-    except Exception as e:
-        return JsonResponse({
-            'status': 'error',
-            'message': f'Stress test failed: {str(e)}',
-            'timestamp': time.time()
-        }, status=500)
 
 @require_http_methods(["GET"])
-def system_metrics(request):
-    """Endpoint para obtener métricas del sistema"""
+def simple_metrics(request):
+    """
+    Simple metrics endpoint - Real metrics + Educational recommendations
+    
+    ⚠️  IMPORTANT: Scaling recommendations are educational only
+    ⚠️  No automatic scaling is performed
+    """
     try:
-        # Importar aquí para evitar errores si no está disponible
-        from monitoring.metrics_collector import MetricsCollector
-        from monitoring.worker_manager import WorkerManager
+        # Import here to avoid errors if simple_monitoring not available
+        from simple_monitoring.metrics_collector import SimpleMetricsCollector
+        from simple_monitoring.recommendations import ScalingRecommendations
         
-        # Obtener métricas actuales
+        # Get Redis connection info from environment
         redis_host = os.getenv('REDIS_HOST', 'localhost')
         redis_port = int(os.getenv('REDIS_PORT', 6379))
         
-        collector = MetricsCollector(redis_host, redis_port)
-        manager = WorkerManager(redis_host, redis_port)
+        # Collect metrics
+        collector = SimpleMetricsCollector(redis_host, redis_port)
+        metrics = collector.collect_metrics()
         
-        metrics = collector.collect_current_metrics()
-        status = manager.get_current_status()
+        # Get scaling recommendations (educational)
+        recommender = ScalingRecommendations()
+        recommendation = recommender.analyze_metrics(metrics)
+        scaling_config = recommender.get_scaling_config()
         
         return JsonResponse({
             'status': 'success',
             'metrics': metrics,
-            'scaling_decision': status['scaling_decision'],
-            'scaling_config': status['scaling_config'],
-            'is_auto_scaling': status['is_monitoring'],
+            'scaling_recommendation': {
+                'action': recommendation.action,
+                'current_workers': recommendation.current_workers,
+                'recommended_workers': recommendation.recommended_workers,
+                'reason': recommendation.reason,
+                'confidence': recommendation.confidence,
+                'urgency': recommendation.urgency,
+                'note': '⚠️ Educational recommendations only - No automatic execution'
+            },
+            'scaling_config': scaling_config,
             'timestamp': time.time()
         })
         
     except ImportError:
         return JsonResponse({
             'status': 'error',
-            'message': 'Monitoring system not available',
+            'message': 'Simple monitoring system not available',
+            'suggestion': 'Install psutil: pip install psutil',
             'timestamp': time.time()
         }, status=503)
     except Exception as e:
         return JsonResponse({
             'status': 'error',
-            'message': f'Failed to get metrics: {str(e)}',
+            'message': f'Failed to collect metrics: {str(e)}',
             'timestamp': time.time()
-        }, status=500) 
+        }, status=500)
+

@@ -10,14 +10,13 @@
 Un **sistema completo de procesamiento de imágenes distribuido** que evoluciona desde el servidor estático actual hacia una plataforma escalable y profesional.
 
 ### **📋 FUNCIONALIDADES FINALES:**
-- ✅ **API REST** que recibe imágenes y aplica múltiples filtros
+- ✅ **API REST** que recibe imágenes y aplica múltiples filtros reales (PIL, OpenCV)
 - ✅ **Threading pipeline** para I/O concurrente 
 - ✅ **Multiprocessing workers** para filtros CPU-intensivos
-- ✅ **Sistema distribuido** con múltiples workers en containers
-- ✅ **Load balancing** automático entre workers
-- ✅ **Fault tolerance** (workers que fallan se recuperan)
-- ✅ **CI/CD pipeline** con testing y deployment automatizado
-- ✅ **Monitoring dashboard** con métricas en tiempo real
+- ✅ **Sistema distribuido** con múltiples workers en containers Docker
+- ✅ **Task distribution** con Redis como message queue
+- ✅ **Worker registry** y service discovery
+- ✅ **Performance benchmarks** comparando threading vs multiprocessing
 
 ### **🛠️ COMPONENTES TÉCNICOS:**
 ```
@@ -54,9 +53,9 @@ Un **sistema completo de procesamiento de imágenes distribuido** que evoluciona
 
 **🔴 AVANZADO (algunos lograrán):**
 - Fault tolerance completo
-- Auto-scaling de workers
+- Smart load monitoring system
 - CI/CD pipeline full
-- Monitoring dashboard
+- Real-time metrics dashboard
 
 ### **📊 MÉTRICAS DE ÉXITO:**
 - **Performance**: >5x speedup vs secuencial inicial

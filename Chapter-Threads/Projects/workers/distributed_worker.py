@@ -196,8 +196,8 @@ class DistributedImageWorker:
             images = task_data.get('images', [])
             
             if not images:
-                # Use default images if none specified
-                images = ['static/images/sample_4k.jpg', 'static/images/Clocktower_Panorama_20080622_20mb.jpg']
+                # Use default images if none specified - prioritize 20MB image for demo
+                images = ['static/images/Clocktower_Panorama_20080622_20mb.jpg', 'static/images/sample_4k.jpg']
             
             logger.info(f"🖼️ Processing {len(images)} images with filters: {filters}")
             
@@ -243,7 +243,10 @@ class DistributedImageWorker:
                         'worker_id': self.worker_id
                     })
             
-            # Mark task as completed
+            # Check if all images failed (any result has 'error' field)
+            failed_images = [r for r in results if 'error' in r]
+            successful_images = [r for r in results if 'error' not in r]
+            
             processing_time = time.time() - start_time
             result_data = {
                 'worker_id': self.worker_id,
@@ -251,17 +254,34 @@ class DistributedImageWorker:
                 'results': results,
                 'total_processing_time': processing_time,
                 'images_processed': len(images),
+                'images_successful': len(successful_images),
+                'images_failed': len(failed_images),
                 'filters_applied': filters
             }
             
-            self.task_queue.complete_task(task_id, result_data)
-            
-            # Update stats
-            self.stats['tasks_completed'] += 1
-            self.stats['total_processing_time'] += processing_time
-            self.stats['last_task_at'] = time.time()
-            
-            logger.info(f"✅ Task {task_id} completed in {processing_time:.2f}s")
+            # If ALL images failed, mark task as failed
+            if len(failed_images) == len(images):
+                error_msg = f"All {len(images)} images failed. Errors: {[r['error'] for r in failed_images]}"
+                self.task_queue.fail_task(task_id, error_msg)
+                
+                # Update stats
+                self.stats['tasks_failed'] += 1
+                
+                logger.error(f"❌ Task {task_id} FAILED - all images failed in {processing_time:.2f}s")
+                
+            else:
+                # Mark task as completed (at least some images succeeded)
+                self.task_queue.complete_task(task_id, result_data)
+                
+                # Update stats
+                self.stats['tasks_completed'] += 1
+                self.stats['total_processing_time'] += processing_time
+                self.stats['last_task_at'] = time.time()
+                
+                if failed_images:
+                    logger.warning(f"⚠️ Task {task_id} completed with {len(failed_images)}/{len(images)} failures in {processing_time:.2f}s")
+                else:
+                    logger.info(f"✅ Task {task_id} completed successfully in {processing_time:.2f}s")
             
         except Exception as e:
             # Mark task as failed
