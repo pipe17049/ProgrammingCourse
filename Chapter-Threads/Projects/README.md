@@ -392,23 +392,14 @@ python simple_monitoring/cli.py metrics
 
 ### **🚀 Stress Testing Scripts**
 
-**5 tipos de stress tests** para generar carga y observar métricas:
+**2 tipos de stress tests** para generar carga y observar métricas:
 
 ```bash
-# 1. SIMPLE STRESS - Controlado
-python simple_stress.py 5        # 5 tareas secuenciales
+# 1. BURST STRESS - Carga rápida y paralela  
+python burst_stress.py 50        # 50 tareas concurrentes (satura workers)
 
-# 2. BURST STRESS - Explosivo  
-python burst_stress.py 50        # 50 tareas concurrentes
-
-# 3. CONTINUOUS STRESS - Sostenido
-python continuous_stress.py 60   # 5 tareas/seg por 60 segundos
-
-# 4. SUSTAINED STRESS - Prolongado
-python sustained_stress.py       # Mantiene cola llena
-
-# 5. DISTRIBUTED STRESS - Específico
-python distributed_stress.py 20  # 20 tareas distribuidas
+# 2. CONTINUOUS STRESS - Carga sostenida
+python continuous_stress.py 60   # 5 tareas/seg por 60 segundos (prueba prolongada)
 ```
 
 ### **📈 Ver Métricas Cambiar en Tiempo Real**

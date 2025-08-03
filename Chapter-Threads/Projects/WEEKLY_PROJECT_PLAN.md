@@ -258,12 +258,9 @@ Projects/
 │   ├── metrics_collector.py    # ← Recopilación de métricas real
 │   ├── recommendations.py      # ← Lógica de recomendaciones
 │   └── dashboard.py            # ← Dashboard tiempo real
-├── stress testing scripts/      # ← 5 tipos de stress tests
-│   ├── simple_stress.py        # ← Carga controlada
-│   ├── burst_stress.py         # ← Explosivo (50 tareas)
-│   ├── continuous_stress.py    # ← Sostenido (5/seg x tiempo)
-│   ├── sustained_stress.py     # ← Prolongado
-│   └── distributed_stress.py   # ← Específico para distributed
+├── stress testing scripts/      # ← 2 tipos de stress tests (limpio)
+│   ├── burst_stress.py         # ← Carga rápida/paralela (50 tareas)
+│   └── continuous_stress.py    # ← Carga sostenida (5/seg x tiempo)
 └── README.md                   # ← Documentation completa con troubleshooting real
 ```
 
