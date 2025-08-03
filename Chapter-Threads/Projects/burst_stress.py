@@ -18,18 +18,26 @@ def rapid_task():
         response = requests.post(
             "http://localhost:8000/api/process-batch/distributed/",
             json=payload,
-            timeout=2
+            timeout=5  # Aumentamos timeout para Windows
         )
         if response.status_code == 200:
             data = response.json()
             task_id = data.get('task_id', 'unknown')
             print(f"✅ {task_id[:8]}")
             return True
+        else:
+            print(f"❌ HTTP {response.status_code}")
+            return False
             
+    except requests.exceptions.ConnectionError:
+        print("❌ CONNECTION REFUSED - ¿API corriendo?")
+        return False
+    except requests.exceptions.Timeout:
+        print("❌ TIMEOUT - API sobrecargado")
+        return False
     except Exception as e:
-        print(f"⚡ Error: {e}")
-        print("⚡ Queued")
-        return True
+        print(f"❌ ERROR: {e}")
+        return False
 
 
 def burst_attack(count=20, threads=10):
@@ -38,18 +46,48 @@ def burst_attack(count=20, threads=10):
     print("🎯 Objetivo: Saturar workers y llenar cola")
     print("=" * 50)
     
+    # Lista compartida para resultados (thread-safe con GIL)
+    results = []
+    
+    def wrapper_task():
+        result = rapid_task()
+        results.append(result)
+    
     # Crear todas las threads de una vez
     threads_list = []
     for i in range(count):
-        thread = threading.Thread(target=rapid_task)
+        thread = threading.Thread(target=wrapper_task)
         threads_list.append(thread)
     
     # Lanzar todas simultáneamente
+    start_time = time.time()
     for thread in threads_list:
         thread.start()
     
     print(f"🚀 {count} tareas lanzadas simultáneamente!")
-    print("\n📊 VERIFICAR MÉTRICAS EN 2-3 SEGUNDOS:")
+    
+    # Esperar a que terminen todas
+    for thread in threads_list:
+        thread.join()
+    
+    # Mostrar estadísticas
+    success_count = sum(results)
+    failed_count = len(results) - success_count
+    elapsed_time = time.time() - start_time
+    
+    print("\n" + "=" * 50)
+    print("📊 RESULTADOS DEL BURST ATTACK:")
+    print(f"✅ Exitosas: {success_count}/{count} ({success_count/count*100:.1f}%)")
+    print(f"❌ Fallidas:  {failed_count}/{count} ({failed_count/count*100:.1f}%)")
+    print(f"⏱️  Tiempo total: {elapsed_time:.2f}s")
+    
+    if failed_count > 0:
+        print("\n🔍 POSIBLES CAUSAS DE FALLAS:")
+        print("  - API no está corriendo (docker-compose up -d)")
+        print("  - API sobrecargado (reducir count o aumentar timeout)")
+        print("  - Límites de conexión en Windows")
+    
+    print("\n📊 VERIFICAR MÉTRICAS AHORA:")
     print("   python simple_monitoring/cli.py metrics")
 
 

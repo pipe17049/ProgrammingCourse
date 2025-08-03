@@ -17,14 +17,16 @@ class SimpleMetricsCollector:
         self.redis_port = redis_port
         
     def _get_redis_connection(self):
-        """Get Redis connection with error handling"""
+        """Get Redis connection with error handling (Windows-friendly)"""
         try:
             return redis.Redis(
                 host=self.redis_host,
                 port=self.redis_port,
                 decode_responses=True,
-                socket_connect_timeout=2,
-                socket_timeout=2
+                socket_connect_timeout=10,  # Increased for Windows
+                socket_timeout=10,          # Increased for Windows
+                retry_on_timeout=True,
+                health_check_interval=30
             )
         except Exception as e:
             print(f"❌ Redis connection failed: {e}")
@@ -89,8 +91,17 @@ class SimpleMetricsCollector:
             return self._get_fallback_redis_metrics()
         
         try:
-            # Queue metrics
-            queue_length = redis_conn.llen('image_processing_queue') or 0
+            # Queue metrics - with correct queue name!
+            queue_name = 'image_tasks'  # Fixed: was 'image_processing_queue'
+            queue_length = redis_conn.llen(queue_name) or 0
+            
+            # Debug: Check if queue exists and log result
+            queue_exists = redis_conn.exists(queue_name)
+            if not queue_exists and queue_length == 0:
+                # Double-check all queue-related keys
+                all_queue_keys = [k for k in redis_conn.keys('*') if 'queue' in k.lower()]
+                if all_queue_keys:
+                    print(f"🔍 DEBUG: Found other queue keys: {all_queue_keys}")
             
             # Get all task keys and analyze their status
             task_keys = redis_conn.keys('task:*') or []
