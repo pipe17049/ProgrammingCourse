@@ -17,6 +17,7 @@ spec:
       containers:
       - name: worker
         image: projects-worker:latest
+        imagePullPolicy: Never
         env:
         - name: REDIS_HOST
           value: "redis-service"
