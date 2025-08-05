@@ -97,9 +97,12 @@ kubectl get hpa
 # Port-forward para acceso local (en terminal separada)
 kubectl port-forward service/api-service 8000:8000
 
-# En otra terminal - 🔥 STRESS TEST
-python ../burst_stress.py 50
+# En otra terminal - 🔥 CPU STRESS (imágenes genéricas)
+kubectl exec -it deployment/worker-deployment -- sh -c "while true; do :; done"
 ```
+
+**📋 NOTA:** Usamos imágenes genéricas (nginx, busybox) para el demo.  
+**Objetivo:** Ver auto-scaling funcionando, no procesamiento real.
 
 #### **Min 32-37: Watch Magic Happen**
 ```powershell
@@ -162,8 +165,8 @@ kubectl apply -f .
 # Ver auto-scaling 
 kubectl get hpa -w
 
-# Generar carga (en otra terminal)
-python burst_stress.py 50
+# Generar carga CPU (en otra terminal)
+kubectl exec -it deployment/worker-deployment -- sh -c "while true; do :; done"
 
 # Cleanup
 kubectl delete -f .
@@ -178,9 +181,45 @@ kubectl delete -f .
 - **Theory:** Focus en YAML analysis
 
 **Si demo falla:**
+- **🚨 Problema #1:** `ErrImageNeverPull` → `docker tag projects-worker-1:latest projects-worker:latest`
+- **🚨 Problema #2:** HPA `<unknown>/70%` → Instalar metrics server
 - **Pre-grabado:** Video de auto-scaling real
 - **Manual scaling:** `kubectl scale deployment worker-deployment --replicas=8`
 - **Demo script:** `python k8s/demo.py` (step-by-step)
+
+## 📊 **PUNTO CLAVE: ¿Por qué Metrics Server?**
+
+### **🎯 Explicar a estudiantes:**
+
+**"El HPA es como un termostato inteligente, pero necesita un termómetro"**
+
+```bash
+# Sin metrics server (termostato SIN termómetro):
+kubectl get hpa
+worker-hpa   <unknown>/70%  ❌ "No sé la temperatura"
+
+# Con metrics server (termostato CON termómetro):  
+kubectl get hpa
+worker-hpa   cpu: 1%/70%, memory: 27%/80%  ✅ "Puedo medir y decidir"
+```
+
+### **🤔 ¿Por qué no viene instalado?**
+
+- **☁️ Producción (AWS, GKE, AKS):** ✅ Viene preinstalado
+- **🖥️ Desarrollo (Docker Desktop):** ❌ Hay que instalarlo
+
+### **⚙️ Demo automático:**
+```bash
+# El script demo.py automáticamente:
+# 1. Detecta metrics server faltante
+# 2. Lo instala y configura para Docker Desktop  
+# 3. Verifica que funcione
+```
+
+### **🎓 Valor educativo:**
+- **Antes:** Scaling "fake" con docker-compose
+- **Ahora:** Scaling **real** basado en métricas automáticas
+- **Concepto:** Diferencia entre monitoreo pasivo vs activo
 
 ---
 

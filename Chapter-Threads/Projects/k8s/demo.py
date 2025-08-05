@@ -55,8 +55,27 @@ def main():
         print("  - Docker Desktop → Enable Kubernetes")
         sys.exit(1)
     
+    # Check Docker images - look for optimized versions
+    print("\n🔍 Verificando imágenes Docker optimizadas...")
+    result = subprocess.run("docker images | grep projects", shell=True, capture_output=True, text=True)
+    
+    # Check for final API image
+    if "projects-api-final" not in result.stdout:
+        print("⚠️  No se encontró projects-api-final:latest")
+        print("🔧 Necesitas ejecutar: ./build_final.sh")
+    
+    # Check for final worker image  
+    if "projects-worker-final" not in result.stdout:
+        print("⚠️  No se encontró projects-worker-final:latest")
+        print("🔧 Necesitas ejecutar: ./build_final.sh")
+    
     print("\n" + "="*60)
     print("🎬 INICIANDO DEMO - AUTO-SCALING EN KUBERNETES")
+    print("="*60)
+    print("📋 NOTA: Usamos imágenes FINALES del proyecto:")
+    print("   - API: projects-api-final:latest (Django + Debian + OpenCV)")
+    print("   - Worker: projects-worker-final:latest (Python + Debian + OpenCV)")
+    print("   - Objetivo: Ver AUTO-SCALING funcionando")
     print("="*60)
     
     # Deploy Redis
@@ -78,6 +97,19 @@ def main():
     run_cmd("kubectl get pods", "5️⃣ Current Pod Status")
     run_cmd("kubectl get hpa", "HPA Status")
     
+    # Check metrics server
+    print("\n🔍 Verificando metrics server...")
+    result = subprocess.run("kubectl get hpa", shell=True, capture_output=True, text=True)
+    if "<unknown>" in result.stdout:
+        print("⚠️  HPA muestra <unknown> - Metrics server no disponible")
+        print("🔧 ¿Instalar metrics server? (y/n): ", end="")
+        install_metrics = input().strip().lower()
+        if install_metrics == 'y':
+            print("🔧 Instalando metrics server...")
+            run_cmd("kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml", "Installing metrics server")
+            print("⏳ Esperando a que metrics server esté listo...")
+            run_cmd("kubectl wait --for=condition=available --timeout=60s deployment/metrics-server -n kube-system", "Waiting for metrics server")
+    
     print("\n" + "="*60)
     print("🔥 STRESS TEST PHASE")
     print("="*60)
@@ -91,8 +123,8 @@ def main():
     input()
     
     # Generate load
-    print("\n7️⃣ Para generar carga, ejecuta en otra terminal:")
-    print("  python burst_stress.py 50")
+    print("\n7️⃣ Para generar carga CPU, ejecuta en otra terminal:")
+    print("  kubectl exec -it deployment/worker-deployment -- sh -c \"while true; do :; done\"")
     print("")
     print("8️⃣ Para ver auto-scaling en tiempo real, ejecuta:")
     print("  kubectl get hpa -w")
