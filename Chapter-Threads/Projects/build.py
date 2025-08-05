@@ -16,31 +16,31 @@ import platform
 
 def run_command(cmd, description):
     """Run a command and handle errors"""
-    print(f"\n🔨 {description}")
-    print(f"💻 Running: {cmd}")
+    print(f"\n> {description}")
+    print(f"Running: {cmd}")
     
     try:
         result = subprocess.run(cmd, shell=True, check=True, capture_output=True, text=True)
-        print(f"✅ Success!")
+        print(f"Success!")
         return True
     except subprocess.CalledProcessError as e:
-        print(f"❌ Error: {e}")
+        print(f"Error: {e}")
         if e.stdout:
-            print(f"📤 Output: {e.stdout}")
+            print(f"Output: {e.stdout}")
         if e.stderr:
-            print(f"📥 Error: {e.stderr}")
+            print(f"Error details: {e.stderr}")
         return False
 
 def check_docker():
     """Check if Docker is available"""
-    print("🔍 Checking Docker...")
+    print("Checking Docker...")
     if not run_command("docker --version", "Verify Docker installation"):
-        print("❌ Docker not found! Please install Docker Desktop")
+        print("ERROR: Docker not found! Please install Docker Desktop")
         sys.exit(1)
 
 def clean_images():
     """Clean up old images"""
-    print("\n🧹 Cleaning up old images...")
+    print("\nCleaning up old images...")
     
     # Remove old project images
     old_images = [
@@ -58,7 +58,7 @@ def clean_images():
 
 def build_images(dev_mode=False):
     """Build the final production images"""
-    print(f"\n🏗️ Building {'development' if dev_mode else 'production'} images...")
+    print(f"\nBuilding {'development' if dev_mode else 'production'} images...")
     
     dockerfile_suffix = "" if not dev_mode else ".dev"
     tag_suffix = "-final" if not dev_mode else "-dev"
@@ -77,7 +77,7 @@ def build_images(dev_mode=False):
 
 def show_images():
     """Show built images"""
-    print("\n📊 Built images:")
+    print("\nBuilt images:")
     run_command("docker images | grep projects", "List project images")
 
 def main():
@@ -87,8 +87,8 @@ def main():
     
     args = parser.parse_args()
     
-    print("🐳 UNIVERSAL DOCKER BUILD SCRIPT")
-    print(f"🖥️  Platform: {platform.system()} {platform.machine()}")
+    print("UNIVERSAL DOCKER BUILD SCRIPT")
+    print(f"Platform: {platform.system()} {platform.machine()}")
     print("="*50)
     
     # Check prerequisites
@@ -102,14 +102,14 @@ def main():
     if build_images(dev_mode=args.dev):
         show_images()
         
-        print(f"\n🎉 SUCCESS! Images built successfully!")
-        print(f"📋 Next steps:")
+        print(f"\nSUCCESS! Images built successfully!")
+        print(f"Next steps:")
         if args.dev:
             print(f"   docker-compose up")
         else:
             print(f"   cd k8s && python demo.py")
     else:
-        print(f"\n❌ BUILD FAILED!")
+        print(f"\nBUILD FAILED!")
         sys.exit(1)
 
 if __name__ == "__main__":
