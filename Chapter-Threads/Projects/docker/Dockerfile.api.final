@@ -23,6 +23,7 @@ COPY manage.py ./
 COPY django_image_server/ ./django_image_server/
 COPY image_api/ ./image_api/
 COPY workers/ ./workers/
+COPY distributed/ ./distributed/
 
 # Create directories (no chown to avoid I/O errors)
 RUN mkdir -p static/processed static/images
