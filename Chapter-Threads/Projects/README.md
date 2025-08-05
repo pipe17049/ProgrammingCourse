@@ -575,14 +575,16 @@ python manage.py runserver 8000
 
 ### **Ejemplo de uso en K8s:**
 ```bash
-# Port-forward para acceder desde local
+# 1. Port-forward EN OTRA TERMINAL (se queda corriendo):
 kubectl port-forward service/api-service 8000:8000
 
-# Usar el mismo endpoint distribuido
+# 2. Ahora puedes usar el mismo endpoint desde tu PC:
 curl -X POST http://localhost:8000/api/process-batch/distributed/ \
   -H "Content-Type: application/json" \
   -d '{"filters": ["resize", "blur"]}'
 ```
+
+**💡 TIP:** El port-forward es como un "cable virtual" que conecta tu PC con Kubernetes.
 
 ---
 
@@ -738,14 +740,37 @@ kubectl logs deployment/worker-deployment --tail=20
 ```
 
 #### **Port forwarding para testing:**
-```bash
-# Acceder a la API localmente
-kubectl port-forward service/api-service 8000:8000
 
-# En otra terminal, probar
+**🔌 ¿Por qué necesito port-forward?**
+- **Sin port-forward:** API solo accesible dentro del cluster de Kubernetes
+- **Con port-forward:** Puedes usar `localhost:8000` desde tu PC como siempre
+
+**⚠️ IMPORTANTE: Port-forward se ejecuta en una terminal separada porque es un proceso que queda corriendo:**
+
+```bash
+# Terminal 1 (se queda "ocupada" escuchando):
+kubectl port-forward service/api-service 8000:8000
+# ↑ Este comando NO termina - crea un "puente" entre tu PC y Kubernetes
+# Forwarding from 127.0.0.1:8000 -> 8000
+# [Se queda aquí corriendo...]
+
+# Terminal 2 (libre para usar la API):
 curl -X POST http://localhost:8000/api/process-batch/distributed/ \
   -H "Content-Type: application/json" \
   -d '{"filters": ["resize", "blur"]}'
+
+# O ejecutar scripts de stress:
+python burst_stress.py
+python continuous_stress.py
+```
+
+**💡 Alternativa (una sola terminal):**
+```bash
+# Ejecutar en background con &
+kubectl port-forward service/api-service 8000:8000 &
+
+# Ahora puedes seguir usando la misma terminal
+curl http://localhost:8000/api/process-batch/distributed/
 ```
 
 ### **⚠️ Troubleshooting Común**
