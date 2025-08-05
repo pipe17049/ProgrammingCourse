@@ -1,0 +1,43 @@
+# FINAL: Optimized API container with Debian (compatible con ARM64)
+FROM python:3.11-slim
+
+# Install system dependencies efficiently
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    g++ \
+    libopencv-dev \
+    python3-opencv \
+    curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy and install requirements
+COPY requirements_alpine.txt ./
+RUN pip install --no-cache-dir -r requirements_alpine.txt
+
+# Copy application files
+COPY manage.py ./
+COPY django_image_server/ ./django_image_server/
+COPY image_api/ ./image_api/
+COPY workers/ ./workers/
+
+# Create directories (no chown to avoid I/O errors)
+RUN mkdir -p static/processed static/images
+
+# Environment variables
+ENV PYTHONPATH=/app
+ENV DJANGO_SETTINGS_MODULE=django_image_server.settings
+ENV REDIS_HOST=redis
+ENV REDIS_PORT=6379
+
+# Run as root (Kubernetes compatible)
+USER root
+
+# Expose port
+EXPOSE 8000
+
+# Start server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

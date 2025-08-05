@@ -32,6 +32,15 @@ Este proyecto evoluciona desde un servidor Django básico hasta un **sistema dis
 - ✅ **Stress testing funcional**: Scripts para generar carga y ver métricas cambiar
 - ✅ **Debugging completo**: Resueltos timeouts, métricas incorrectas, Docker issues
 
+### **📅 DÍA 5: Real Auto-Scaling con Kubernetes** ✅ **COMPLETADO**
+- ✅ **Migración a Kubernetes**: De docker-compose a K8s deployments
+- ✅ **Imágenes optimizadas**: Reducción de 6GB → 2.2GB (63% optimización)
+- ✅ **Horizontal Pod Autoscaler (HPA)**: Auto-scaling real basado en CPU/memoria
+- ✅ **Metrics Server**: Configuración específica para Docker Desktop
+- ✅ **Cross-platform**: Compatible con Windows, macOS (ARM64/Intel) y Linux
+- ✅ **Demo funcional**: Auto-scaling funcionando con métricas reales
+- ✅ **Troubleshooting completo**: Solución de errores comunes de K8s en desarrollo
+
 ## 🏗️ Arquitectura del Sistema
 
 ```
@@ -548,13 +557,258 @@ python manage.py check
 python manage.py runserver 8000
 ```
 
-### **Probar filtros nuevos:**
-```cmd
-curl -X POST http://localhost:8000/api/process-batch/threading/ -H "Content-Type: application/json" -d "{\"filters\": [\"resize\", \"blur\"], \"filter_params\": {\"resize\": {\"width\": 800, \"height\": 600}, \"blur\": {\"radius\": 3.0}}}"
-```
+### **Endpoints disponibles por día:**
 
-**Nuevos endpoints:**
+**📅 Día 1-2 (Threading/Multiprocessing):**
 - `/api/process-batch/sequential/` - Procesamiento secuencial
 - `/api/process-batch/threading/` - Con threading  
 - `/api/process-batch/multiprocessing/` - Con multiprocessing
 - `/api/process-batch/compare-all/` - Comparar todos los métodos
+
+**📅 Día 3-4 (Distributed + Monitoring):**
+- `/api/process-batch/distributed/` - Sistema distribuido con Redis + Workers
+- `/api/metrics/` - Métricas del sistema en tiempo real
+
+**📅 Día 5 (Kubernetes):**
+- **Mismo endpoint:** `/api/process-batch/distributed/` 
+- **Diferencia:** Ahora corre en **pods auto-escalables** 🚀
+
+### **Ejemplo de uso en K8s:**
+```bash
+# Port-forward para acceder desde local
+kubectl port-forward service/api-service 8000:8000
+
+# Usar el mismo endpoint distribuido
+curl -X POST http://localhost:8000/api/process-batch/distributed/ \
+  -H "Content-Type: application/json" \
+  -d '{"filters": ["resize", "blur"]}'
+```
+
+---
+
+## 🚀 **KUBERNETES: Auto-Scaling Real (Día 5)**
+
+### **🎯 ¿Por qué Kubernetes?**
+
+Docker Compose es excelente para desarrollo, pero tiene limitaciones:
+- ❌ **No hay auto-scaling real** - Los nombres de containers son fijos
+- ❌ **Scaling manual** - `docker-compose scale worker=5` no es automático
+- ❌ **Sin métricas integradas** - No puede escalar basado en CPU/memoria
+
+**Kubernetes soluciona esto con:**
+- ✅ **Auto-scaling automático** - HPA (Horizontal Pod Autoscaler)
+- ✅ **Métricas integradas** - CPU, memoria, métricas custom
+- ✅ **Escalado inteligente** - Basado en carga real
+- ✅ **Tolerancia a fallos** - Pods se recrean automáticamente
+
+### **📊 Arquitectura Kubernetes**
+
+```
+                    🌐 Client
+                (kubectl port-forward)
+                       |
+                   🐍 API Service
+                  (LoadBalancer)
+                       |
+                📡 Redis Service 
+               (ClusterIP)
+                   /  |  \
+                  /   |   \
+             👷 Worker Pod  👷 Worker Pod  
+            (CPU: 100m-200m) (Memory: 128Mi-256Mi)
+                  |               |
+                  └─── HPA ───────┘
+               (CPU target: 70%)
+              (Memory target: 80%)
+                      |
+               📊 Metrics Server
+              (Recolecta métricas)
+```
+
+### **🔧 Quick Start: Demo Kubernetes**
+
+#### **1. Prerequisitos:**
+```bash
+# Verificar que Kubernetes esté habilitado en Docker Desktop
+kubectl version --client
+kubectl cluster-info
+```
+
+#### **2. Setup automático (recomendado):**
+```bash
+# Setup completo (Docker + Kubernetes)
+python setup.py
+
+# O setup por partes:
+python setup.py --docker-only    # Solo Docker Compose
+python setup.py --k8s-only       # Solo Kubernetes
+python setup.py --check          # Verificar prerequisitos
+```
+
+#### **2b. Build manual (alternativo):**
+```bash
+# Construir imágenes optimizadas (2.2GB vs 6GB originales)
+python build.py
+
+# Verificar imágenes
+docker images | grep projects-.*-final
+```
+
+#### **3. Ejecutar demo completo:**
+```bash
+cd k8s
+python demo.py
+```
+
+El demo automáticamente:
+- ✅ **Despliega Redis, API y Workers**
+- ✅ **Configura HPA** (auto-scaling)
+- ✅ **Instala Metrics Server** (específico para Docker Desktop)
+- ✅ **Verifica que todo funcione**
+- ✅ **Muestra métricas reales**: `cpu: 1%/70%, memory: 27%/80%`
+
+### **📊 ¿Qué es el Metrics Server y por qué es necesario?**
+
+#### **🤔 Problema sin Metrics Server:**
+```bash
+kubectl get hpa
+NAME         TARGETS
+worker-hpa   <unknown>/70%  ❌ HPA "ciego" - no puede medir
+```
+
+#### **✅ Solución con Metrics Server:**
+```bash
+kubectl get hpa  
+NAME         TARGETS
+worker-hpa   cpu: 1%/70%, memory: 27%/80%  ✅ HPA "inteligente" 
+```
+
+#### **🔍 ¿Por qué hay que instalarlo?**
+
+**En clusters reales (producción):**
+- **AWS EKS, Google GKE, Azure AKS:** ✅ Viene preinstalado
+
+**En desarrollo local:**
+- **Docker Desktop, minikube, kind:** ❌ Hay que instalarlo manualmente
+
+#### **🎯 ¿Cómo funciona?**
+```mermaid
+graph TD
+    A[Pods ejecutándose] --> B[Metrics Server]
+    B --> C[Recolecta CPU/Memory cada 15s]
+    C --> D[HPA Controller]
+    D --> E{CPU > 70%?}
+    E -->|Sí| F[kubectl scale deployment worker +2 pods]
+    E -->|No| G[Mantener pods actuales]
+    F --> A
+    G --> A
+```
+
+**Analogía:** Es como un **termostato con termómetro**
+- **Sin metrics server:** Termostato sin termómetro (no sabe la temperatura)
+- **Con metrics server:** Puede medir y tomar decisiones inteligentes
+
+### **🔧 Comandos Útiles**
+
+#### **Ver auto-scaling en tiempo real:**
+```bash
+# Terminal 1: Ver HPA cambiando
+kubectl get hpa -w
+
+# Terminal 2: Ver pods escalando  
+kubectl get pods -w
+
+# Terminal 3: Generar carga CPU
+kubectl exec -it deployment/worker-deployment -- sh -c "while true; do :; done"
+```
+
+#### **Métricas y debugging:**
+```bash
+# Ver métricas de nodos
+kubectl top nodes
+
+# Ver métricas de pods
+kubectl top pods
+
+# Describir HPA (troubleshooting)
+kubectl describe hpa worker-hpa
+
+# Ver logs de un pod específico
+kubectl logs deployment/worker-deployment --tail=20
+```
+
+#### **Port forwarding para testing:**
+```bash
+# Acceder a la API localmente
+kubectl port-forward service/api-service 8000:8000
+
+# En otra terminal, probar
+curl -X POST http://localhost:8000/api/process-batch/distributed/ \
+  -H "Content-Type: application/json" \
+  -d '{"filters": ["resize", "blur"]}'
+```
+
+### **⚠️ Troubleshooting Común**
+
+#### **Error: `ErrImageNeverPull`**
+```bash
+# Problema: Docker Compose crea imágenes con sufijos numéricos
+docker images | grep projects
+# projects-worker-1  ❌
+# projects-worker-2  ❌
+
+# Solución: Tag manual
+docker tag projects-worker-1:latest projects-worker-final:latest
+```
+
+#### **Error: HPA muestra `<unknown>`**
+```bash
+# Problema: Metrics server no funciona
+kubectl get hpa
+# worker-hpa   <unknown>/70%  ❌
+
+# Solución: Configurar metrics server para Docker Desktop
+kubectl patch deployment metrics-server -n kube-system --type='json' \
+  -p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--kubelet-insecure-tls"}]'
+```
+
+#### **Error: Pods en `CrashLoopBackOff`**
+```bash
+# Ver logs para diagnosticar
+kubectl logs deployment/worker-deployment --tail=20
+
+# Errores comunes:
+# - ModuleNotFoundError: No module named 'distributed'
+# - Redis connection failed
+```
+
+### **📈 Comparación: Docker Compose vs Kubernetes**
+
+| Aspecto | Docker Compose | Kubernetes |
+|---------|----------------|------------|
+| **Auto-scaling** | ❌ Manual (`docker-compose scale`) | ✅ **Automático (HPA)** |
+| **Métricas** | ❌ Externas (psutil) | ✅ **Integradas (Metrics Server)** |
+| **Decisiones** | ❌ Humanas | ✅ **Automáticas basadas en carga** |
+| **Tolerancia fallos** | ❌ Manual restart | ✅ **Auto-restart de pods** |
+| **Producción** | ❌ Solo desarrollo | ✅ **Listo para producción** |
+| **Learning curve** | ✅ Fácil | ⚠️ **Más complejo pero poderoso** |
+
+### **🎓 Valor Educativo**
+
+Este proyecto demuestra la **evolución completa** de un sistema:
+
+1. **Threading/Multiprocessing** → Conceptos de concurrencia
+2. **Docker Compose** → Orchestración básica  
+3. **Redis + Workers** → Arquitectura distribuida
+4. **Monitoring** → Observabilidad en producción
+5. **Kubernetes** → **Auto-scaling real y métricas**
+
+**¿El resultado?** Un sistema que:
+- ✅ **Se escala automáticamente** bajo carga
+- ✅ **Optimiza recursos** cuando no hay trabajo
+- ✅ **Funciona en cualquier plataforma** (Windows, Mac, Linux)
+- ✅ **Está listo para producción** con modificaciones mínimas
+
+---
+
+**🎯 ¡Felicidades! Has construido un sistema distribuido con auto-scaling real funcionando en Kubernetes!** 🚀
