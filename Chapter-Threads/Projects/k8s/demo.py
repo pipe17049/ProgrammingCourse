@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🚀 KUBERNETES AUTO-SCALING DEMO
+KUBERNETES AUTO-SCALING DEMO
 Cross-platform demo script for the Kubernetes class
 """
 
@@ -12,12 +12,20 @@ import os
 def run_cmd(cmd, description=""):
     """Run command and show output"""
     if description:
-        print(f"\n🔧 {description}")
+        print(f"\n> {description}")
         print("=" * 50)
     
     print(f"$ {cmd}")
     try:
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+        # Use utf-8 encoding to avoid Windows cp1252 issues
+        result = subprocess.run(
+            cmd, 
+            shell=True, 
+            capture_output=True, 
+            text=True,
+            encoding='utf-8',
+            errors='ignore'  # Ignore problematic characters
+        )
         if result.stdout:
             print(result.stdout)
         if result.stderr and result.returncode != 0:
@@ -30,19 +38,19 @@ def run_cmd(cmd, description=""):
 
 def wait_for_pods(label, timeout=60):
     """Wait for pods to be ready"""
-    print(f"\n⏳ Waiting for pods with label {label} to be ready...")
+    print(f"\nWaiting for pods with label {label} to be ready...")
     cmd = f"kubectl wait --for=condition=ready pod -l {label} --timeout={timeout}s"
     return run_cmd(cmd)
 
 def main():
-    print("🚀 KUBERNETES AUTO-SCALING DEMO")
+    print("KUBERNETES AUTO-SCALING DEMO")
     print("================================")
     print("Este demo funciona en Windows, Linux y Mac")
     print("")
     
     # Check if kubectl is available
     if not run_cmd("kubectl version --client", "Checking kubectl"):
-        print("❌ kubectl no está instalado o no está en PATH")
+        print("ERROR: kubectl no está instalado o no está en PATH")
         print("Instala kubectl desde: https://kubernetes.io/docs/tasks/tools/")
         sys.exit(1)
     
@@ -56,23 +64,24 @@ def main():
         sys.exit(1)
     
     # Check Docker images - look for optimized versions
-    print("\n🔍 Verificando imágenes Docker optimizadas...")
-    result = subprocess.run("docker images | grep projects", shell=True, capture_output=True, text=True)
+    print("\nVerificando imágenes Docker optimizadas...")
+    # Cross-platform: use docker images with filter instead of grep
+    result = subprocess.run("docker images projects*", shell=True, capture_output=True, text=True, encoding='utf-8', errors='ignore')
     
     # Check for final API image
     if "projects-api-final" not in result.stdout:
-        print("⚠️  No se encontró projects-api-final:latest")
-        print("🔧 Necesitas ejecutar: ./build_final.sh")
+        print("WARNING: No se encontró projects-api-final:latest")
+        print("SOLUTION: Necesitas ejecutar: python build.py")
     
     # Check for final worker image  
     if "projects-worker-final" not in result.stdout:
-        print("⚠️  No se encontró projects-worker-final:latest")
-        print("🔧 Necesitas ejecutar: ./build_final.sh")
+        print("WARNING: No se encontró projects-worker-final:latest")
+        print("SOLUTION: Necesitas ejecutar: python build.py")
     
     print("\n" + "="*60)
-    print("🎬 INICIANDO DEMO - AUTO-SCALING EN KUBERNETES")
+    print("INICIANDO DEMO - AUTO-SCALING EN KUBERNETES")
     print("="*60)
-    print("📋 NOTA: Usamos imágenes FINALES del proyecto:")
+    print("NOTA: Usamos imágenes FINALES del proyecto:")
     print("   - API: projects-api-final:latest (Django + Debian + OpenCV)")
     print("   - Worker: projects-worker-final:latest (Python + Debian + OpenCV)")
     print("   - Objetivo: Ver AUTO-SCALING funcionando")

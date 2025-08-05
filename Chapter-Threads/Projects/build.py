@@ -20,7 +20,16 @@ def run_command(cmd, description):
     print(f"Running: {cmd}")
     
     try:
-        result = subprocess.run(cmd, shell=True, check=True, capture_output=True, text=True)
+        # Use utf-8 encoding to avoid Windows cp1252 issues
+        result = subprocess.run(
+            cmd, 
+            shell=True, 
+            check=True, 
+            capture_output=True, 
+            text=True,
+            encoding='utf-8',
+            errors='ignore'  # Ignore problematic characters
+        )
         print(f"Success!")
         return True
     except subprocess.CalledProcessError as e:
@@ -78,7 +87,8 @@ def build_images(dev_mode=False):
 def show_images():
     """Show built images"""
     print("\nBuilt images:")
-    run_command("docker images | grep projects", "List project images")
+    # Cross-platform: use docker images with filter instead of grep
+    run_command("docker images projects*", "List project images")
 
 def main():
     parser = argparse.ArgumentParser(description="Universal Docker Build Script")
