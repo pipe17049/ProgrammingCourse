@@ -98,7 +98,7 @@ kubectl get hpa
 kubectl port-forward service/api-service 8000:8000
 
 # En otra terminal - 🔥 CPU STRESS (imágenes genéricas)
-kubectl exec -it deployment/worker-deployment -- sh -c "while true; do :; done"
+kubectl exec -it deployment/worker-deployment -- python -c "while True: pass"
 ```
 
 **📋 NOTA:** Usamos imágenes genéricas (nginx, busybox) para el demo.  
