@@ -330,6 +330,14 @@ curl http://localhost:8000/api/task/{TASK_ID}/status/ | jq '
 | `python simple_monitoring/cli.py monitor` | Dashboard en tiempo real |
 | `python simple_monitoring/cli.py stress 10` | Stress test via API |
 
+### **Comandos de Limpieza:**
+| Comando | Descripción |
+|---------|-------------|
+| **Limpiar imágenes procesadas:** | `rm -rf static/processed/*` (Linux/Mac) |
+| | `del /q static\processed\*` (Windows) |
+| **Purgar Redis (Docker):** | `docker exec image_processing_redis redis-cli FLUSHALL` |
+| **Purgar Redis (K8s):** | `kubectl exec deployment/redis-deployment -- redis-cli FLUSHALL` |
+
 ### **Filtros Disponibles:**
 - **`resize`**: Cambiar tamaño (PIL) - I/O-bound
 - **`blur`**: Difuminado gaussiano (PIL) - I/O-bound  
