@@ -133,6 +133,10 @@ def setup_kubernetes():
         print("TIP: Enable Kubernetes in Docker Desktop Settings")
         return False
     
+    # Install metrics server (required for HPA)
+    print("\n> Installing metrics server (required for HPA)")
+    run_command("kubectl apply -f k8s/metrics-server.yaml", "Install metrics server", ignore_errors=True)
+    
     # Build production images
     if not run_command("python build.py", "Build production images"):
         return False
@@ -207,6 +211,10 @@ def main():
         success = setup_docker() and setup_kubernetes()
     
     if success:
+        # Purge Redis queue for clean state
+        print(f"\n🧹 Purging Redis queue for clean start...")
+        run_command("kubectl exec deployment/redis-deployment -- redis-cli FLUSHALL", "Purge Redis queue", ignore_errors=True)
+        
         show_status()
         print(f"\nSETUP COMPLETE! System ready to use!")
     else:

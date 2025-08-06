@@ -716,7 +716,7 @@ def process_batch_distributed(request):
         redis_host = os.getenv('REDIS_HOST', 'localhost')
         redis_port = int(os.getenv('REDIS_PORT', 6379))
         task_queue = DistributedTaskQueue(redis_host, redis_port)
-        registry = WorkerRegistry(redis_host, redis_port)
+        registry = WorkerRegistry(redis_host, redis_port, redis_db=0)
         
         # Check available workers
         active_workers = registry.get_active_workers()
@@ -726,7 +726,7 @@ def process_batch_distributed(request):
                 "suggestion": "Start workers with: docker-compose up -d"
             }, status=503)
         
-        # Prepare image list
+        # Prepare image list - Use real images
         image_paths = []
         static_dir = Path(settings.BASE_DIR) / 'static' / 'images'
         available_images = [
@@ -736,8 +736,7 @@ def process_batch_distributed(request):
         
         for i in range(count):
             image_path = static_dir / available_images[i % len(available_images)]
-            if image_path.exists():
-                image_paths.append(str(image_path))
+            image_paths.append(str(image_path))
         
         # Enqueue task for distributed processing
         task_data = {
@@ -794,7 +793,7 @@ def workers_status(request):
         # Use Docker environment variables for Redis connection
         redis_host = os.getenv('REDIS_HOST', 'localhost')
         redis_port = int(os.getenv('REDIS_PORT', 6379))
-        registry = WorkerRegistry(redis_host, redis_port)
+        registry = WorkerRegistry(redis_host, redis_port, redis_db=0)
         task_queue = DistributedTaskQueue(redis_host, redis_port)
         
         # Get active workers

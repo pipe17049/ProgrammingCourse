@@ -9,9 +9,9 @@ import time
 import sys
 import os
 
-def run_cmd(cmd, description=""):
+def run_cmd(cmd, description="", show_header=True):
     """Run command and show output"""
-    if description:
+    if description and show_header:
         print(f"\n> {description}")
         print("=" * 50)
     
@@ -96,6 +96,10 @@ def main():
     # Deploy Workers + HPA
     run_cmd("kubectl apply -f worker-deployment.yaml", "3️⃣ Deploying Workers + HPA")
     
+    # Install metrics server automatically
+    print("\n🔧 Installing metrics server...")
+    run_cmd("kubectl apply -f metrics-server.yaml", "Installing metrics server (local file)")
+    
     # Wait for pods
     print("\n4️⃣ Waiting for all pods to be ready...")
     wait_for_pods("app=redis")
@@ -106,45 +110,143 @@ def main():
     run_cmd("kubectl get pods", "5️⃣ Current Pod Status")
     run_cmd("kubectl get hpa", "HPA Status")
     
-    # Check metrics server
-    print("\n🔍 Verificando metrics server...")
-    result = subprocess.run("kubectl get hpa", shell=True, capture_output=True, text=True)
-    if "<unknown>" in result.stdout:
-        print("⚠️  HPA muestra <unknown> - Metrics server no disponible")
-        print("🔧 ¿Instalar metrics server? (y/n): ", end="")
-        install_metrics = input().strip().lower()
-        if install_metrics == 'y':
-            print("🔧 Instalando metrics server...")
-            run_cmd("kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml", "Installing metrics server")
-            print("⏳ Esperando a que metrics server esté listo...")
-            run_cmd("kubectl wait --for=condition=available --timeout=60s deployment/metrics-server -n kube-system", "Waiting for metrics server")
+    # Give metrics server time to collect data
+    print("\n⏳ Waiting for metrics server to collect data...")
+    print("Esperando hasta que HPA tenga métricas reales (no <unknown>)...")
+    
+    # Wait until HPA shows real metrics (not <unknown>)
+    for attempt in range(30):  # Max 5 minutes
+        result = subprocess.run(
+            "kubectl get hpa --no-headers", 
+            shell=True, 
+            capture_output=True, 
+            text=True,
+            encoding='utf-8',
+            errors='ignore'
+        )
+        
+        if result.stdout and "<unknown>" not in result.stdout:
+            print(f"✅ Métricas disponibles después de {attempt*10} segundos")
+            break
+        
+        print(f"⏱️ Intento {attempt+1}/30: Esperando métricas... (aún <unknown>)")
+        time.sleep(10)
+    else:
+        print("⚠️ Timeout esperando métricas, continuando de todos modos...")
+    
+    # Show current metrics
+    run_cmd("kubectl get hpa", "📊 Métricas actuales antes del stress test")
+    
+    # Purge Redis queue before starting stress test
+    print("\n🧹 Purging Redis queue to ensure clean state...")
+    try:
+        purge_result = subprocess.run(
+            "kubectl exec deployment/redis-deployment -- redis-cli FLUSHALL",
+            shell=True,
+            capture_output=True,
+            text=True,
+            encoding='utf-8',
+            errors='ignore'
+        )
+        if purge_result.returncode == 0:
+            print("✅ Redis queue purged successfully")
+        else:
+            print("⚠️ Redis purge warning:", purge_result.stderr.strip())
+    except Exception as e:
+        print(f"⚠️ Could not purge Redis: {e}")
+    
+    # Wait for workers to re-register after purge
+    print("⏳ Waiting for workers to re-register after purge...")
+    for attempt in range(12):  # Max 2 minutes
+        try:
+            workers_check = subprocess.run(
+                "kubectl exec deployment/redis-deployment -- redis-cli HLEN workers",
+                shell=True,
+                capture_output=True,
+                text=True,
+                encoding='utf-8',
+                errors='ignore'
+            )
+            worker_count = int(workers_check.stdout.strip() or 0)
+            if worker_count > 0:
+                print(f"✅ {worker_count} workers re-registered after purge")
+                break
+            print(f"⏱️ Attempt {attempt+1}/12: {worker_count} workers registered...")
+            time.sleep(10)
+        except:
+            time.sleep(10)
+    else:
+        print("⚠️ No workers registered after purge, continuing anyway...")
     
     print("\n" + "="*60)
     print("🔥 STRESS TEST PHASE")
     print("="*60)
     
     # Setup port forwarding
-    print("\n6️⃣ Setting up port forwarding to API...")
-    print("En otra terminal, ejecuta:")
-    print("  kubectl port-forward service/api-service 8000:8000")
-    print("")
-    print("Luego presiona ENTER para continuar...")
-    input()
+    print("\n6️⃣ Setting up port forwarding...")
+    print("Iniciando port-forward en background...")
     
-    # Generate load
-    print("\n7️⃣ Para generar carga CPU, ejecuta en otra terminal:")
-    print("  kubectl exec -it deployment/worker-deployment -- sh -c \"while true; do :; done\"")
-    print("")
-    print("8️⃣ Para ver auto-scaling en tiempo real, ejecuta:")
-    print("  kubectl get hpa -w")
-    print("  kubectl get pods -w")
-    print("")
-    print("Deberías ver:")
-    print("  - CPU usage: 0% → 70%+")
-    print("  - Pods: 2 → 4 → 6 → 8 (auto-scaling!)")
-    print("")
-    print("Presiona ENTER cuando termines de ver el auto-scaling...")
-    input()
+    # Start port forwarding in background
+    try:
+        port_forward_process = subprocess.Popen(
+            ["kubectl", "port-forward", "service/api-service", "8000:8000"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        time.sleep(3)
+        print("✅ Port-forward iniciado")
+    except Exception as e:
+        print(f"⚠️ Port-forward error: {e}")
+    
+    print("\n7️⃣ Generando carga CPU real con procesamiento de imágenes...")
+    time.sleep(5)  # Wait for API to be ready
+    
+    # Generate heavy load using real image processing
+    print("🖼️ Enviando 10 tareas pesadas de procesamiento...")
+    import requests
+    from concurrent.futures import ThreadPoolExecutor
+    
+    def send_heavy_task():
+        """Send heavy image processing task"""
+        payload = {
+            "filters": ["resize", "blur", "sharpen", "edges"],
+            "filter_params": {
+                "resize": {"width": 2048, "height": 2048},
+                "blur": {"radius": 5.0},
+                "sharpen": {"factor": 2.0}
+            },
+            "count": 2
+        }
+        try:
+            response = requests.post(
+                "http://localhost:8000/api/process-batch/distributed/",
+                json=payload,
+                timeout=10
+            )
+            if response.status_code == 200:
+                task_id = response.json().get('task_id', 'unknown')[:8]
+                print(f"✅ Heavy task queued: {task_id}")
+                return True
+            else:
+                print(f"❌ HTTP {response.status_code}: {response.text[:100]}")
+                return False
+        except Exception as e:
+            print(f"❌ Task error: {e}")
+            return False
+    
+    # Send multiple heavy tasks to trigger scaling
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        futures = [executor.submit(send_heavy_task) for _ in range(10)]
+        success_count = sum(1 for f in futures if f.result())
+        print(f"📊 {success_count}/10 tareas pesadas enviadas")
+    
+    print("\n8️⃣ Verificando auto-scaling...")
+    for i in range(5):
+        print(f"⏱️ Check {i+1}/5:")
+        run_cmd("kubectl get hpa", f"Check {i+1}/5 - Auto-scaling status")
+        pods_count = subprocess.run("kubectl get pods -l app=image-worker --no-headers | wc -l", shell=True, capture_output=True, text=True, encoding='utf-8', errors='ignore')
+        print(f"  Pods workers: {pods_count.stdout.strip()}")
+        time.sleep(10)
     
     # Final status
     run_cmd("kubectl get hpa", "9️⃣ Final HPA Status")

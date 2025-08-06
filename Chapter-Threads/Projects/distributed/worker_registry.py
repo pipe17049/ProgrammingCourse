@@ -10,7 +10,7 @@ class WorkerRegistry:
     Handles worker registration, heartbeats, and failure detection.
     """
     
-    def __init__(self, redis_host='localhost', redis_port=6379, redis_db=1):
+    def __init__(self, redis_host='localhost', redis_port=6379, redis_db=0):
         self.redis_client = redis.Redis(
             host=redis_host, 
             port=redis_port, 
@@ -326,9 +326,26 @@ class HeartbeatManager:
         self.stats.update(kwargs)
     
     def _heartbeat_loop(self):
-        """Internal heartbeat loop."""
+        """Internal heartbeat loop with auto-reregistration."""
         while self.running:
             try:
+                # Check if worker is still registered
+                worker_info = self.registry.get_worker_info(self.worker_id)
+                if not worker_info:
+                    print(f"⚠️ Worker {self.worker_id} not found in registry, re-registering...")
+                    # Re-register with stored capabilities  
+                    if hasattr(self, 'capabilities'):
+                        success = self.registry.register_worker(
+                            self.worker_id,
+                            self.capabilities,
+                            host=getattr(self, 'host', 'container')
+                        )
+                        if success:
+                            print(f"✅ Worker {self.worker_id} re-registered successfully")
+                        else:
+                            print(f"❌ Failed to re-register worker {self.worker_id}")
+                
+                # Send heartbeat
                 self.registry.heartbeat(self.worker_id, self.stats)
                 time.sleep(self.registry.heartbeat_interval)
             except Exception as e:

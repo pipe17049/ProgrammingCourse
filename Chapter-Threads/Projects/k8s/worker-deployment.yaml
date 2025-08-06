@@ -20,9 +20,14 @@ spec:
         imagePullPolicy: Never
         env:
         - name: REDIS_HOST
-          value: "redis-service"
+          value: "redis"
         - name: REDIS_PORT
           value: "6379"
+        volumeMounts:
+        - name: static-images
+          mountPath: /app/static
+        - name: processed-output
+          mountPath: /app/static/processed
         resources:
           requests:
             memory: "128Mi"
@@ -30,6 +35,15 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
+      volumes:
+      - name: static-images
+        hostPath:
+          path: /Users/eduardo.arias/dev/other/ProgrammingCourse/Chapter-Threads/Projects/static
+          type: Directory
+      - name: processed-output
+        hostPath:
+          path: /Users/eduardo.arias/dev/other/ProgrammingCourse/Chapter-Threads/Projects/static/processed
+          type: DirectoryOrCreate
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -48,7 +62,7 @@ spec:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 70
+        averageUtilization: 50
   - type: Resource
     resource:
       name: memory

@@ -60,7 +60,7 @@ class DistributedImageWorker:
         
         # Initialize components
         self.task_queue = DistributedTaskQueue(self.redis_host, self.redis_port, redis_db=0)
-        self.registry = WorkerRegistry(self.redis_host, self.redis_port, redis_db=1)
+        self.registry = WorkerRegistry(self.redis_host, self.redis_port, redis_db=0)
         self.filter_factory = FilterFactory()
         self.processor = ImageProcessor()
         
@@ -75,6 +75,9 @@ class DistributedImageWorker:
         
         # Heartbeat manager
         self.heartbeat_manager = HeartbeatManager(self.registry, self.worker_id)
+        # Store capabilities and host for re-registration
+        self.heartbeat_manager.capabilities = self.capabilities
+        self.heartbeat_manager.host = os.getenv('HOSTNAME', 'container')
         
         logger.info(f"🚀 Initialized worker {self.worker_id} ({self.worker_name})")
         logger.info(f"📋 Capabilities: {self.capabilities}")
@@ -93,6 +96,7 @@ class DistributedImageWorker:
             return
         
         # Register worker
+        logger.info(f"🔄 Attempting to register worker {self.worker_id}")
         success = self.registry.register_worker(
             self.worker_id,
             self.capabilities,
@@ -102,6 +106,17 @@ class DistributedImageWorker:
         if not success:
             logger.error("❌ Failed to register worker")
             return
+        
+        logger.info(f"✅ Worker {self.worker_id} registered successfully")
+        
+        # Verify registration worked
+        active_workers = self.registry.get_active_workers()
+        logger.info(f"📊 Active workers count: {len(active_workers)}")
+        worker_found = any(w['id'] == self.worker_id for w in active_workers)
+        if not worker_found:
+            logger.error(f"❌ Worker {self.worker_id} not found in active workers list!")
+            return
+        logger.info(f"✅ Worker {self.worker_id} verified in active workers list")
         
         # Start heartbeat
         self.heartbeat_manager.start()

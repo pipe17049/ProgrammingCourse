@@ -652,6 +652,11 @@ python setup.py --check          # Verificar prerequisitos
 # Construir imágenes optimizadas (2.2GB vs 6GB originales)
 python build.py
 
+# Si los cambios no se aplican (problema común en Windows):
+python build.py --clean
+# O build sin caché:
+docker build --no-cache -f docker/Dockerfile.api.final -t projects-api-final:latest .
+
 # Verificar imágenes
 docker images | grep projects-.*-final
 ```
@@ -775,6 +780,39 @@ curl http://localhost:8000/api/process-batch/distributed/
 
 ### **⚠️ Troubleshooting Común**
 
+#### **🐛 Windows: Error de emojis/encoding**
+```powershell
+# Error: UnicodeEncodeError: 'charmap' codec can't encode character
+# Solución: Ya arreglado en build.py y setup.py (UTF-8 encoding)
+```
+
+#### **🐛 Windows: Comandos grep no funcionan**
+```powershell
+# Error: 'grep' is not recognized as an internal or external command
+# Solución: Ya arreglado - usamos docker images projects* en lugar de grep
+```
+
+#### **🐛 Windows: curl en PowerShell**
+```powershell
+# Error: curl da "Connection terminated unexpectedly"
+# Solución: Usar curl.exe explícitamente:
+curl.exe http://localhost:8000/api/metrics/
+
+# O usar PowerShell nativo:
+Invoke-WebRequest -Uri http://localhost:8000/api/metrics/ | Select-Object -ExpandProperty Content
+```
+
+#### **🐛 Docker caché problemático**
+```bash
+# Problema: Cambios en Dockerfile no se aplican
+# Solución: Rebuild sin caché
+docker build --no-cache -f docker/Dockerfile.api.final -t projects-api-final:latest .
+
+# O usar tag único:
+docker build -f docker/Dockerfile.api.final -t projects-api-final:v2 .
+kubectl set image deployment/api-deployment api=projects-api-final:v2
+```
+
 #### **Error: `ErrImageNeverPull`**
 ```bash
 # Problema: Docker Compose crea imágenes con sufijos numéricos
@@ -805,6 +843,21 @@ kubectl logs deployment/worker-deployment --tail=20
 # Errores comunes:
 # - ModuleNotFoundError: No module named 'distributed'
 # - Redis connection failed
+```
+
+#### **🐛 kubectl delete -f . falla**
+```bash
+# Error: Object 'Kind' is missing in 'docker-compose.yml'
+# Problema: kubectl intenta leer docker-compose.yml como YAML de K8s
+
+# Solución: Usar archivos específicos
+kubectl delete -f redis-deployment.yaml
+kubectl delete -f api-deployment.yaml  
+kubectl delete -f worker-deployment.yaml
+
+# O mover docker-compose.yml temporalmente
+mv docker-compose.yml docker-compose.yml.bak
+kubectl delete -f .
 ```
 
 ### **📈 Comparación: Docker Compose vs Kubernetes**
