@@ -70,3 +70,25 @@ spec:
       target:
         type: Utilization
         averageUtilization: 80
+  # Configuración de comportamiento para escalado/descalado más rápido
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 30  # Por defecto: 300s (5min)
+      policies:
+      - type: Percent
+        value: 100  # Puede duplicar pods inmediatamente
+        periodSeconds: 60
+      - type: Pods
+        value: 2    # O agregar 2 pods por minuto
+        periodSeconds: 60
+      selectPolicy: Max  # Usar la política más agresiva
+    scaleDown:
+      stabilizationWindowSeconds: 60   # Por defecto: 300s (5min) → Ahora 1min
+      policies:
+      - type: Percent
+        value: 50   # Puede remover 50% de pods
+        periodSeconds: 60
+      - type: Pods
+        value: 2    # O remover 2 pods por minuto
+        periodSeconds: 60
+      selectPolicy: Max  # Usar la política más agresiva

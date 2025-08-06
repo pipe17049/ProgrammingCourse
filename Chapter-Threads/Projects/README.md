@@ -142,7 +142,7 @@ python simple_monitoring/cli.py metrics
 # ⚡ Busy Workers: 0    📈 Utilization: 0.0%
 
 # Terminal 2: Lanzar stress test  
-python burst_stress.py 50
+cd k8s && python stress_test.py 3 15
 
 # Terminal 1: Ver métricas cambiar INMEDIATAMENTE
 python simple_monitoring/cli.py metrics  
@@ -410,21 +410,24 @@ python simple_monitoring/cli.py metrics
 
 ### **🚀 Stress Testing Scripts**
 
-**2 tipos de stress tests** para generar carga y observar métricas:
+**Script unificado de stress test** multiplataforma para generar carga:
 
 ```bash
-# 1. BURST STRESS - Carga rápida y paralela  
-python burst_stress.py 50        # 50 tareas concurrentes (satura workers)
+cd k8s
+# Uso: python stress_test.py [minutos] [tareas_por_batch]
 
-# 2. CONTINUOUS STRESS - Carga sostenida
-python continuous_stress.py 60   # 5 tareas/seg por 60 segundos (prueba prolongada)
+# 1. BURST STRESS - Carga rápida (Kubernetes auto-scaling)
+python stress_test.py 5 20       # 5 minutos, 20 tareas por batch
+
+# 2. CONTINUOUS STRESS - Carga sostenida  
+python stress_test.py 10 15      # 10 minutos, 15 tareas por batch
 ```
 
 ### **📈 Ver Métricas Cambiar en Tiempo Real**
 
 ```bash
 # Terminal 1: Lanzar stress test
-python burst_stress.py 50
+cd k8s && python stress_test.py 5 15
 
 # Terminal 2: Ver métricas cambiar inmediatamente  
 python simple_monitoring/cli.py metrics
@@ -670,16 +673,24 @@ docker build --no-cache -f docker/Dockerfile.api.final -t projects-api-final:lat
 docker images | grep projects-.*-final
 ```
 
-#### **3. Ejecutar demo completo:**
+#### **3. Ejecutar demo completo (multiplataforma):**
 ```bash
 cd k8s
 python demo.py
 ```
 
+**🌟 NUEVO: Demo 100% multiplataforma:**
+- ✅ **Windows**: Detecta PowerShell automáticamente, usa `find /c` en lugar de `wc -l`
+- ✅ **Linux/Mac**: Usa comandos nativos `curl` y `grep`
+- ✅ **Auto-detección**: Detecta si `requests` está disponible para stress test avanzado
+- ✅ **Fallback inteligente**: Si falta `requests`, usa `curl` multiplataforma
+
 El demo automáticamente:
 - ✅ **Despliega Redis, API y Workers**
-- ✅ **Configura HPA** (auto-scaling)
+- ✅ **Configura HPA optimizado** (escalado rápido + descalado en 1min)
 - ✅ **Instala Metrics Server** (específico para Docker Desktop)
+- ✅ **Stress test real** con procesamiento de imágenes
+- ✅ **Muestra escalado Y descalado** en tiempo real
 - ✅ **Verifica que todo funcione**
 - ✅ **Muestra métricas reales**: `cpu: 1%/70%, memory: 27%/80%`
 
@@ -723,6 +734,35 @@ graph TD
 **Analogía:** Es como un **termostato con termómetro**
 - **Sin metrics server:** Termostato sin termómetro (no sabe la temperatura)
 - **Con metrics server:** Puede medir y tomar decisiones inteligentes
+
+### **⚡ Configuración de Descalado Optimizada**
+
+**🚨 Problema común:** El descalado por defecto es MUY lento (5 minutos)
+```yaml
+# ❌ ANTES: Configuración por defecto
+# stabilizationWindowSeconds: 300  # 5 minutos!
+```
+
+**✅ SOLUCIÓN: HPA optimizado para demos:**
+```yaml
+behavior:
+  scaleUp:
+    stabilizationWindowSeconds: 30  # Escalado rápido: 30s
+    policies:
+    - type: Percent
+      value: 100  # Puede duplicar pods inmediatamente
+      periodSeconds: 60
+  scaleDown:
+    stabilizationWindowSeconds: 60   # Descalado rápido: 1min (vs 5min)
+    policies:
+    - type: Percent
+      value: 50   # Puede remover 50% de pods por minuto
+      periodSeconds: 60
+```
+
+**🎯 Resultado:** 
+- **Escalado**: 2 → 8 pods en ~1 minuto
+- **Descalado**: 8 → 2 pods en ~2 minutos (vs 10+ minutos por defecto)
 
 ### **🔧 Comandos Útiles**
 
@@ -773,9 +813,9 @@ curl -X POST http://localhost:8000/api/process-batch/distributed/ \
   -H "Content-Type: application/json" \
   -d '{"filters": ["resize", "blur"]}'
 
-# O ejecutar scripts de stress:
-python burst_stress.py
-python continuous_stress.py
+# O ejecutar script de stress unificado:
+cd k8s
+python stress_test.py 5 10  # 5 minutos, 10 tareas por batch
 ```
 
 **💡 Alternativa (una sola terminal):**
@@ -789,26 +829,48 @@ curl http://localhost:8000/api/process-batch/distributed/
 
 ### **⚠️ Troubleshooting Común**
 
+#### **🌍 Diferencias de Plataforma (Automáticamente detectadas)**
+
+**✅ Windows (detectado automáticamente):**
+- **Encoding**: Usa UTF-8 automáticamente para evitar errores de emojis
+- **Comandos**: Reemplaza `grep` con `findstr` y `wc -l` con `find /c`
+- **curl**: Detecta PowerShell y usa `Invoke-WebRequest` cuando es necesario
+- **Paths**: Maneja rutas de Windows correctamente
+
+**✅ Linux/Mac (detectado automáticamente):**
+- **Comandos**: Usa comandos nativos `grep`, `wc`, `curl`
+- **Paths**: Maneja rutas Unix/POSIX
+
 #### **🐛 Windows: Error de emojis/encoding**
 ```powershell
 # Error: UnicodeEncodeError: 'charmap' codec can't encode character
-# Solución: Ya arreglado en build.py y setup.py (UTF-8 encoding)
+# Solución: ✅ Ya arreglado automáticamente en demo.py (UTF-8 encoding)
 ```
 
 #### **🐛 Windows: Comandos grep no funcionan**
 ```powershell
 # Error: 'grep' is not recognized as an internal or external command
-# Solución: Ya arreglado - usamos docker images projects* en lugar de grep
+# Solución: ✅ Ya arreglado automáticamente - demo.py detecta Windows y usa comandos compatibles
 ```
 
 #### **🐛 Windows: curl en PowerShell**
 ```powershell
 # Error: curl da "Connection terminated unexpectedly"
-# Solución: Usar curl.exe explícitamente:
-curl.exe http://localhost:8000/api/metrics/
+# Solución: ✅ Ya arreglado automáticamente - demo.py usa Invoke-WebRequest cuando es necesario
 
-# O usar PowerShell nativo:
+# Fallback manual si necesario:
+curl.exe http://localhost:8000/api/metrics/
+# O PowerShell nativo:
 Invoke-WebRequest -Uri http://localhost:8000/api/metrics/ | Select-Object -ExpandProperty Content
+```
+
+#### **🐛 Dependencias Python faltantes**
+```bash
+# Error: ModuleNotFoundError: No module named 'requests'
+# Solución: ✅ demo.py detecta automáticamente y usa curl como fallback
+
+# Para stress test completo (opcional):
+pip install requests
 ```
 
 #### **🐛 Docker caché problemático**

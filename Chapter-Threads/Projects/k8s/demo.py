@@ -8,18 +8,23 @@ import subprocess
 import time
 import sys
 import os
+import platform
 
 def run_cmd(cmd, description="", show_header=True):
-    """Run command and show output"""
+    """Run command and show output with cross-platform support"""
     if description and show_header:
         print(f"\n> {description}")
         print("=" * 50)
     
     print(f"$ {cmd}")
     try:
+        # Cross-platform shell configuration
+        is_windows = platform.system() == "Windows"
+        shell_cmd = cmd
+        
         # Use utf-8 encoding to avoid Windows cp1252 issues
         result = subprocess.run(
-            cmd, 
+            shell_cmd, 
             shell=True, 
             capture_output=True, 
             text=True,
@@ -42,9 +47,49 @@ def wait_for_pods(label, timeout=60):
     cmd = f"kubectl wait --for=condition=ready pod -l {label} --timeout={timeout}s"
     return run_cmd(cmd)
 
+def check_python_dependencies():
+    """Check if required Python packages are available"""
+    try:
+        import requests
+        from concurrent.futures import ThreadPoolExecutor
+        return True
+    except ImportError as e:
+        print(f"⚠️ Missing Python dependency: {e}")
+        print("Para stress test completo, instala: pip install requests")
+        return False
+
+def send_heavy_task_simple():
+    """Fallback stress test using curl (cross-platform)"""
+    is_windows = platform.system() == "Windows"
+    
+    # Prepare curl command based on platform
+    if is_windows:
+        # Windows PowerShell curl (Invoke-WebRequest alias)
+        curl_cmd = '''powershell -Command "try { Invoke-WebRequest -Uri 'http://localhost:8000/api/process-batch/distributed/' -Method POST -ContentType 'application/json' -Body '{\\\"filters\\\":[\\\"resize\\\",\\\"blur\\\"],\\\"count\\\":2}' -TimeoutSec 10 } catch { Write-Host 'Request failed' }"'''
+    else:
+        # Unix/Linux/Mac curl
+        curl_cmd = "curl -X POST 'http://localhost:8000/api/process-batch/distributed/' -H 'Content-Type: application/json' -d '{\"filters\":[\"resize\",\"blur\"],\"count\":2}' --max-time 10"
+    
+    try:
+        result = subprocess.run(curl_cmd, shell=True, capture_output=True, text=True, encoding='utf-8', errors='ignore')
+        if result.returncode == 0:
+            print("✅ Heavy task sent via curl")
+            return True
+        else:
+            print(f"❌ Curl failed: {result.stderr}")
+            return False
+    except Exception as e:
+        print(f"❌ Curl error: {e}")
+        return False
+
 def main():
+    # Detect platform
+    current_platform = platform.system()
+    platform_info = f"{current_platform} {platform.release()}"
+    
     print("KUBERNETES AUTO-SCALING DEMO")
     print("================================")
+    print(f"Plataforma detectada: {platform_info}")
     print("Este demo funciona en Windows, Linux y Mac")
     print("")
     
@@ -63,7 +108,7 @@ def main():
         print("  - Docker Desktop → Enable Kubernetes")
         sys.exit(1)
     
-    # Check Docker images - look for optimized versions
+    # Check Docker images - cross-platform approach
     print("\nVerificando imágenes Docker optimizadas...")
     # Cross-platform: use docker images with filter instead of grep
     result = subprocess.run("docker images projects*", shell=True, capture_output=True, text=True, encoding='utf-8', errors='ignore')
@@ -201,52 +246,84 @@ def main():
     print("\n7️⃣ Generando carga CPU real con procesamiento de imágenes...")
     time.sleep(5)  # Wait for API to be ready
     
-    # Generate heavy load using real image processing
-    print("🖼️ Enviando 10 tareas pesadas de procesamiento...")
-    import requests
-    from concurrent.futures import ThreadPoolExecutor
+    # Check if we have Python dependencies for advanced stress test
+    has_dependencies = check_python_dependencies()
     
-    def send_heavy_task():
-        """Send heavy image processing task"""
-        payload = {
-            "filters": ["resize", "blur", "sharpen", "edges"],
-            "filter_params": {
-                "resize": {"width": 2048, "height": 2048},
-                "blur": {"radius": 5.0},
-                "sharpen": {"factor": 2.0}
-            },
-            "count": 2
-        }
-        try:
-            response = requests.post(
-                "http://localhost:8000/api/process-batch/distributed/",
-                json=payload,
-                timeout=10
-            )
-            if response.status_code == 200:
-                task_id = response.json().get('task_id', 'unknown')[:8]
-                print(f"✅ Heavy task queued: {task_id}")
-                return True
-            else:
-                print(f"❌ HTTP {response.status_code}: {response.text[:100]}")
+    if has_dependencies:
+        # Advanced stress test with requests and threading
+        print("🖼️ Enviando 10 tareas pesadas de procesamiento (método avanzado)...")
+        import requests
+        from concurrent.futures import ThreadPoolExecutor
+        
+        def send_heavy_task():
+            """Send heavy image processing task"""
+            payload = {
+                "filters": ["resize", "blur", "sharpen", "edges"],
+                "filter_params": {
+                    "resize": {"width": 2048, "height": 2048},
+                    "blur": {"radius": 5.0},
+                    "sharpen": {"factor": 2.0}
+                },
+                "count": 2
+            }
+            try:
+                response = requests.post(
+                    "http://localhost:8000/api/process-batch/distributed/",
+                    json=payload,
+                    timeout=10
+                )
+                if response.status_code == 200:
+                    task_id = response.json().get('task_id', 'unknown')[:8]
+                    print(f"✅ Heavy task queued: {task_id}")
+                    return True
+                else:
+                    print(f"❌ HTTP {response.status_code}: {response.text[:100]}")
+                    return False
+            except Exception as e:
+                print(f"❌ Task error: {e}")
                 return False
-        except Exception as e:
-            print(f"❌ Task error: {e}")
-            return False
+        
+        # Send multiple heavy tasks to trigger scaling
+        with ThreadPoolExecutor(max_workers=5) as executor:
+            futures = [executor.submit(send_heavy_task) for _ in range(10)]
+            success_count = sum(1 for f in futures if f.result())
+            print(f"📊 {success_count}/10 tareas pesadas enviadas")
+    else:
+        # Fallback stress test using curl
+        print("🖼️ Enviando tareas pesadas de procesamiento (método básico con curl)...")
+        success_count = 0
+        for i in range(5):  # Reduced number for curl method
+            if send_heavy_task_simple():
+                success_count += 1
+            time.sleep(1)  # Small delay between requests
+        print(f"📊 {success_count}/5 tareas pesadas enviadas via curl")
     
-    # Send multiple heavy tasks to trigger scaling
-    with ThreadPoolExecutor(max_workers=5) as executor:
-        futures = [executor.submit(send_heavy_task) for _ in range(10)]
-        success_count = sum(1 for f in futures if f.result())
-        print(f"📊 {success_count}/10 tareas pesadas enviadas")
-    
-    print("\n8️⃣ Verificando auto-scaling...")
-    for i in range(5):
-        print(f"⏱️ Check {i+1}/5:")
-        run_cmd("kubectl get hpa", f"Check {i+1}/5 - Auto-scaling status")
-        pods_count = subprocess.run("kubectl get pods -l app=image-worker --no-headers | wc -l", shell=True, capture_output=True, text=True, encoding='utf-8', errors='ignore')
-        print(f"  Pods workers: {pods_count.stdout.strip()}")
-        time.sleep(10)
+    print("\n8️⃣ Verificando auto-scaling (escalado + descalado)...")
+    for i in range(8):  # Aumentamos a 8 checks para ver el descalado
+        print(f"⏱️ Check {i+1}/8:")
+        run_cmd("kubectl get hpa", f"Check {i+1}/8 - Auto-scaling status")
+        
+        # Cross-platform pod count
+        is_windows = platform.system() == "Windows"
+        if is_windows:
+            # Windows doesn't have wc -l, use findstr
+            pods_count = subprocess.run("kubectl get pods -l app=image-worker --no-headers | find /c /v \"\"", shell=True, capture_output=True, text=True, encoding='utf-8', errors='ignore')
+        else:
+            # Unix/Linux/Mac has wc -l
+            pods_count = subprocess.run("kubectl get pods -l app=image-worker --no-headers | wc -l", shell=True, capture_output=True, text=True, encoding='utf-8', errors='ignore')
+        
+        current_pods = int(pods_count.stdout.strip() or 0)
+        print(f"  Pods workers: {current_pods}")
+        
+        # Explicar qué está pasando
+        if i < 3:
+            print("  📈 Fase: Escalado - Debería ver aumento de pods")
+        elif i < 6:
+            print("  ⏱️ Fase: Estabilización - CPU debería bajar")
+        else:
+            print("  📉 Fase: Descalado - Debería ver reducción de pods")
+        
+        time.sleep(15)  # Aumentamos un poco el tiempo entre checks
     
     # Final status
     run_cmd("kubectl get hpa", "9️⃣ Final HPA Status")
@@ -256,6 +333,9 @@ def main():
     print("\n" + "="*60)
     print("✅ DEMO COMPLETADO")
     print("="*60)
+    print("")
+    print("💡 PARA STRESS TEST ADICIONAL:")
+    print("   python stress_test.py 5 15  # 5 minutos, 15 tareas por batch")
     print("")
     print("¿Quieres limpiar los recursos? (y/n): ", end="")
     cleanup = input().strip().lower()
