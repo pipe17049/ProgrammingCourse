@@ -334,7 +334,8 @@ curl http://localhost:8000/api/task/{TASK_ID}/status/ | jq '
 | Comando | Descripción |
 |---------|-------------|
 | **Limpiar imágenes procesadas:** | `rm -rf static/processed/*` (Linux/Mac) |
-| | `del /q static\processed\*` (Windows) |
+| | `Remove-Item static\processed\* -Force` (PowerShell) |
+| | `del /q static\processed\*` (CMD Windows) |
 | **Purgar Redis (Docker):** | `docker exec image_processing_redis redis-cli FLUSHALL` |
 | **Purgar Redis (K8s):** | `kubectl exec deployment/redis-deployment -- redis-cli FLUSHALL` |
 
