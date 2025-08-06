@@ -39,11 +39,11 @@ spec:
       - name: static-images
         hostPath:
           # Windows: Docker Desktop automáticamente monta C:\Users
-          path: /host_mnt/c/Users/julia/OneDrive/Documents/Cursos/ProgrammingCourse/Chapter-Threads/Projects/static
+          path: /run/desktop/mnt/host/c/Users/julia/OneDrive/Documents/Cursos/ProgrammingCourse/Chapter-Threads/Projects/static
           type: Directory
       - name: processed-output
         hostPath:
-          path: /host_mnt/c/Users/julia/OneDrive/Documents/Cursos/ProgrammingCourse/Chapter-Threads/Projects/static/processed
+          path: /run/desktop/mnt/host/c/Users/julia/OneDrive/Documents/Cursos/ProgrammingCourse/Chapter-Threads/Projects/static/processed
           type: DirectoryOrCreate
 ---
 apiVersion: autoscaling/v2
