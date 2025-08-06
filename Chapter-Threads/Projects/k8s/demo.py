@@ -284,19 +284,19 @@ def main():
                 return False
         
         # Send multiple heavy tasks to trigger scaling
-        with ThreadPoolExecutor(max_workers=5) as executor:
-            futures = [executor.submit(send_heavy_task) for _ in range(10)]
+        with ThreadPoolExecutor(max_workers=8) as executor:
+            futures = [executor.submit(send_heavy_task) for _ in range(20)]
             success_count = sum(1 for f in futures if f.result())
-            print(f"📊 {success_count}/10 tareas pesadas enviadas")
+            print(f"📊 {success_count}/20 tareas pesadas enviadas")
     else:
         # Fallback stress test using curl
         print("🖼️ Enviando tareas pesadas de procesamiento (método básico con curl)...")
         success_count = 0
-        for i in range(5):  # Reduced number for curl method
+        for i in range(10):  # Increased for better scaling
             if send_heavy_task_simple():
                 success_count += 1
-            time.sleep(1)  # Small delay between requests
-        print(f"📊 {success_count}/5 tareas pesadas enviadas via curl")
+            time.sleep(0.5)  # Faster delivery
+        print(f"📊 {success_count}/10 tareas pesadas enviadas via curl")
     
     print("\n8️⃣ Verificando auto-scaling (escalado + descalado)...")
     for i in range(8):  # Aumentamos a 8 checks para ver el descalado
