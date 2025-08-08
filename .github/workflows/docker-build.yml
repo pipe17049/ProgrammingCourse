@@ -13,12 +13,12 @@ on:
   workflow_dispatch:  # Permite ejecutar manualmente
 
 env:
-  NAMESPACE: programming-course  # Cambia por tu namespace en Docker Hub
+  NAMESPACE: ariasaenima  # Cambia por tu namespace en Docker Hub
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    
+    environment: master
     strategy:
       matrix:
         include:
