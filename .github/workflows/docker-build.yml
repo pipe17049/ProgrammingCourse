@@ -23,10 +23,10 @@ jobs:
       matrix:
         include:
           - image: api
-            dockerfile: Chapter-Threads/Projects/Dockerfile.api
+            dockerfile: Chapter-Threads/Projects/docker/Dockerfile.api.final
             context: Chapter-Threads/Projects
           - image: worker
-            dockerfile: Chapter-Threads/Projects/Dockerfile.worker
+            dockerfile: Chapter-Threads/Projects/docker/Dockerfile.worker.final
             context: Chapter-Threads/Projects
 
     steps:
