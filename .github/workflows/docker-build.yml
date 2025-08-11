@@ -13,7 +13,7 @@ on:
   workflow_dispatch:  # Permite ejecutar manualmente
 
 env:
-  NAMESPACE: ariasaenima  # Cambia por tu namespace en Docker Hub
+  NAMESPACE: pipe17049  # Cambia por tu namespace en Docker Hub
 
 jobs:
   build-and-push:
@@ -42,7 +42,7 @@ jobs:
       with:
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: 📝 Extract metadata
       id: meta
