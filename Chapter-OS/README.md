@@ -39,6 +39,7 @@ Al finalizar este capítulo, serás capaz de:
 
 ### 💡 Reglas de Sintaxis Importantes
 
+#### Espacios Obligatorios en `[ ]`
 ```bash
 # ✅ CORRECTO - Espacios obligatorios alrededor de [ ]
 [ -d directorio ]
@@ -49,6 +50,64 @@ Al finalizar este capítulo, serás capaz de:
 [-d directorio]
 [ -f archivo]
 ["$var"="valor"]
+```
+
+#### ¿Cuándo Usar `[ ]` y Cuándo NO?
+
+**REGLA PRINCIPAL**: `[ ]` solo para TESTS/PRUEBAS, NO para comandos normales
+
+##### ✅ **Comandos que VAN DENTRO de `[ ]` (Tests/Pruebas):**
+
+```bash
+# Tests de archivos/directorios
+[ -e archivo ]       # ¿Existe?
+[ -f archivo ]       # ¿Es archivo?
+[ -d directorio ]    # ¿Es directorio?
+[ -r archivo ]       # ¿Se puede leer?
+[ -w archivo ]       # ¿Se puede escribir?
+[ -x archivo ]       # ¿Se puede ejecutar?
+
+# Comparaciones de strings
+[ "$var" = "valor" ]     # ¿Son iguales?
+[ "$var" != "valor" ]    # ¿Son diferentes?
+[ -z "$var" ]            # ¿Está vacía?
+[ -n "$var" ]            # ¿No está vacía?
+
+# Comparaciones numéricas
+[ "$num" -eq 5 ]     # ¿Es igual a 5?
+[ "$num" -gt 10 ]    # ¿Es mayor que 10?
+[ "$num" -lt 20 ]    # ¿Es menor que 20?
+```
+
+##### ❌ **Comandos que NO usan `[ ]` (Operaciones normales):**
+
+```bash
+# Comandos del sistema
+echo "texto"              # NO: [ echo "texto" ]
+ls -la                    # NO: [ ls -la ]
+mkdir carpeta             # NO: [ mkdir carpeta ]
+cp origen destino         # NO: [ cp origen destino ]
+chmod +x archivo          # NO: [ chmod +x archivo ]
+date                      # NO: [ date ]
+
+# Operaciones de archivos
+cat archivo.txt           # NO: [ cat archivo.txt ]
+grep "patrón" archivo     # NO: [ grep "patrón" archivo ]
+find . -name "*.sh"       # NO: [ find . -name "*.sh" ]
+```
+
+##### 🧠 **Truco para Recordar: "¿Es una pregunta?"**
+
+```bash
+# ¿Existe el archivo? → SÍ, es pregunta → Usar [ ]
+if [ -f archivo ]; then
+    cat archivo           # Mostrar archivo → NO es pregunta → Sin [ ]
+fi
+
+# ¿Es el usuario root? → SÍ, es pregunta → Usar [ ]
+if [ "$USER" = "root" ]; then
+    echo "Eres admin"     # Mostrar mensaje → NO es pregunta → Sin [ ]
+fi
 ```
 
 ### 🛠️ Comandos y Opciones Esenciales
