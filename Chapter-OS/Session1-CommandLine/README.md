@@ -12,6 +12,17 @@ Esta sesión cubre los fundamentos para crear herramientas de línea de comandos
 - Implementar validaciones básicas
 - Automatizar tareas del sistema operativo
 
+## Install bash
+```
+apk add bash
+```
+
+## Fix jumplines
+
+```
+tr -d '\r' < 01_hello_command.sh > temp_file && mv temp_file 01_hello_command.sh 
+```
+
 ## 📋 Contenido
 
 ### 1. Fundamentos de Bash Scripting
