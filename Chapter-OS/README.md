@@ -16,6 +16,12 @@ Este capítulo cubre conceptos fundamentales de sistemas operativos, enfocándos
 - Variables de entorno
 - Validación y manejo de errores
 
+### Session3-ScheduledTasks: Tareas Programadas y Automatización
+- Fundamentos de cron y crontab
+- Systemd timers como alternativa moderna
+- Scripts de mantenimiento automático
+- Monitoreo y notificaciones
+
 ## 🎯 Objetivos de Aprendizaje
 
 Al finalizar este capítulo, serás capaz de:
@@ -206,13 +212,49 @@ tr -d '\r' < archivo.sh > temp && mv temp archivo.sh && chmod +x archivo.sh
 ```
 Chapter-OS/
 ├── README.md
+├── setup_alpine.sh              # 🏔️ Configuración automática para Alpine Linux
+├── ALPINE_SETUP.md              # 📖 Guía completa para Alpine Linux
+├── fix_scripts.sh               # 🔧 Herramienta para limpiar scripts
 ├── Session1-CommandLine/
 │   ├── README.md
-│   └── [scripts bash]
-└── Session2-ArgumentsConfig/
+│   └── [4 scripts bash]
+├── Session2-ArgumentsConfig/
+│   ├── README.md  
+│   └── [4 scripts bash]
+└── Session3-ScheduledTasks/
     ├── README.md
-    └── [scripts bash]
+    └── [4 scripts bash]
 ```
+
+## 🏔️ Configuración Especial para Alpine Linux
+
+Si estás usando **Alpine Linux** (común en contenedores Docker), necesitas configuración adicional:
+
+### ⚡ Configuración Rápida (Una Línea)
+```bash
+# Ejecutar script de configuración automática
+./setup_alpine.sh
+```
+
+### 🔧 Configuración Manual
+```bash
+# 1. Instalar herramientas esenciales
+apk update
+apk add bash coreutils findutils grep sed gawk curl git nano dcron
+
+# 2. Habilitar cron
+rc-update add dcron default
+rc-service dcron start
+
+# 3. Limpiar scripts
+./fix_scripts.sh
+
+# 4. Cambiar a bash
+bash
+```
+
+### 📖 Documentación Completa
+Ver `ALPINE_SETUP.md` para guía detallada y solución de problemas específicos de Alpine.
 
 ---
 💡 **Tip**: Cada sesión incluye ejemplos prácticos y ejercicios para reforzar el aprendizaje.
