@@ -22,6 +22,12 @@ Este capítulo cubre conceptos fundamentales de sistemas operativos, enfocándos
 - Scripts de mantenimiento automático
 - Monitoreo y notificaciones
 
+### Session4-WebMonitoring: Monitoreo Web Automatizado
+- Sistema de monitoreo de múltiples sitios web
+- Consultas HTTP automatizadas con curl
+- Organización de resultados por fecha y sitio
+- Integración con cron para ejecución periódica
+
 ## 🎯 Objetivos de Aprendizaje
 
 Al finalizar este capítulo, serás capaz de:
@@ -221,9 +227,14 @@ Chapter-OS/
 ├── Session2-ArgumentsConfig/
 │   ├── README.md  
 │   └── [4 scripts bash]
-└── Session3-ScheduledTasks/
+├── Session3-ScheduledTasks/
+│   ├── README.md
+│   └── [4 scripts bash]
+└── Session4-WebMonitoring/
     ├── README.md
-    └── [4 scripts bash]
+    ├── [4 scripts bash]
+    ├── config/                   # 📁 Ejemplos de configuración
+    └── examples/                 # 🧪 Casos de prueba
 ```
 
 ## 🏔️ Configuración Especial para Alpine Linux
