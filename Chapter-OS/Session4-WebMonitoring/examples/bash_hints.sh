@@ -185,6 +185,56 @@ EOF
 }
 
 # =============================================================================
+# PISTA 7: Redirección de entrada y salida
+# =============================================================================
+pista_redireccion() {
+    echo "=== PISTA 7: Redirección > >> < | ==="
+    echo ""
+    
+    echo "💡 EJEMPLOS A COMPLETAR:"
+    echo ""
+    echo "1. Sobrescribir archivo:"
+    echo '   echo "Primera línea" ____ archivo.txt'
+    echo '   echo "Segunda línea" ____ archivo.txt  # ¿Qué queda?'
+    echo ""
+    
+    echo "2. Agregar al final de archivo:"
+    echo '   echo "Línea 1" > archivo2.txt'
+    echo '   echo "Línea 2" ____ archivo2.txt'
+    echo '   echo "Línea 3" ____ archivo2.txt'
+    echo ""
+    
+    echo "3. Usar archivo como entrada:"
+    echo '   wc -l ____ frutas.txt  # Contar líneas'
+    echo ""
+    
+    echo "4. Conectar comandos con pipe:"
+    echo '   ls -la ____ wc -l  # Contar archivos'
+    echo '   ls -la ____ grep "\.txt"  # Buscar .txt'
+    echo ""
+    
+    echo "5. Redirigir errores:"
+    echo '   cat archivo_malo.txt ____/dev/null'
+    echo ""
+    
+    echo "6. Here document (múltiples líneas):"
+    echo '   cat ____ EOF > config.txt'
+    echo '   Línea 1'
+    echo '   Línea 2'
+    echo '   EOF'
+    echo ""
+    
+    echo "🚀 CASOS PRÁCTICOS:"
+    echo ""
+    echo "• Guardar curl: curl -s \"URL\" ____ archivo.json"
+    echo "• Agregar log: echo \"LOG\" ____ monitor.log"
+    echo "• Contar líneas: wc -l ____ archivo.txt"
+    echo "• Buscar en logs: cat log ____ grep \"ERROR\""
+    echo ""
+    echo "❓ PREGUNTA: ¿Cuál es la diferencia entre > y >> ?"
+}
+
+# =============================================================================
 # ERRORES COMUNES Y SOLUCIONES
 # =============================================================================
 mostrar_errores_comunes() {
@@ -240,6 +290,9 @@ main() {
         6|resultados)
             pista_organizacion_resultados
             ;;
+        7|redireccion)
+            pista_redireccion
+            ;;
         errores)
             mostrar_errores_comunes
             ;;
@@ -250,6 +303,7 @@ main() {
             pista_curl_basico
             pista_manejo_errores
             pista_organizacion_resultados
+            pista_redireccion
             mostrar_errores_comunes
             ;;
         help|-h|--help)
@@ -259,9 +313,10 @@ main() {
             echo "  1, basico      - FOR básico con directorios"
             echo "  2, archivos    - Leer contenido de archivos"
             echo "  3, validacion  - Validación robusta"
-            echo "  4, curl        - CURL con status code"
+            echo "  4, curl        - CURL simple - guardar todo"
             echo "  5, manejo      - Manejo de errores"
             echo "  6, resultados  - Organización por fecha"
+            echo "  7, redireccion - Redirección > >> < |"
             echo "  errores        - Errores comunes"
             echo "  all            - Todas las pistas"
             echo ""
