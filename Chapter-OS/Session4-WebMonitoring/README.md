@@ -245,4 +245,18 @@ config/payment-gateway/url.txt    → https://payments.api.com/status
 5. **Probar** con sitios reales
 6. **Optimizar** y agregar características
 
+## 📁 Archivos del Proyecto
+
+### 🎯 Para Practicar
+- **`examples/bash_hints.sh`** - Pistas y esqueletos para completar  
+- **`examples/test_setup.sh`** - Verificación del entorno
+
+### ✅ Solución Completa
+- **`solucion/web_monitor.sh`** - Implementación completa del proyecto
+- **`solucion/bash_patterns.sh`** - Patrones bash utilizados
+- **`solucion/README.md`** - Documentación detallada de la solución
+
+### ⚙️ Configuración
+- **`config/*/url.txt`** - URLs de sitios a monitorear
+
 **¿Listo para comenzar la implementación?** 🌐

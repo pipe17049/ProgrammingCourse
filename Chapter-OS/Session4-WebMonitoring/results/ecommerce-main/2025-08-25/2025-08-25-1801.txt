@@ -1,0 +1,25 @@
+=== WEB MONITORING RESULT ===
+SITIO: ecommerce-main
+URL: https://httpbin.org/delay/1
+TIMESTAMP: 2025-08-25 18:01:32
+
+=== CURL OUTPUT ===
+{
+  "args": {}, 
+  "data": "", 
+  "files": {}, 
+  "form": {}, 
+  "headers": {
+    "Accept": "*/*", 
+    "Host": "httpbin.org", 
+    "User-Agent": "WebMonitor/1.0", 
+    "X-Amzn-Trace-Id": "Root=1-68aceb4c-616206d4299370d436fcdbaf"
+  }, 
+  "origin": "186.154.39.132", 
+  "url": "https://httpbin.org/delay/1"
+}
+
+--- CURL INFO ---
+HTTP Code: 200
+Time Total: 2.908292s
+Size: 309 bytes

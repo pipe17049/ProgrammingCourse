@@ -2,6 +2,23 @@
 
 Esta carpeta contiene ejemplos prácticos y casos de prueba para el sistema de monitoreo web.
 
+## 📁 Archivos en esta Carpeta
+
+- **`bash_hints.sh`** - 🎯 Pistas y esqueletos para practicar patrones bash
+- **`test_setup.sh`** - 🧪 Verificación automática del entorno y configuración  
+- **`README.md`** - 📖 Esta documentación
+
+### 🔗 Ver Soluciones Completas
+
+Para la **implementación completa** del proyecto:
+```bash
+# Script principal del proyecto
+../solucion/web_monitor.sh --help
+
+# Patrones bash utilizados  
+../solucion/bash_patterns.sh help
+```
+
 ## 📋 Tipos de Ejemplos
 
 ### 🎯 **Casos de Uso Comunes**
