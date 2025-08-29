@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ post.titulo }}{% endblock %}
+
+{% block content %}
+<article>
+    <h2>{{ post.titulo }}</h2>
+    <div class="meta">
+        Por {{ post.autor.username }} el {{ post.fecha_creacion|date:"d/m/Y H:i" }}
+    </div>
+    <div style="margin-top: 20px;">
+        {{ post.contenido|linebreaks }}
+    </div>
+</article>
+
+<a href="{% url 'lista_posts' %}">← Volver a la lista</a>
+{% endblock %}

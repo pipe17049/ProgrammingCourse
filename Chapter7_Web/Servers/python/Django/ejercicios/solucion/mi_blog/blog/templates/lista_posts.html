@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ titulo_pagina }}{% endblock %}
+
+{% block content %}
+<h2>Posts Recientes</h2>
+
+{% for post in posts %}
+    <div class="post">
+        <h3><a href="{% url 'detalle_post' post.id %}">{{ post.titulo }}</a></h3>
+        <p>{{ post.contenido|truncatewords:30 }}</p>
+        <div class="meta">
+            Por {{ post.autor.username }} el {{ post.fecha_creacion|date:"d/m/Y" }}
+        </div>
+    </div>
+{% empty %}
+    <p>No hay posts publicados aún.</p>
+{% endfor %}
+{% endblock %}
