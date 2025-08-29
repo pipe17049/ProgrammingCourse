@@ -6,19 +6,22 @@
     <title>{% block title %}Mi Blog Django{% endblock %}</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; }
-        .post { border: 1px solid #ddd; padding: 20px; margin: 20px 0; }
-        .post h2 { color: #333; }
+        .blogentry { border: 1px solid #ddd; padding: 20px; margin: 20px 0; }
+        .blogentry h2 { color: #333; }
         .meta { color: #666; font-size: 0.9em; }
         a { color: #007cba; text-decoration: none; }
         a:hover { text-decoration: underline; }
+        .container { max-width: 800px; margin: 0 auto; }
     </style>
 </head>
 <body>
     <header>
-        <h1><a href="{% url 'lista_posts' %}">🐍 Mi Blog Django</a></h1>
+        <div class="container">
+            <h1><a href="{% url 'lista_blogentries' %}">🐍 Mi Blog Django</a></h1>
+        </div>
     </header>
     
-    <main>
+    <main class="container">
         {% block content %}
         {% endblock %}
     </main>

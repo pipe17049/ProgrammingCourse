@@ -1,27 +1,27 @@
+
 from django.shortcuts import render
 from django.contrib.auth.models import User
 # Create your views here.
 from django.shortcuts import render
-from .models import PostEntry
+from .models import BlogEntry
 
-def lista_postsentries(request):
-    """Vista que muestra todos los posts publicados"""
-    posts = PostEntry.objects.filter(publicado=True).order_by('-fecha_creacion')
+def lista_blogentries(request):
+    """Vista que muestra todas las entradas del blog publicadas"""
+    blogentries = BlogEntry.objects.filter(publicado=True).order_by('-fecha_creacion')
     
     contexto = {
-        'posts': posts,
-        'autores': User.objects.get(),
+        'blogentries': blogentries,
         'titulo_pagina': 'Mi Blog Django'
     }
     
-    return render(request, 'lista_posts.html', contexto)
+    return render(request, 'blog/lista_blogentries.html', contexto)
 
-def detalle_postentry(request, postentry_id):
-    """Vista que muestra un post específico"""
-    post = PostEntry.objects.get(id=postentry_id, publicado=True)
+def detalle_blogentry(request, blogentry_id):
+    """Vista que muestra una entrada específica del blog"""
+    blogentry = BlogEntry.objects.get(id=blogentry_id, publicado=True)
     
     contexto = {
-        'post': post
+        'blogentry': blogentry
     }
     
-    return render(request, 'detalle_postentry.html', contexto)
+    return render(request, 'blog/detalle_blogentry.html', contexto)

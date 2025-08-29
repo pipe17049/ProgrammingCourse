@@ -1,7 +1,7 @@
 # blog/management/commands/crear_posts.py
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
-from blog.models import PostEntry
+from blog.models import BlogEntry
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -28,7 +28,7 @@ class Command(BaseCommand):
         ]
         
         for post_data in posts_ejemplo:            
-            PostEntry.objects.get_or_create(
+            BlogEntry.objects.get_or_create(
                 titulo=post_data['titulo'],
                 defaults={
                     'contenido': post_data['contenido'],
