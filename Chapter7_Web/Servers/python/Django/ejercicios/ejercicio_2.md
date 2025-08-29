@@ -1,35 +1,168 @@
-# 🚀 Ejercicio 2: Blog Completo con Autenticación
+# 🚀 Ejercicio 2: Django Web - Formularios y Autenticación
 
-**Tiempo estimado:** 25-30 minutos  
+**Tiempo estimado:** 30 minutos  
 **Nivel:** Intermedio  
-**Objetivos:** Agregar autenticación, formularios y templates al blog
+**Objetivo:** Agregar **interactividad** al blog: crear posts y autenticación
+
+---
+
+## 🎯 Lo que Vamos a Agregar
+
+- ✅ **Formularios** para crear posts
+- ✅ **Autenticación** básica (login/logout)
+- ✅ **Templates** con Bootstrap
+- ✅ **Navegación** dinámica
+
+**Flujo completo:** Usuario se registra → Inicia sesión → Crea posts → Ve sus posts
 
 ---
 
 ## 📋 Prerrequisitos
 
-- Haber completado el Ejercicio 1
-- Tener el proyecto `mi_blog` funcionando
-- Servidor Django ejecutándose
+- ✅ Ejercicio 1 completado
+- ✅ Blog funcionando en `http://127.0.0.1:8000/`
 
 ---
 
-## 🎯 Instrucciones
+## 📋 Parte 1: Formularios (15 minutos)
 
-### Parte 1: Sistema de Autenticación (10 minutos)
-
-#### 1.1 Crear vistas de autenticación
-
-Agrega a `blog/views.py`:
-
+### 1.1 Crear `blog/forms.py`
 ```python
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages
-from django.shortcuts import redirect
+from django import forms
+from .models import Post
 
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['titulo', 'contenido', 'publicado']
+        widgets = {
+            'titulo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Título del post'
+            }),
+            'contenido': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 6,
+                'placeholder': 'Contenido del post...'
+            }),
+            'publicado': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            })
+        }
+        labels = {
+            'titulo': 'Título',
+            'contenido': 'Contenido',
+            'publicado': 'Publicar inmediatamente'
+        }
+```
+
+### 1.2 Agregar vista para crear posts en `blog/views.py`
+```python
+# Agregar estos imports al inicio
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .forms import PostForm
+
+# Agregar esta vista al final del archivo
+@login_required
+def crear_post(request):
+    """Vista para crear un nuevo post"""
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.autor = request.user  # Asignar usuario actual
+            post.save()
+            messages.success(request, f'Post "{post.titulo}" creado exitosamente!')
+            return redirect('lista_posts')
+    else:
+        form = PostForm()
+    
+    contexto = {
+        'form': form,
+        'titulo_pagina': 'Crear Nuevo Post'
+    }
+    return render(request, 'blog/crear_post.html', contexto)
+```
+
+### 1.3 Template para crear post `blog/templates/blog/crear_post.html`
+```html
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ titulo_pagina }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2>✍️ Crear Nuevo Post</h2>
+        
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="{{ form.titulo.id_for_label }}" class="form-label">
+                    {{ form.titulo.label }}
+                </label>
+                {{ form.titulo }}
+                {% if form.titulo.errors %}
+                    <div class="text-danger">{{ form.titulo.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.contenido.id_for_label }}" class="form-label">
+                    {{ form.contenido.label }}
+                </label>
+                {{ form.contenido }}
+                {% if form.contenido.errors %}
+                    <div class="text-danger">{{ form.contenido.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3 form-check">
+                {{ form.publicado }}
+                <label class="form-check-label" for="{{ form.publicado.id_for_label }}">
+                    {{ form.publicado.label }}
+                </label>
+            </div>
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{% url 'lista_posts' %}" class="btn btn-secondary me-md-2">
+                    Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    📝 Crear Post
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+```
+
+### 1.4 Agregar URL en `blog/urls.py`
+```python
+urlpatterns = [
+    path('', views.lista_posts, name='lista_posts'),
+    path('post/<int:post_id>/', views.detalle_post, name='detalle_post'),
+    path('crear/', views.crear_post, name='crear_post'),  # ← Nueva URL
+]
+```
+
+---
+
+## 📋 Parte 2: Autenticación (15 minutos)
+
+### 2.1 Vistas de autenticación en `blog/views.py`
+```python
+# Agregar estos imports
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+
+# Agregar estas vistas
 def vista_login(request):
+    """Vista para iniciar sesión"""
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -40,61 +173,58 @@ def vista_login(request):
             messages.success(request, f'¡Bienvenido {user.username}!')
             return redirect('lista_posts')
         else:
-            messages.error(request, 'Credenciales incorrectas')
+            messages.error(request, 'Usuario o contraseña incorrectos')
     
     return render(request, 'registration/login.html')
 
+def vista_logout(request):
+    """Vista para cerrar sesión"""
+    username = request.user.username
+    logout(request)
+    messages.info(request, f'Hasta luego, {username}!')
+    return redirect('lista_posts')
+
 def vista_registro(request):
+    """Vista para registrar nuevos usuarios"""
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            messages.success(request, 'Cuenta creada exitosamente')
+            messages.success(request, f'Cuenta creada para {user.username}. ¡Ya puedes iniciar sesión!')
             return redirect('login')
     else:
         form = UserCreationForm()
     
-    return render(request, 'registration/registro.html', {'form': form})
-
-def vista_logout(request):
-    logout(request)
-    messages.info(request, 'Has cerrado sesión')
-    return redirect('lista_posts')
-
-@login_required
-def mi_perfil(request):
-    return render(request, 'blog/perfil.html')
+    contexto = {'form': form}
+    return render(request, 'registration/registro.html', contexto)
 ```
 
-#### 1.2 Actualizar URLs
-
-Actualiza `blog/urls.py`:
-
+### 2.2 URLs de autenticación en `blog/urls.py`
 ```python
-from django.urls import path
-from . import views
-
 urlpatterns = [
     path('', views.lista_posts, name='lista_posts'),
     path('post/<int:post_id>/', views.detalle_post, name='detalle_post'),
+    path('crear/', views.crear_post, name='crear_post'),
+    # URLs de autenticación
     path('login/', views.vista_login, name='login'),
-    path('registro/', views.vista_registro, name='registro'),
     path('logout/', views.vista_logout, name='logout'),
-    path('perfil/', views.mi_perfil, name='perfil'),
+    path('registro/', views.vista_registro, name='registro'),
 ]
 ```
 
-### Parte 2: Templates Básicos (8 minutos)
-
-#### 2.1 Crear estructura de carpetas
-
-```bash
-mkdir -p blog/templates/blog
-mkdir -p blog/templates/registration
+### 2.3 Configurar redirecciones en `settings.py`
+```python
+# Agregar al final de mi_blog/settings.py
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
 ```
 
-#### 2.2 Template base (`blog/templates/blog/base.html`)
+---
 
+## 📋 Parte 3: Templates Mejorados (15 minutos)
+
+### 3.1 Template base mejorado `blog/templates/blog/base.html`
 ```html
 <!DOCTYPE html>
 <html lang="es">
@@ -105,22 +235,37 @@ mkdir -p blog/templates/registration
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'lista_posts' %}">📝 Mi Blog</a>
+            <a class="navbar-brand" href="{% url 'lista_posts' %}">
+                🐍 Mi Blog Django
+            </a>
+            
             <div class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
-                    <span class="navbar-text me-3">Hola, {{ user.username }}!</span>
-                    <a class="nav-link" href="{% url 'perfil' %}">Perfil</a>
-                    <a class="nav-link" href="{% url 'logout' %}">Salir</a>
+                    <span class="navbar-text me-3">
+                        Hola, <strong>{{ user.username }}</strong>!
+                    </span>
+                    <a class="nav-link" href="{% url 'crear_post' %}">
+                        ✍️ Nuevo Post
+                    </a>
+                    <a class="nav-link" href="{% url 'logout' %}">
+                        🚪 Salir
+                    </a>
                 {% else %}
-                    <a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
-                    <a class="nav-link" href="{% url 'registro' %}">Registrarse</a>
+                    <a class="nav-link" href="{% url 'login' %}">
+                        🔑 Iniciar Sesión
+                    </a>
+                    <a class="nav-link" href="{% url 'registro' %}">
+                        👤 Registrarse
+                    </a>
                 {% endif %}
             </div>
         </div>
     </nav>
-
+    
+    <!-- Mensajes -->
     {% if messages %}
         <div class="container mt-3">
             {% for message in messages %}
@@ -131,61 +276,85 @@ mkdir -p blog/templates/registration
             {% endfor %}
         </div>
     {% endif %}
-
-    <main class="container mt-4">
+    
+    <!-- Contenido -->
+    <div class="container mt-4">
         {% block content %}
         {% endblock %}
-    </main>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 ```
 
-#### 2.3 Lista de posts (`blog/templates/blog/lista_posts.html`)
-
+### 3.2 Lista mejorada `blog/templates/blog/lista_posts.html`
 ```html
 {% extends 'blog/base.html' %}
 
-{% block title %}Posts - Mi Blog{% endblock %}
+{% block title %}{{ titulo_pagina }}{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-8">
-        <h2>Últimos Posts</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>📝 Posts Recientes</h2>
+            {% if user.is_authenticated %}
+                <a href="{% url 'crear_post' %}" class="btn btn-primary">
+                    ✍️ Nuevo Post
+                </a>
+            {% endif %}
+        </div>
+
         {% for post in posts %}
             <div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">{{ post.titulo }}</h5>
-                    <p class="card-text">{{ post.contenido|truncatewords:30 }}</p>
+                    <h5 class="card-title">
+                        <a href="{% url 'detalle_post' post.id %}" class="text-decoration-none">
+                            {{ post.titulo }}
+                        </a>
+                    </h5>
+                    <p class="card-text">{{ post.contenido|truncatewords:25 }}</p>
                     <small class="text-muted">
-                        Por {{ post.autor.username }} en {{ post.categoria.nombre }}
-                        - {{ post.fecha_creacion|date:"d/m/Y" }}
+                        Por <strong>{{ post.autor.username }}</strong> 
+                        el {{ post.fecha_creacion|date:"d/m/Y H:i" }}
                     </small>
-                    <div class="mt-2">
-                        <a href="{% url 'detalle_post' post.id %}" class="btn btn-primary btn-sm">Leer más</a>
-                    </div>
                 </div>
             </div>
         {% empty %}
-            <p>No hay posts publicados aún.</p>
+            <div class="text-center py-5">
+                <h4 class="text-muted">No hay posts aún</h4>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'crear_post' %}" class="btn btn-primary mt-3">
+                        ✍️ Crear el primer post
+                    </a>
+                {% else %}
+                    <p class="text-muted">
+                        <a href="{% url 'registro' %}">Regístrate</a> para crear posts
+                    </p>
+                {% endif %}
+            </div>
         {% endfor %}
     </div>
     
     <div class="col-md-4">
-        <h4>Categorías</h4>
-        <div class="list-group">
-            {% for categoria in categorias %}
-                <a href="#" class="list-group-item list-group-item-action">
-                    {{ categoria.nombre }}
-                </a>
-            {% endfor %}
+        <div class="card">
+            <div class="card-header">
+                <h6>📊 Estadísticas</h6>
+            </div>
+            <div class="card-body">
+                <p>Total de posts: <strong>{{ posts|length }}</strong></p>
+                {% if user.is_authenticated %}
+                    <p>Tus posts: <strong>{{ posts|length }}</strong></p>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
 {% endblock %}
 ```
 
-#### 2.4 Login template (`blog/templates/registration/login.html`)
-
+### 3.3 Template de login `blog/templates/registration/login.html`
 ```html
 {% extends 'blog/base.html' %}
 
@@ -196,7 +365,7 @@ mkdir -p blog/templates/registration
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <h4>Iniciar Sesión</h4>
+                <h4 class="mb-0">🔑 Iniciar Sesión</h4>
             </div>
             <div class="card-body">
                 <form method="post">
@@ -209,10 +378,18 @@ mkdir -p blog/templates/registration
                         <label for="password" class="form-label">Contraseña</label>
                         <input type="password" class="form-control" name="password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            🔑 Iniciar Sesión
+                        </button>
+                    </div>
                 </form>
+                
                 <div class="text-center mt-3">
-                    <a href="{% url 'registro' %}">¿No tienes cuenta? Regístrate</a>
+                    <p class="mb-0">
+                        ¿No tienes cuenta? 
+                        <a href="{% url 'registro' %}">Regístrate aquí</a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -221,152 +398,117 @@ mkdir -p blog/templates/registration
 {% endblock %}
 ```
 
-### Parte 3: Formularios para Posts (7 minutos)
-
-#### 3.1 Crear formulario en `blog/forms.py`
-
-```python
-from django import forms
-from .models import Post, Categoria
-
-class PostForm(forms.ModelForm):
-    class Meta:
-        model = Post
-        fields = ['titulo', 'contenido', 'categoria', 'publicado']
-        widgets = {
-            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
-            'contenido': forms.Textarea(attrs={'class': 'form-control', 'rows': 8}),
-            'categoria': forms.Select(attrs={'class': 'form-control'}),
-            'publicado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        }
-```
-
-#### 3.2 Vista para crear posts
-
-Agrega a `blog/views.py`:
-
-```python
-from .forms import PostForm
-
-@login_required
-def crear_post(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.autor = request.user
-            post.save()
-            messages.success(request, 'Post creado exitosamente!')
-            return redirect('lista_posts')
-    else:
-        form = PostForm()
-    
-    return render(request, 'blog/crear_post.html', {'form': form})
-```
-
-#### 3.3 Template para crear posts (`blog/templates/blog/crear_post.html`)
-
+### 3.4 Template de registro `blog/templates/registration/registro.html`
 ```html
 {% extends 'blog/base.html' %}
 
-{% block title %}Crear Post{% endblock %}
+{% block title %}Registrarse{% endblock %}
 
 {% block content %}
-<h2>Crear Nuevo Post</h2>
-<form method="post">
-    {% csrf_token %}
-    <div class="mb-3">
-        <label class="form-label">Título</label>
-        {{ form.titulo }}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">👤 Crear Cuenta</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.username.id_for_label }}" class="form-label">
+                            Usuario
+                        </label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <div class="text-danger">{{ form.username.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.password1.id_for_label }}" class="form-label">
+                            Contraseña
+                        </label>
+                        {{ form.password1 }}
+                        {% if form.password1.errors %}
+                            <div class="text-danger">{{ form.password1.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.password2.id_for_label }}" class="form-label">
+                            Confirmar Contraseña
+                        </label>
+                        {{ form.password2 }}
+                        {% if form.password2.errors %}
+                            <div class="text-danger">{{ form.password2.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">
+                            👤 Crear Cuenta
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="text-center mt-3">
+                    <p class="mb-0">
+                        ¿Ya tienes cuenta? 
+                        <a href="{% url 'login' %}">Inicia sesión aquí</a>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label class="form-label">Contenido</label>
-        {{ form.contenido }}
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Categoría</label>
-        {{ form.categoria }}
-    </div>
-    <div class="mb-3 form-check">
-        {{ form.publicado }}
-        <label class="form-check-label">Publicar inmediatamente</label>
-    </div>
-    <button type="submit" class="btn btn-success">Crear Post</button>
-    <a href="{% url 'lista_posts' %}" class="btn btn-secondary">Cancelar</a>
-</form>
+</div>
 {% endblock %}
 ```
 
-#### 3.4 Actualizar URLs
+---
 
-Agrega a `blog/urls.py`:
+## ✅ Verificación Final
 
-```python
-path('crear/', views.crear_post, name='crear_post'),
+### Prueba el blog completo:
+```bash
+python manage.py runserver
 ```
 
----
+### Flujo de prueba:
+1. ✅ **Ir a `http://127.0.0.1:8000/`** → Ver posts existentes
+2. ✅ **Hacer clic en "Registrarse"** → Crear cuenta nueva
+3. ✅ **Iniciar sesión** con la cuenta creada
+4. ✅ **Hacer clic en "Nuevo Post"** → Crear post
+5. ✅ **Ver el post** en la lista principal
+6. ✅ **Cerrar sesión** → Verificar que el navbar cambia
 
-## ✅ Criterios de Evaluación
-
-**Al final debes poder:**
-
-1. ✅ Registrar nuevos usuarios
-2. ✅ Iniciar y cerrar sesión
-3. ✅ Ver lista de posts con diseño Bootstrap
-4. ✅ Crear nuevos posts (solo usuarios autenticados)
-5. ✅ Ver mensajes de éxito/error
-6. ✅ Navegar entre páginas con navbar
-
----
-
-## 🎉 Bonus Challenges
-
-Si terminas antes de tiempo:
-
-1. **Agregar vista de detalle de post** con template
-2. **Filtrar posts por categoría** 
-3. **Agregar contador de posts** en la navbar
-4. **Permitir editar solo tus propios posts**
-5. **Agregar fecha de última actualización**
+### Debe funcionar:
+- ✅ Navegación dinámica (cambia si estás autenticado)
+- ✅ Mensajes de feedback (éxito, error, info)
+- ✅ Crear posts (solo usuarios autenticados)
+- ✅ Registro e inicio de sesión
+- ✅ Diseño responsive con Bootstrap
 
 ---
 
-## 🆘 Solución de Problemas
+## 🎓 Lo que Aprendiste
 
-**Templates no se encuentran:**
-```python
-# En settings.py, asegúrate de tener:
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # Puede estar vacío
-        'APP_DIRS': True,  # ¡Debe estar en True!
-        # ...
-    },
-]
-```
+### Django Formularios:
+- ✅ **ModelForm:** Genera formularios automáticamente desde modelos
+- ✅ **Widgets:** Personalizar campos HTML
+- ✅ **Validación:** Django valida datos automáticamente
+- ✅ **CSRF:** Protección contra ataques cross-site
 
-**Bootstrap no carga:**
-- Verifica tu conexión a internet
-- Los CDN deben estar disponibles
+### Django Autenticación:
+- ✅ **User model:** Sistema de usuarios integrado
+- ✅ **Login/Logout:** Funciones built-in de Django
+- ✅ **@login_required:** Proteger vistas
+- ✅ **UserCreationForm:** Registro automático
 
-**Formularios no se envían:**
-- Asegúrate de incluir `{% csrf_token %}`
-- Verifica el atributo `method="post"`
+### Django Templates:
+- ✅ **Template inheritance:** Evitar repetición de código
+- ✅ **Context variables:** Datos dinámicos
+- ✅ **Template tags:** {% if user.is_authenticated %}
+- ✅ **Messages framework:** Feedback al usuario
 
----
-
-## 📚 Lo que Aprendiste
-
-- ✅ Sistema completo de autenticación Django
-- ✅ Templates con herencia y Bootstrap
-- ✅ Formularios ModelForm
-- ✅ Decoradores (@login_required)
-- ✅ Mensajes de feedback al usuario
-- ✅ Protección CSRF
-- ✅ URLs con nombres y redirecciones
-
-**¡Felicitaciones! 🎉 Tienes un blog funcional con Django**
-
-
+**¡Tienes un blog completamente funcional! 🎉 Con autenticación, formularios y diseño profesional.**

@@ -1,142 +1,172 @@
-# 🎯 Ejercicio 1: Mi Primer Proyecto Django
+# 🎯 Ejercicio 1: Django Core - Mi Primer Blog
 
-**Tiempo estimado:** 20-25 minutos  
+**Tiempo estimado:** 25 minutos  
 **Nivel:** Principiante  
-**Objetivos:** Crear un proyecto Django funcional con modelos, vistas y admin
+**Objetivo:** Entender el flujo básico Django: **URL → Vista → Template**
 
 ---
 
-## 📋 Instrucciones
+## 🚀 Lo que Vamos a Construir
 
-### Parte 1: Configuración Inicial (5 minutos)
+Un **blog simple** que muestre posts desde la base de datos.
 
-1. **Crear entorno virtual**
-   ```bash
-   python -m venv mi_blog_env
-   source mi_blog_env/bin/activate  # Mac/Linux
-   # mi_blog_env\Scripts\activate   # Windows
-   ```
+**Flujo que aprenderemos:**
+```
+Usuario visita /posts → Django busca URL → Ejecuta vista → Renderiza template → Muestra HTML
+```
 
-2. **Instalar Django**
-   ```bash
-   pip install django
-   django-admin --version
-   ```
+---
 
-3. **Crear proyecto**
-   ```bash
-   django-admin startproject mi_blog
-   cd mi_blog
-   ```
+## 📋 Parte 1: Proyecto y App (10 minutos)
 
-4. **Crear aplicación**
-   ```bash
-   python manage.py startapp blog
-   ```
+### 1.1 Crear el proyecto
+```bash
+django-admin startproject mi_blog
+cd mi_blog
+```
 
-5. **Registrar la aplicación** en `settings.py`
-   ```python
-   INSTALLED_APPS = [
-       'django.contrib.admin',
-       'django.contrib.auth',
-       'django.contrib.contenttypes',
-       'django.contrib.sessions',
-       'django.contrib.messages',
-       'django.contrib.staticfiles',
-       'blog',  # ← Agregar esta línea
-   ]
-   ```
+### 1.2 Crear la aplicación  
+```bash
+python manage.py startapp blog
+```
 
-### Parte 2: Modelos (8 minutos)
+### 1.3 Registrar la app en `settings.py`
+```python
+# mi_blog/settings.py
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth', 
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'blog',  # ← Agregar esta línea
+]
+```
 
-Crea los siguientes modelos en `blog/models.py`:
+**🎯 Checkpoint:** `python manage.py runserver` debe funcionar sin errores.
 
+---
+
+## 📋 Parte 2: Modelos (15 minutos)
+
+### 2.1 Definir modelos en `blog/models.py`
 ```python
 from django.db import models
 from django.contrib.auth.models import User
-
-class Categoria(models.Model):
-    nombre = models.CharField(max_length=100, unique=True)
-    descripcion = models.TextField(blank=True)
-    
-    class Meta:
-        verbose_name_plural = "Categorías"
-    
-    def __str__(self):
-        return self.nombre
 
 class Post(models.Model):
     titulo = models.CharField(max_length=200)
     contenido = models.TextField()
     autor = models.ForeignKey(User, on_delete=models.CASCADE)
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    publicado = models.BooleanField(default=False)
-    
-    class Meta:
-        ordering = ['-fecha_creacion']
+    publicado = models.BooleanField(default=True)
     
     def __str__(self):
         return self.titulo
 ```
 
-### Parte 3: Migraciones (3 minutos)
-
+### 2.2 Crear migraciones
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### Parte 4: Admin y Superusuario (4 minutos)
-
-1. **Crear superusuario**
-   ```bash
-   python manage.py createsuperuser
-   ```
-
-2. **Registrar modelos** en `blog/admin.py`:
-   ```python
-   from django.contrib import admin
-   from .models import Categoria, Post
-
-   @admin.register(Categoria)
-   class CategoriaAdmin(admin.ModelAdmin):
-       list_display = ['nombre', 'descripcion']
-       search_fields = ['nombre']
-
-   @admin.register(Post)
-   class PostAdmin(admin.ModelAdmin):
-       list_display = ['titulo', 'autor', 'categoria', 'publicado', 'fecha_creacion']
-       list_filter = ['categoria', 'publicado', 'fecha_creacion']
-       search_fields = ['titulo', 'contenido']
-       list_editable = ['publicado']
-   ```
-
-### Parte 5: Vistas Básicas (5 minutos)
-
-Crea en `blog/views.py`:
+### 2.3 Crear datos de prueba en `blog/management/commands/crear_posts.py`
+```bash
+# Crear directorios
+mkdir -p blog/management/commands
+touch blog/management/__init__.py
+touch blog/management/commands/__init__.py
+```
 
 ```python
+# blog/management/commands/crear_posts.py
+from django.core.management.base import BaseCommand
+from django.contrib.auth.models import User
+from blog.models import Post
+
+class Command(BaseCommand):
+    def handle(self, *args, **options):
+        # Crear usuario si no existe
+        if not User.objects.filter(username='demo').exists():
+            User.objects.create_user('demo', 'demo@example.com', 'demo123')
+        
+        autor = User.objects.get(username='demo')
+        
+        # Crear posts de ejemplo
+        posts_ejemplo = [
+            {
+                'titulo': 'Mi primer post en Django',
+                'contenido': 'Este es mi primer post usando Django. ¡Es increíble lo fácil que es!'
+            },
+            {
+                'titulo': 'Aprendiendo Python web',
+                'contenido': 'Django hace que el desarrollo web sea muy productivo y divertido.'
+            },
+            {
+                'titulo': 'Modelos y base de datos',
+                'contenido': 'Los modelos de Django hacen muy fácil trabajar con bases de datos.'
+            }
+        ]
+        
+        for post_data in posts_ejemplo:
+            Post.objects.get_or_create(
+                titulo=post_data['titulo'],
+                defaults={
+                    'contenido': post_data['contenido'],
+                    'autor': autor
+                }
+            )
+        
+        self.stdout.write('✅ Posts de ejemplo creados!')
+```
+
+```bash
+# Ejecutar comando para crear datos
+python manage.py crear_posts
+```
+
+**🎯 Checkpoint:** Tienes modelos y datos en la base de datos.
+
+---
+
+## 📋 Parte 3: Vistas (10 minutos)
+
+### 3.1 Crear vista en `blog/views.py`
+```python
 from django.shortcuts import render
-from .models import Post, Categoria
+from .models import Post
 
 def lista_posts(request):
-    posts = Post.objects.filter(publicado=True)
-    categorias = Categoria.objects.all()
+    """Vista que muestra todos los posts publicados"""
+    posts = Post.objects.filter(publicado=True).order_by('-fecha_creacion')
     
     contexto = {
         'posts': posts,
-        'categorias': categorias
+        'titulo_pagina': 'Mi Blog Django'
     }
+    
     return render(request, 'blog/lista_posts.html', contexto)
 
 def detalle_post(request, post_id):
+    """Vista que muestra un post específico"""
     post = Post.objects.get(id=post_id, publicado=True)
-    return render(request, 'blog/detalle_post.html', {'post': post})
+    
+    contexto = {
+        'post': post
+    }
+    
+    return render(request, 'blog/detalle_post.html', contexto)
 ```
 
-Crea `blog/urls.py`:
+**🎯 Concepto clave:** La vista toma datos de los modelos y los pasa al template.
 
+---
+
+## 📋 Parte 4: URLs (10 minutos)
+
+### 4.1 Crear `blog/urls.py`
 ```python
 from django.urls import path
 from . import views
@@ -147,67 +177,137 @@ urlpatterns = [
 ]
 ```
 
-Actualiza `mi_blog/urls.py`:
-
+### 4.2 Conectar en `mi_blog/urls.py`
 ```python
 from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('blog.urls')),
+    path('', include('blog.urls')),  # ← Agregar esta línea
 ]
+```
+
+**🎯 Concepto clave:** Django busca el patrón de URL y ejecuta la vista correspondiente.
+
+---
+
+## 📋 Parte 5: Templates (15 minutos)
+
+### 5.1 Crear estructura de templates
+```bash
+mkdir -p blog/templates/blog
+```
+
+### 5.2 Template base `blog/templates/blog/base.html`
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Blog Django{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .post { border: 1px solid #ddd; padding: 20px; margin: 20px 0; }
+        .post h2 { color: #333; }
+        .meta { color: #666; font-size: 0.9em; }
+        a { color: #007cba; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><a href="{% url 'lista_posts' %}">🐍 Mi Blog Django</a></h1>
+    </header>
+    
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
+```
+
+### 5.3 Lista de posts `blog/templates/blog/lista_posts.html`
+```html
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ titulo_pagina }}{% endblock %}
+
+{% block content %}
+<h2>Posts Recientes</h2>
+
+{% for post in posts %}
+    <div class="post">
+        <h3><a href="{% url 'detalle_post' post.id %}">{{ post.titulo }}</a></h3>
+        <p>{{ post.contenido|truncatewords:30 }}</p>
+        <div class="meta">
+            Por {{ post.autor.username }} el {{ post.fecha_creacion|date:"d/m/Y" }}
+        </div>
+    </div>
+{% empty %}
+    <p>No hay posts publicados aún.</p>
+{% endfor %}
+{% endblock %}
+```
+
+### 5.4 Detalle de post `blog/templates/blog/detalle_post.html`
+```html
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ post.titulo }}{% endblock %}
+
+{% block content %}
+<article>
+    <h2>{{ post.titulo }}</h2>
+    <div class="meta">
+        Por {{ post.autor.username }} el {{ post.fecha_creacion|date:"d/m/Y H:i" }}
+    </div>
+    <div style="margin-top: 20px;">
+        {{ post.contenido|linebreaks }}
+    </div>
+</article>
+
+<a href="{% url 'lista_posts' %}">← Volver a la lista</a>
+{% endblock %}
 ```
 
 ---
 
-## ✅ Criterios de Evaluación
+## ✅ Verificación Final
 
-**Debes poder hacer lo siguiente:**
+### Prueba tu blog:
+```bash
+python manage.py runserver
+```
 
-1. ✅ Ejecutar `python manage.py runserver` sin errores
-2. ✅ Acceder al admin en `http://127.0.0.1:8000/admin/`
-3. ✅ Crear categorías y posts desde el admin
-4. ✅ Ver que los modelos se muestran correctamente
-5. ✅ Acceder a `http://127.0.0.1:8000/` (aunque dé error de template)
+**URLs para probar:**
+- `http://127.0.0.1:8000/` → Lista de posts
+- `http://127.0.0.1:8000/post/1/` → Detalle del primer post
 
----
-
-## 🎉 ¡Bonus!
-
-Si terminas rápido, intenta:
-
-- Crear algunos posts de prueba en el admin
-- Cambiar el idioma a español en `settings.py`:
-  ```python
-  LANGUAGE_CODE = 'es-es'
-  TIME_ZONE = 'America/Mexico_City'
-  ```
-- Explorar el admin y sus funcionalidades
+### Debe mostrar:
+- ✅ Lista de 3 posts de ejemplo
+- ✅ Enlaces que funcionan
+- ✅ Navegación entre lista y detalle
+- ✅ Información del autor y fecha
 
 ---
 
-## 🆘 Problemas Comunes
+## 🎓 Lo que Aprendiste
 
-**Error: No module named 'blog'**
-- Verifica que agregaste `'blog'` a `INSTALLED_APPS`
+### Flujo Completo Django:
+1. **URL** (`blog/urls.py`) → Patrón que coincide con la petición
+2. **Vista** (`blog/views.py`) → Función que procesa la lógica  
+3. **Modelo** (`blog/models.py`) → Datos de la base de datos
+4. **Template** (`blog/templates/`) → HTML dinámico renderizado
 
-**Error en migraciones**
-- Asegúrate de estar en la carpeta del proyecto
-- Verifica que el entorno virtual esté activado
+### Conceptos Clave:
+- ✅ **Modelos:** Definen estructura de datos
+- ✅ **Migraciones:** Actualizan base de datos  
+- ✅ **Vistas:** Lógica de negocio
+- ✅ **URLs:** Enrutamiento de peticiones
+- ✅ **Templates:** Presentación HTML
+- ✅ **Contexto:** Datos pasados del view al template
 
-**No aparecen los modelos en admin**
-- Revisa que registraste los modelos en `admin.py`
-- Reinicia el servidor
-
----
-
-## 📚 Lo que Aprendiste
-
-- ✅ Crear proyecto y aplicación Django
-- ✅ Definir modelos con relaciones
-- ✅ Hacer migraciones
-- ✅ Configurar el admin de Django
-- ✅ Crear vistas y URLs básicas
-
-**¡Siguiente paso:** Ejercicio 2 - Autenticación y formularios
+**¡Ya tienes un blog funcional! 🎉 Siguiente: Ejercicio 2 - Formularios y Autenticación**
