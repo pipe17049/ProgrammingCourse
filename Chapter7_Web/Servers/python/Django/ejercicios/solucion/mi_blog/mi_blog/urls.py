@@ -19,5 +19,13 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('blog.urls')),  # ← Raíz del sitio
+    
+    # 📄 CONTENIDO ESTÁTICO
+    path('static-pages/', include('staticpages.urls')),
+    
+    # 🎨 TEMPLATES DINÁMICOS  
+    path('dynamic-pages/', include('dynamicpages.urls')),
+    
+    # 🔌 API JSON
+    path('api/v1/', include('api.urls')),
 ]

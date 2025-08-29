@@ -1,7 +1,7 @@
-# blog/management/commands/crear_posts.py
+# dynamicpages/management/commands/crear_posts.py
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
-from blog.models import BlogEntry
+from dynamicpages.models import BlogEntry
 
 class Command(BaseCommand):
     def handle(self, *args, **options):

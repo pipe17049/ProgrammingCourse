@@ -14,7 +14,7 @@ def lista_blogentries(request):
         'titulo_pagina': 'Mi Blog Django'
     }
     
-    return render(request, 'blog/lista_blogentries.html', contexto)
+    return render(request, 'dynamicpages/lista_blogentries.html', contexto)
 
 def detalle_blogentry(request, blogentry_id):
     """Vista que muestra una entrada específica del blog"""
@@ -24,4 +24,4 @@ def detalle_blogentry(request, blogentry_id):
         'blogentry': blogentry
     }
     
-    return render(request, 'blog/detalle_blogentry.html', contexto)
+    return render(request, 'dynamicpages/detalle_blogentry.html', contexto)

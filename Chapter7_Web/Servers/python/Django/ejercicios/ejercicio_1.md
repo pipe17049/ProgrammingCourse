@@ -1,33 +1,34 @@
-# 🎯 Ejercicio 1: Django Core - Mi Primer Blog
+# 🎯 Ejercicio 1: Django Básico - Estructura y Contenido Estático
 
-**Tiempo estimado:** 25 minutos  
+**Tiempo estimado:** 30 minutos  
 **Nivel:** Principiante  
-**Objetivo:** Entender el flujo básico Django: **URL → Vista → Template**
+**Objetivo:** Entender la **estructura de Django** y crear **páginas estáticas**
 
 ---
 
 ## 🚀 Lo que Vamos a Construir
 
-Un **blog simple** que muestre posts desde la base de datos.
+Un proyecto Django con **páginas estáticas** que demuestre la estructura básica:
+- 📄 **Páginas HTML fijas** (sin base de datos)
+- 🏗️ **Estructura de apps** y organización
+- 🔗 **Sistema de URLs** 
+- 📊 **Migraciones** básicas
 
-**Flujo que aprenderemos:**
-```
-Usuario visita /posts → Django busca URL → Ejecuta vista → Renderiza template → Muestra HTML
-```
+**Concepto clave:** Antes de trabajar con bases de datos, entendamos la estructura de Django.
 
 ---
 
-## 📋 Parte 1: Proyecto y App (10 minutos)
+## 📋 Parte 1: Crear el Proyecto Base (10 minutos)
 
-### 1.1 Crear el proyecto
+### 1.1 Crear el proyecto Django
 ```bash
 django-admin startproject mi_blog
 cd mi_blog
 ```
 
-### 1.2 Crear la aplicación  
+### 1.2 Crear la app para páginas estáticas
 ```bash
-python manage.py startapp blog
+python manage.py startapp staticpages
 ```
 
 ### 1.3 Registrar la app en `settings.py`
@@ -35,279 +36,297 @@ python manage.py startapp blog
 # mi_blog/settings.py
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'django.contrib.auth', 
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog',  # ← Agregar esta línea
+    'staticpages',  # ← Nueva app
 ]
 ```
 
-**🎯 Checkpoint:** `python manage.py runserver` debe funcionar sin errores.
-
 ---
 
-## 📋 Parte 2: Modelos (15 minutos)
+## 📋 Parte 2: Crear Páginas Estáticas (15 minutos)
 
-### 2.1 Definir modelos en `blog/models.py`
+### 2.1 Crear `staticpages/views.py`
 ```python
-from django.db import models
-from django.contrib.auth.models import User
+# staticpages/views.py
+from django.http import HttpResponse
 
-class Post(models.Model):
-    titulo = models.CharField(max_length=200)
-    contenido = models.TextField()
-    autor = models.ForeignKey(User, on_delete=models.CASCADE)
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
-    publicado = models.BooleanField(default=True)
-    
-    def __str__(self):
-        return self.titulo
+def home(request):
+    """Vista que devuelve HTML fijo - sin base de datos"""
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>📄 Mi Primera Página Django</title>
+        <style>
+            body { font-family: Arial; margin: 40px; background: #f0f8ff; }
+            .container { max-width: 800px; margin: 0 auto; background: white; 
+                        padding: 30px; border-radius: 10px; }
+            nav a { margin-right: 15px; text-decoration: none; color: #007cba; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <nav>
+                <a href="/static-pages/">🏠 Home</a>
+                <a href="/static-pages/about/">ℹ️ About</a>
+                <a href="/static-pages/contact/">📧 Contact</a>
+            </nav>
+            
+            <h1>📄 ¡Bienvenido a Django!</h1>
+            <p><strong>¿Qué es contenido estático?</strong></p>
+            <ul>
+                <li>✅ HTML completamente fijo</li>
+                <li>✅ No consulta base de datos</li>
+                <li>✅ Respuesta muy rápida</li>
+                <li>✅ Ideal para landing pages</li>
+            </ul>
+            
+            <p><em>Esta página está definida directamente en el código Python.</em></p>
+        </div>
+    </body>
+    </html>
+    """
+    return HttpResponse(html_content)
+
+def about(request):
+    """Página About estática"""
+    html_content = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>📋 Acerca de</title>
+        <style>body { font-family: Arial; margin: 40px; }</style>
+    </head>
+    <body>
+        <h1>📋 Acerca de Mi Sitio</h1>
+        <p>Esta es una página estática creada con Django.</p>
+        <p><strong>Características:</strong></p>
+        <ul>
+            <li>No usa base de datos</li>
+            <li>HTML fijo definido en views.py</li>
+            <li>Respuesta inmediata</li>
+        </ul>
+        <a href="/static-pages/">← Volver al Home</a>
+    </body>
+    </html>
+    """
+    return HttpResponse(html_content)
+
+def contact(request):
+    """Formulario de contacto estático"""
+    html_content = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>📧 Contacto</title>
+        <style>
+            body { font-family: Arial; margin: 40px; }
+            .form-group { margin: 15px 0; }
+            input, textarea { width: 300px; padding: 8px; }
+            button { background: #007cba; color: white; padding: 10px 20px; border: none; }
+        </style>
+    </head>
+    <body>
+        <h1>📧 Contacto</h1>
+        <p><strong>⚠️ Formulario estático</strong> - No procesa datos realmente.</p>
+        
+        <form>
+            <div class="form-group">
+                <label>Nombre:</label><br>
+                <input type="text" placeholder="Tu nombre">
+            </div>
+            <div class="form-group">
+                <label>Email:</label><br>
+                <input type="email" placeholder="tu@email.com">
+            </div>
+            <div class="form-group">
+                <label>Mensaje:</label><br>
+                <textarea rows="4" placeholder="Tu mensaje..."></textarea>
+            </div>
+            <button type="button" onclick="alert('¡Formulario estático!')">
+                📤 Enviar
+            </button>
+        </form>
+        
+        <p><a href="/static-pages/">← Volver al Home</a></p>
+    </body>
+    </html>
+    """
+    return HttpResponse(html_content)
 ```
 
-### 2.2 Crear migraciones
-```bash
-python manage.py makemigrations
-python manage.py migrate
-```
-
-### 2.3 Crear datos de prueba en `blog/management/commands/crear_posts.py`
-```bash
-# Crear directorios
-mkdir -p blog/management/commands
-touch blog/management/__init__.py
-touch blog/management/commands/__init__.py
-```
-
+### 2.2 Crear `staticpages/urls.py`
 ```python
-# blog/management/commands/crear_posts.py
-from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User
-from blog.models import Post
-
-class Command(BaseCommand):
-    def handle(self, *args, **options):
-        # Crear usuario si no existe
-        if not User.objects.filter(username='demo').exists():
-            User.objects.create_user('demo', 'demo@example.com', 'demo123')
-        
-        autor = User.objects.get(username='demo')
-        
-        # Crear posts de ejemplo
-        posts_ejemplo = [
-            {
-                'titulo': 'Mi primer post en Django',
-                'contenido': 'Este es mi primer post usando Django. ¡Es increíble lo fácil que es!'
-            },
-            {
-                'titulo': 'Aprendiendo Python web',
-                'contenido': 'Django hace que el desarrollo web sea muy productivo y divertido.'
-            },
-            {
-                'titulo': 'Modelos y base de datos',
-                'contenido': 'Los modelos de Django hacen muy fácil trabajar con bases de datos.'
-            }
-        ]
-        
-        for post_data in posts_ejemplo:
-            Post.objects.get_or_create(
-                titulo=post_data['titulo'],
-                defaults={
-                    'contenido': post_data['contenido'],
-                    'autor': autor
-                }
-            )
-        
-        self.stdout.write('✅ Posts de ejemplo creados!')
-```
-
-```bash
-# Ejecutar comando para crear datos
-python manage.py crear_posts
-```
-
-**🎯 Checkpoint:** Tienes modelos y datos en la base de datos.
-
----
-
-## 📋 Parte 3: Vistas (10 minutos)
-
-### 3.1 Crear vista en `blog/views.py`
-```python
-from django.shortcuts import render
-from .models import Post
-
-def lista_posts(request):
-    """Vista que muestra todos los posts publicados"""
-    posts = Post.objects.filter(publicado=True).order_by('-fecha_creacion')
-    
-    contexto = {
-        'posts': posts,
-        'titulo_pagina': 'Mi Blog Django'
-    }
-    
-    return render(request, 'blog/lista_posts.html', contexto)
-
-def detalle_post(request, post_id):
-    """Vista que muestra un post específico"""
-    post = Post.objects.get(id=post_id, publicado=True)
-    
-    contexto = {
-        'post': post
-    }
-    
-    return render(request, 'blog/detalle_post.html', contexto)
-```
-
-**🎯 Concepto clave:** La vista toma datos de los modelos y los pasa al template.
-
----
-
-## 📋 Parte 4: URLs (10 minutos)
-
-### 4.1 Crear `blog/urls.py`
-```python
+# staticpages/urls.py
 from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.lista_posts, name='lista_posts'),
-    path('post/<int:post_id>/', views.detalle_post, name='detalle_post'),
+    path('', views.home, name='static_home'),
+    path('about/', views.about, name='static_about'),
+    path('contact/', views.contact, name='static_contact'),
 ]
 ```
 
-### 4.2 Conectar en `mi_blog/urls.py`
+### 2.3 Configurar URLs principales
 ```python
+# mi_blog/urls.py
 from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('blog.urls')),  # ← Agregar esta línea
+    path('static-pages/', include('staticpages.urls')),
 ]
 ```
 
-**🎯 Concepto clave:** Django busca el patrón de URL y ejecuta la vista correspondiente.
-
 ---
 
-## 📋 Parte 5: Templates (15 minutos)
+## 📋 Parte 3: Entender Migraciones (5 minutos)
 
-### 5.1 Crear estructura de templates
+### 3.1 ¿Qué son las migraciones?
+Las **migraciones** son archivos que Django usa para actualizar la base de datos:
+
 ```bash
-mkdir -p blog/templates/blog
+# Ver estado de migraciones
+python manage.py showmigrations
+
+# Crear migraciones (cuando cambies modelos)
+python manage.py makemigrations
+
+# Aplicar migraciones a la base de datos
+python manage.py migrate
 ```
 
-### 5.2 Template base `blog/templates/blog/base.html`
-```html
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Mi Blog Django{% endblock %}</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .post { border: 1px solid #ddd; padding: 20px; margin: 20px 0; }
-        .post h2 { color: #333; }
-        .meta { color: #666; font-size: 0.9em; }
-        a { color: #007cba; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-    </style>
-</head>
-<body>
-    <header>
-        <h1><a href="{% url 'lista_posts' %}">🐍 Mi Blog Django</a></h1>
-    </header>
-    
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
-</body>
-</html>
+### 3.2 Aplicar migraciones iniciales
+```bash
+# Aplicar migraciones por defecto de Django
+python manage.py migrate
 ```
 
-### 5.3 Lista de posts `blog/templates/blog/lista_posts.html`
-```html
-{% extends 'blog/base.html' %}
+**Resultado:** Se crea `db.sqlite3` con tablas de autenticación, sesiones, etc.
 
-{% block title %}{{ titulo_pagina }}{% endblock %}
-
-{% block content %}
-<h2>Posts Recientes</h2>
-
-{% for post in posts %}
-    <div class="post">
-        <h3><a href="{% url 'detalle_post' post.id %}">{{ post.titulo }}</a></h3>
-        <p>{{ post.contenido|truncatewords:30 }}</p>
-        <div class="meta">
-            Por {{ post.autor.username }} el {{ post.fecha_creacion|date:"d/m/Y" }}
-        </div>
-    </div>
-{% empty %}
-    <p>No hay posts publicados aún.</p>
-{% endfor %}
-{% endblock %}
+### 3.3 Revisar migraciones aplicadas
+```bash
+python manage.py showmigrations
 ```
 
-### 5.4 Detalle de post `blog/templates/blog/detalle_post.html`
-```html
-{% extends 'blog/base.html' %}
-
-{% block title %}{{ post.titulo }}{% endblock %}
-
-{% block content %}
-<article>
-    <h2>{{ post.titulo }}</h2>
-    <div class="meta">
-        Por {{ post.autor.username }} el {{ post.fecha_creacion|date:"d/m/Y H:i" }}
-    </div>
-    <div style="margin-top: 20px;">
-        {{ post.contenido|linebreaks }}
-    </div>
-</article>
-
-<a href="{% url 'lista_posts' %}">← Volver a la lista</a>
-{% endblock %}
+**Salida esperada:**
+```
+admin
+ [X] 0001_initial
+ [X] 0002_logentry_remove_auto_add
+ [X] 0003_logentry_add_action_flag_choices
+auth
+ [X] 0001_initial
+ [X] 0002_alter_permission_name_max_length
+ # ... más migraciones
+staticpages
+ (no migrations)
 ```
 
 ---
 
-## ✅ Verificación Final
+## 🚀 Probar el Proyecto
 
-### Prueba tu blog:
+### Ejecutar servidor
 ```bash
+# Solo en tu computadora (localhost)
 python manage.py runserver
+
+# Para acceso desde móviles/otros dispositivos
+python manage.py runserver 0.0.0.0:8000
 ```
 
-**URLs para probar:**
-- `http://127.0.0.1:8000/` → Lista de posts
-- `http://127.0.0.1:8000/post/1/` → Detalle del primer post
+### 📱 Configurar para dispositivos móviles
 
-### Debe mostrar:
-- ✅ Lista de 3 posts de ejemplo
-- ✅ Enlaces que funcionan
-- ✅ Navegación entre lista y detalle
-- ✅ Información del autor y fecha
+Si quieres probar desde tu **móvil** o **otros dispositivos**:
+
+1. **Actualizar `settings.py`:**
+```python
+# mi_blog/settings.py
+ALLOWED_HOSTS = ['*']  # Permite acceso desde cualquier IP
+```
+
+2. **Obtener tu IP local:**
+```bash
+# En Windows
+ipconfig
+
+# En Mac/Linux  
+ifconfig | grep inet
+```
+
+3. **Acceder desde el móvil:**
+```
+http://TU_IP_LOCAL:8000/static-pages/
+# Ejemplo: http://192.168.1.100:8000/static-pages/
+```
+
+### Navegar a las páginas
+- **Home:** `http://127.0.0.1:8000/static-pages/`
+- **About:** `http://127.0.0.1:8000/static-pages/about/`
+- **Contact:** `http://127.0.0.1:8000/static-pages/contact/`
+
+**💡 Tip:** Con `0.0.0.0:8000` puedes mostrar tu trabajo a compañeros en la misma red WiFi!
 
 ---
 
-## 🎓 Lo que Aprendiste
+## 📊 Estructura Final del Proyecto
 
-### Flujo Completo Django:
-1. **URL** (`blog/urls.py`) → Patrón que coincide con la petición
-2. **Vista** (`blog/views.py`) → Función que procesa la lógica  
-3. **Modelo** (`blog/models.py`) → Datos de la base de datos
-4. **Template** (`blog/templates/`) → HTML dinámico renderizado
+```
+mi_blog/
+├── manage.py
+├── db.sqlite3                     # Base de datos (creada tras migrate)
+├── mi_blog/
+│   ├── __init__.py
+│   ├── settings.py               # ✅ staticpages registrada
+│   ├── urls.py                   # ✅ URLs configuradas
+│   ├── wsgi.py
+│   └── asgi.py
+└── staticpages/
+    ├── __init__.py
+    ├── views.py                  # ✅ 3 vistas estáticas
+    ├── urls.py                   # ✅ 3 rutas configuradas
+    ├── apps.py
+    ├── admin.py                  # (sin usar)
+    ├── models.py                 # (sin usar)
+    ├── tests.py
+    └── migrations/
+        └── __init__.py           # Sin migraciones (no hay modelos)
+```
 
-### Conceptos Clave:
-- ✅ **Modelos:** Definen estructura de datos
-- ✅ **Migraciones:** Actualizan base de datos  
-- ✅ **Vistas:** Lógica de negocio
-- ✅ **URLs:** Enrutamiento de peticiones
-- ✅ **Templates:** Presentación HTML
-- ✅ **Contexto:** Datos pasados del view al template
+---
 
-**¡Ya tienes un blog funcional! 🎉 Siguiente: Ejercicio 2 - Formularios y Autenticación**
+## 🎯 Conceptos Aprendidos
+
+### ✅ Estructura de Django
+- **Proyecto** vs **App**: `mi_blog` es el proyecto, `staticpages` es una app
+- **URLs**: Enrutamiento de `/static-pages/` hacia `staticpages.urls`
+- **Vistas**: Funciones que procesan requests y devuelven responses
+
+### ✅ Páginas Estáticas
+- **HTML fijo** definido en Python (views.py)
+- **Sin base de datos** - contenido que no cambia
+- **Respuesta rápida** - no hay consultas SQL
+
+### ✅ Migraciones
+- **showmigrations**: Ver estado de migraciones
+- **migrate**: Aplicar migraciones a la base de datos
+- **makemigrations**: Crear migraciones (cuando tengas modelos)
+
+---
+
+## ➡️ Próximo Paso
+
+En el **Ejercicio 2** agregaremos:
+- 🗄️ **Modelos** con base de datos
+- 🎨 **Templates dinámicos** 
+- 🔌 **API REST** para JSON
+
+**¡Has completado tu primera app Django con páginas estáticas!** 🎉

@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog'
+    'rest_framework',    # Para API JSON
+    'dynamicpages',      # Templates dinámicos
+    'api',               # API endpoints
+    'staticpages',       # Contenido estático
 ]
 
 MIDDLEWARE = [
