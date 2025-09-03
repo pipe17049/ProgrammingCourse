@@ -7,6 +7,8 @@ las funciones de izquierda a derecha
 y aplique las funciones de derecha a izquierda
 
 HINT 2. (las dos funciones a enviar deben usar dos parametros)
+HINT 2 Si f devuelve un solo resultado ,que tal utilizar p o q
+de nuevo ? :)   funcion_1(funcion_2(p,q),p)
 
 https://www.freecodecamp.org/news/how-to-use-lambda-functions-in-python/
 
