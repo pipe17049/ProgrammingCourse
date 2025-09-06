@@ -23,7 +23,8 @@ def explicacion_basica():
 # =============================================================================
 # EJEMPLOS PASO A PASO
 # =============================================================================
-
+# (a,b,c)
+# {a: 1 , b: 2 , c:3}
 def funcion_con_args(*args):
     """Función que acepta cualquier cantidad de argumentos posicionales."""
     print(f"Tipo de args: {type(args)}")
@@ -55,7 +56,10 @@ def funcion_completa(parametro_normal, *args, **kwargs):
     print(f"Kwargs adicionales: {kwargs}")
     print()
 
-
+"""
+a= ... 
+b = cc
+"""
 def funcion_con_todo(requerido, opcional="default", *args, **kwargs):
     """Función que muestra el orden correcto de todos los tipos de parámetros."""
     print(f"1. Parámetro requerido: {requerido}")
@@ -137,9 +141,12 @@ def decorador_flexible(*dec_args, **dec_kwargs):
         return wrapper
     return decorador_real
 
-
+# debug se recibe en dec_args
+# y nivel y activo se recibe en dec_kwargs
+# llamo a decorador_flexible y lo que me devuelva f aplico los argumentos de la funcion decorador
+# decorador_real permite ejecutar operacion_matematica + arguementos de decorador flexibles
 @decorador_flexible("debug", nivel=1, activo=True)
-def operacion_matematica(a, b, operacion="suma"):
+def operacion_matematica(a, b, operacion="suma"): # no esta escrito ningun parametro * o **
     """Función de ejemplo para mostrar decorador flexible."""
     if operacion == "suma":
         return a + b
