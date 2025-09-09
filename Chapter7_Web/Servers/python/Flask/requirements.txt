@@ -1,0 +1,16 @@
+# Dependencias principales
+Flask==3.0.0
+Werkzeug==3.0.1
+
+# Dependencias para desarrollo y testing (opcionales)
+pytest==7.4.3
+requests==2.31.0
+
+# Para CORS si necesitas conectar desde frontend
+Flask-CORS==4.0.0
+
+# Para validación de datos
+marshmallow==3.20.1
+
+# Para documentación API automática (opcional)
+flask-restx==1.2.0
