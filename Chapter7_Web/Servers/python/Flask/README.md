@@ -296,11 +296,28 @@ Para llevar esta API a producción, considera:
 
 ---
 
-## 🎯 Ejercicios Prácticos
+## 🎯 Proyectos de Práctica con Flask
 
-1. **Básico**: Agrega un campo `priority` a las tareas
-2. **Intermedio**: Implementa paginación en GET /tasks
-3. **Avanzado**: Conecta con una base de datos SQLite
-4. **Experto**: Agrega autenticación con JWT
+Implementa estas APIs siguiendo el mismo patrón de la API de tareas:
 
-¡Ahora tienes una API REST completa con Flask! 🎉
+### 📚 Libros
+- **Endpoint**: `/api/libros/`
+- **Campos**: titulo, autor, año_publicacion, genero, num_paginas, isbn, precio, disponible
+
+### 💻 Laptops  
+- **Endpoint**: `/api/laptops/`
+- **Campos**: marca, modelo, procesador, ram_gb, almacenamiento_gb, tipo_disco, precio, año
+
+### 🎬 Películas
+- **Endpoint**: `/api/peliculas/`
+- **Campos**: titulo, director, año, genero, duracion_min, calificacion, idioma_original
+
+### 🍕 Restaurantes
+- **Endpoint**: `/api/restaurantes/`
+- **Campos**: nombre, tipo_cocina, direccion, telefono, calificacion, precio_promedio, delivery
+
+### 🌱 Plantas
+- **Endpoint**: `/api/plantas/`
+- **Campos**: nombre, especie, tipo_planta, altura_cm, cuidados, interior_exterior, precio
+
+¡Ahora tienes una API REST completa con Flask y muchos proyectos para practicar! 🎉

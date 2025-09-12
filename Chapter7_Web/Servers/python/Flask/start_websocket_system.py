@@ -86,18 +86,23 @@ class WebSocketSystemManager:
         return False
     
     def test_system(self):
-        """Probar que el sistema funciona creando una tarea"""
+        """Probar que el sistema funciona creando un restaurante"""
         print("\n🧪 Probando el sistema...")
         
-        test_task = {
-            "title": "🎯 Prueba del Sistema",
-            "description": "Tarea de prueba para verificar WebSocket + Flask"
+        test_restaurant = {
+            "nombre": "🎯 Restaurante de Prueba",
+            "tipo_cocina": "Italiana",
+            "direccion": "Calle Test 123",
+            "telefono": "123-456-7890",
+            "calificacion": 5,
+            "precio_promedio": 25.50,
+            "delivery": True
         }
         
         try:
             response = requests.post(
-                "http://localhost:8001/tasks",
-                json=test_task,
+                "http://localhost:8001/api/restaurantes",
+                json=test_restaurant,
                 headers={"Content-Type": "application/json"}
             )
             
@@ -108,7 +113,8 @@ class WebSocketSystemManager:
                 print("   💡 Revisa el consumidor WebSocket para ver la notificación!")
                 return True
             else:
-                print(f"   ❌ Error creando tarea: {response.status_code}")
+                print(f"   ❌ Error creando restaurante: {response.status_code}")
+                print(f"   📝 Response: {response.text}")
                 return False
                 
         except Exception as e:

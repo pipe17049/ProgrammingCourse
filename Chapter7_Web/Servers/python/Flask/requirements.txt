@@ -1,20 +1,30 @@
-# Dependencias principales
-Flask==3.0.0
-Werkzeug==3.0.1
+# ======================================
+# DEPENDENCIAS ESENCIALES - API Flask
+# ======================================
 
-# Dependencias para desarrollo y testing (opcionales)
-pytest==7.4.3
-requests==2.31.0
+# Framework principal
+Flask>=3.0.0
 
-# Para CORS si necesitas conectar desde frontend
-Flask-CORS==4.0.0
+# Autenticación JWT
+Flask-JWT-Extended>=4.7.0
 
-# Para validación de datos
-marshmallow==3.20.1
+# WebSockets para notificaciones tiempo real
+websockets>=12.0
 
-# Para documentación API automática (opcional)
-flask-restx==1.2.0
+# ======================================
+# DEPENDENCIAS OPCIONALES
+# ======================================
 
-# Para WebSockets
-websockets==12.0
-asyncio-mqtt==0.16.1
+# Para desarrollo y testing (opcional)
+# pytest>=7.4.0
+# requests>=2.31.0
+
+# Para CORS si necesitas frontend (opcional)  
+# Flask-CORS>=4.0.0
+
+# Para validación de datos (opcional)
+# marshmallow>=3.20.0
+
+# NOTA: flask-restx removido por conflictos con Flask 3.x
+# NOTA: asyncio-mqtt removido por no ser usado
+# NOTA: Werkzeug viene incluido con Flask automáticamente

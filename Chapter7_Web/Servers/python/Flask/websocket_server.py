@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Servidor WebSocket para manejo de notificaciones en tiempo real
+Servidor WebSocket para manejo de notificaciones de restaurantes en tiempo real
 Recibe y distribuye mensajes a todos los clientes conectados
 """
 
@@ -35,9 +35,23 @@ async def register_client(websocket):
     await websocket.send(json.dumps(welcome_message))
 
 async def unregister_client(websocket):
-    """Desregistra un cliente WebSocket"""
-    connected_clients.discard(websocket)
-    logger.info(f"❌ Cliente desconectado. Total: {len(connected_clients)}")
+    """Desregistra un cliente WebSocket de forma segura"""
+    if websocket in connected_clients:
+        connected_clients.discard(websocket)
+        client_id = "unknown"
+        try:
+            if hasattr(websocket, 'remote_address') and websocket.remote_address:
+                client_id = f"{websocket.remote_address[0]}:{websocket.remote_address[1]}"
+        except:
+            pass
+        logger.info(f"❌ Cliente {client_id} desconectado. Total activos: {len(connected_clients)}")
+    
+    # Cerrar conexión si aún está abierta
+    try:
+        if not websocket.closed:
+            await websocket.close()
+    except:
+        pass  # Ignorar errores al cerrar conexión ya cerrada
 
 async def broadcast_message(message):
     """Envía un mensaje a todos los clientes conectados"""
@@ -45,84 +59,119 @@ async def broadcast_message(message):
         logger.warning("📢 No hay clientes conectados para enviar mensaje")
         return
     
-    # Enviar a todos los clientes conectados
+    # Crear copia del set para evitar race conditions
+    clients_snapshot = connected_clients.copy()
     disconnected_clients = []
+    successful_sends = 0
     
-    for websocket in connected_clients.copy():
+    for websocket in clients_snapshot:
         try:
+            # Verificar si la conexión sigue activa antes de enviar
+            if websocket.closed:
+                disconnected_clients.append(websocket)
+                continue
+                
             await websocket.send(json.dumps(message))
+            successful_sends += 1
+            
         except websockets.exceptions.ConnectionClosed:
+            logger.debug(f"🔌 Conexión cerrada detectada durante broadcast")
+            disconnected_clients.append(websocket)
+        except websockets.exceptions.WebSocketException as e:
+            logger.debug(f"🔌 Error WebSocket: {e}")
             disconnected_clients.append(websocket)
         except Exception as e:
-            logger.error(f"Error enviando mensaje a cliente: {e}")
+            logger.error(f"❌ Error inesperado enviando mensaje: {e}")
             disconnected_clients.append(websocket)
     
-    # Limpiar clientes desconectados
+    # Limpiar clientes desconectados (solo quitar del set, no llamar unregister)
+    # porque unregister será llamado desde handle_websocket_connection
     for websocket in disconnected_clients:
-        await unregister_client(websocket)
+        connected_clients.discard(websocket)  # discard es thread-safe
     
-    logger.info(f"📨 Mensaje enviado a {len(connected_clients)} clientes")
+    if disconnected_clients:
+        logger.info(f"🧹 Limpiadas {len(disconnected_clients)} conexiones muertas")
+    
+    logger.info(f"📨 Mensaje enviado exitosamente a {successful_sends}/{len(clients_snapshot)} clientes")
 
 async def handle_websocket_connection(websocket, path):
     """Maneja conexiones WebSocket individuales"""
+    client_id = f"{websocket.remote_address[0]}:{websocket.remote_address[1]}"
     await register_client(websocket)
     
     try:
+        # Enviar ping periódico para mantener conexión viva
+        ping_task = None
+        
         # Escuchar mensajes del cliente
         async for message in websocket:
             try:
                 # Parsear mensaje JSON
                 data = json.loads(message)
-                logger.info(f"📥 Mensaje recibido: {data}")
+                logger.info(f"📥 Mensaje recibido de {client_id}: {data.get('type', 'unknown')}")
                 
                 # Procesar diferentes tipos de mensajes
-                if data.get("type") == "task_created":
-                    # Mensaje de nueva tarea creada
+                if data.get("type") == "restaurant_created":
+                    # Mensaje de nuevo restaurante creado
+                    restaurant = data.get("restaurant", {})
                     notification = {
-                        "type": "task_notification", 
+                        "type": "restaurant_notification", 
                         "action": "created",
-                        "task": data.get("task", {}),
-                        "message": f"✅ Nueva tarea creada: {data.get('task', {}).get('title', 'Sin título')}",
+                        "restaurant": restaurant,
+                        "message": f"🍽️ Nuevo restaurante registrado: {restaurant.get('nombre', 'Sin nombre')} ({restaurant.get('tipo_cocina', 'N/A')})",
                         "timestamp": datetime.utcnow().isoformat() + 'Z'
                     }
                     await broadcast_message(notification)
                 
-                elif data.get("type") == "task_updated":
-                    # Mensaje de tarea actualizada
+                elif data.get("type") == "restaurant_updated":
+                    # Mensaje de restaurante actualizado
+                    restaurant = data.get("restaurant", {})
                     notification = {
-                        "type": "task_notification",
+                        "type": "restaurant_notification",
                         "action": "updated", 
-                        "task": data.get("task", {}),
-                        "message": f"🔄 Tarea actualizada: {data.get('task', {}).get('title', 'Sin título')}",
+                        "restaurant": restaurant,
+                        "message": f"🔄 Restaurante actualizado: {restaurant.get('nombre', 'Sin nombre')} - ⭐ {restaurant.get('calificacion', 'N/A')}",
                         "timestamp": datetime.utcnow().isoformat() + 'Z'
                     }
                     await broadcast_message(notification)
                 
-                elif data.get("type") == "task_deleted":
-                    # Mensaje de tarea eliminada
+                elif data.get("type") == "restaurant_deleted":
+                    # Mensaje de restaurante eliminado
+                    restaurant = data.get("restaurant", {})
                     notification = {
-                        "type": "task_notification",
+                        "type": "restaurant_notification",
                         "action": "deleted",
-                        "task": data.get("task", {}), 
-                        "message": f"🗑️ Tarea eliminada: {data.get('task', {}).get('title', 'Sin título')}",
+                        "restaurant": restaurant, 
+                        "message": f"🗑️ Restaurante eliminado: {restaurant.get('nombre', 'Sin nombre')} ({restaurant.get('tipo_cocina', 'N/A')})",
                         "timestamp": datetime.utcnow().isoformat() + 'Z'
                     }
                     await broadcast_message(notification)
+                
+                elif data.get("type") == "ping":
+                    # Responder a ping del cliente
+                    await websocket.send(json.dumps({
+                        "type": "pong",
+                        "timestamp": datetime.utcnow().isoformat() + 'Z'
+                    }))
                     
                 else:
                     # Mensaje genérico
-                    logger.info(f"Mensaje genérico recibido: {data}")
+                    logger.debug(f"Mensaje genérico recibido de {client_id}: {data.get('type', 'unknown')}")
                     
             except json.JSONDecodeError:
-                logger.error("❌ Error: Mensaje no es JSON válido")
+                logger.warning(f"❌ Mensaje no JSON válido de {client_id}: {message[:100]}...")
             except Exception as e:
-                logger.error(f"❌ Error procesando mensaje: {e}")
+                logger.error(f"❌ Error procesando mensaje de {client_id}: {e}")
     
     except websockets.exceptions.ConnectionClosed:
-        logger.info("🔌 Conexión cerrada por el cliente")
+        logger.info(f"🔌 Conexión cerrada normalmente por cliente {client_id}")
+    except websockets.exceptions.WebSocketException as e:
+        logger.info(f"🔌 Error WebSocket de cliente {client_id}: {e}")
     except Exception as e:
-        logger.error(f"❌ Error en conexión WebSocket: {e}")
+        logger.error(f"❌ Error inesperado en conexión {client_id}: {e}")
     finally:
+        # Asegurar limpieza de conexión
+        logger.info(f"🧹 Limpiando conexión de {client_id}")
         await unregister_client(websocket)
 
 async def main():
