@@ -14,3 +14,7 @@ marshmallow==3.20.1
 
 # Para documentación API automática (opcional)
 flask-restx==1.2.0
+
+# Para WebSockets
+websockets==12.0
+asyncio-mqtt==0.16.1

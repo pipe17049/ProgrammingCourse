@@ -2,9 +2,42 @@
 from flask import Flask, jsonify, request
 from datetime import datetime
 import uuid
+import websockets
+import asyncio
+import json
+import threading
 
 # Crear la aplicación Flask
 app = Flask(__name__)
+
+# Configuración WebSocket
+WEBSOCKET_URL = "ws://localhost:8765"
+
+def send_websocket_message(message_data):
+    """
+    Envía un mensaje al servidor WebSocket de forma asíncrona
+    Utiliza threading para no bloquear la aplicación Flask
+    """
+    def _send_message():
+        try:
+            # Ejecutar el envío de mensaje WebSocket
+            asyncio.run(_async_send_message(message_data))
+        except Exception as e:
+            print(f"❌ Error enviando mensaje WebSocket: {e}")
+    
+    # Ejecutar en un hilo separado para no bloquear Flask
+    thread = threading.Thread(target=_send_message)
+    thread.daemon = True
+    thread.start()
+
+async def _async_send_message(message_data):
+    """Función asíncrona para enviar mensaje WebSocket"""
+    try:
+        async with websockets.connect(WEBSOCKET_URL) as websocket:
+            await websocket.send(json.dumps(message_data))
+    except Exception as e:
+        print(f"❌ Error conectando con WebSocket server: {e}")
+        print("💡 Asegúrate de que el servidor WebSocket esté ejecutándose en ws://localhost:8765")
 
 # Base de datos simulada en memoria para el ejemplo
 # En producción usarías una base de datos real
@@ -117,6 +150,14 @@ def create_task():
     
     tasks.append(new_task)
     
+    # Enviar notificación WebSocket de nueva tarea creada
+    websocket_message = {
+        "type": "task_created",
+        "task": new_task,
+        "timestamp": datetime.utcnow().isoformat() + 'Z'
+    }
+    send_websocket_message(websocket_message)
+    
     return jsonify({
         'message': 'Tarea creada exitosamente',
         'task': new_task
@@ -153,6 +194,14 @@ def update_task(task_id):
     task['title'] = request.json.get('title', task['title'])
     task['description'] = request.json.get('description', task['description'])
     task['completed'] = request.json.get('completed', task['completed'])
+    
+    # Enviar notificación WebSocket de tarea actualizada
+    websocket_message = {
+        "type": "task_updated",
+        "task": task,
+        "timestamp": datetime.utcnow().isoformat() + 'Z'
+    }
+    send_websocket_message(websocket_message)
     
     return jsonify({
         'message': 'Tarea actualizada exitosamente',
@@ -194,6 +243,14 @@ def patch_task(task_id):
     if 'completed' in request.json:
         task['completed'] = request.json['completed']
     
+    # Enviar notificación WebSocket de tarea actualizada
+    websocket_message = {
+        "type": "task_updated",
+        "task": task,
+        "timestamp": datetime.utcnow().isoformat() + 'Z'
+    }
+    send_websocket_message(websocket_message)
+    
     return jsonify({
         'message': 'Tarea actualizada parcialmente',
         'task': task
@@ -215,6 +272,14 @@ def delete_task(task_id):
         }), 404
     
     tasks = [task for task in tasks if task['id'] != task_id]
+    
+    # Enviar notificación WebSocket de tarea eliminada
+    websocket_message = {
+        "type": "task_deleted",
+        "task": task,
+        "timestamp": datetime.utcnow().isoformat() + 'Z'
+    }
+    send_websocket_message(websocket_message)
     
     return jsonify({
         'message': 'Tarea eliminada exitosamente',
