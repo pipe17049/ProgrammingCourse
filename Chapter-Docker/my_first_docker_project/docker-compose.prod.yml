@@ -20,7 +20,7 @@ services:
     networks:
       - prod-network
     restart: unless-stopped
-    command: gunicorn my_first_ci_project.wsgi:application --bind 0.0.0.0:8000  # Production server
+    command: gunicorn my_first_docker_project.wsgi:application --bind 0.0.0.0:8000  # Production server
 
   # MongoDB Database
   mongo:

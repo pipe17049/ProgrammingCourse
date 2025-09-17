@@ -27,6 +27,8 @@ port = int(os.getenv('MONGO_PORT',0))
 username = os.getenv('MONGO_USERNAME')
 password = os.getenv('MONGO_PASSWORD')
 
+print(f"Mongo user name {username}")
+
 # Conectar a MongoDB
 connect(
     db=db_name,

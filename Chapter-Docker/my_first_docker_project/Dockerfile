@@ -5,6 +5,11 @@ FROM python:3.11-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV DEBUG="true"
+ENV MONGO_DB=mi_basedatos
+ENV MONGO_HOST=host.docker.internal
+ENV MONGO_PORT=27017
+ENV MONGO_USERNAME=admin_products
+ENV MONGO_PASSWORD=admin123
 
 # Set work directory
 WORKDIR /app
