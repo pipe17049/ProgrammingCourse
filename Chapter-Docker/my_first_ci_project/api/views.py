@@ -104,13 +104,13 @@ def get_product(request, id):
             cache.set(cache_key, product_data, 3600)  # 1 hora
             print(f"💾 Cached product {id} for 1 hour")
         
-    except Product.DoesNotExist:
-        return Response({
-            "error": "Product not found"
-        }, status=status.HTTP_404_NOT_FOUND)
-    else:
-        # Cache HIT
-        print(f"✅ Cache hit for product {id}")
+        except Product.DoesNotExist:
+            return Response({
+                "error": "Product not found"
+            }, status=status.HTTP_404_NOT_FOUND)
+        else:
+            # Cache HIT
+            print(f"✅ Cache hit for product {id}")
 
     # Siempre retornar Response al final
     return Response(product_data, status=status.HTTP_200_OK)

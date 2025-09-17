@@ -131,5 +131,7 @@ def search_and_cache_products(product_name, max_results=5):
     
     # Cache por 30 minutos
     cache.set(cache_key, results, 1800)
+
+    print("Cache saved ✅")
     
     return results 
