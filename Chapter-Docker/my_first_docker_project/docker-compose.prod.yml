@@ -1,7 +1,7 @@
 services:
   # Django Producer Service (Solo REST API - PROD optimizada)
   producer:
-    build: .
+    build: . # Finds the DockerFile
     ports:
       - "8000:8000"
     # ❌ NO VOLUMES: Código empaquetado en imagen para PROD
@@ -11,7 +11,7 @@ services:
       - MONGO_HOST=mongo
       - MONGO_PORT=27017
       - MONGO_USERNAME=admin
-      - MONGO_PASSWORD=passwordFD
+      - MONGO_PASSWORD=password
       - DEBUG=0  # Production mode
       - ALLOWED_HOSTS=yourdomain.com,localhost
       - WEBSOCKET_ENABLED=false  # No WebSocket in production

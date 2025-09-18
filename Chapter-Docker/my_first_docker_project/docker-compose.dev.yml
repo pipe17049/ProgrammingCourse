@@ -1,7 +1,7 @@
 services:
   # Django Producer Service (Solo REST API + HOT RELOAD)
   producer-and-server:
-    build: .
+    build: . # Finds the DockerFile
     ports:
       - "8000:8000"
     volumes:
