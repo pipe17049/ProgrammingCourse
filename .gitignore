@@ -6,10 +6,10 @@
 **/node_modules
 
 /Chapter-CI/django_project_env
-/Chapter-CI/my_first_ci_project/django_project_env
-Chapter-CI/my_first_ci_project/.coverage
-Chapter-CI/my_first_ci_project/.env
-Chapter-CI/my_first_ci_project/db.sqlite3
+/Chapter-CI/my_first_docker_project/django_project_env
+Chapter-CI/my_first_docker_project/.coverage
+Chapter-CI/my_first_docker_project/.env
+Chapter-CI/my_first_docker_project/db.sqlite3
 /.metals
 /.vscode
 /Chapter-Threads/Projects/venv
@@ -23,5 +23,5 @@ Chapter-CI/my_first_ci_project/db.sqlite3
 Chapter9_Functional_Programing/.vscode/settings.json
 Chapter9_Functional_Programing/.metals/metals.lock.db
 /Projects/static/processed
-/Chapter-Docker/my_first_ci_project/django_project_env
+/Chapter-Docker/my_first_docker_project/django_project_env
 /Chapter-Docker/my_first_docker_project/venv

@@ -1,6 +1,6 @@
 # 📡 WebSocket Service - Microservices Architecture
 
-Servicio WebSocket **independiente** que recibe notificaciones del **my_first_ci_project** y las distribuye a múltiples clientes en tiempo real.
+Servicio WebSocket **independiente** que recibe notificaciones del **my_first_docker_project** y las distribuye a múltiples clientes en tiempo real.
 
 ## 🏗️ Arquitectura
 
@@ -30,9 +30,9 @@ docker-compose -f docker-compose.microservices.yml up --build
 
 > ✅ **Incluye**: Producer + WebSocket Service + Consumer + MongoDB - Todo en uno
 
-### **Alternativa: Solo my_first_ci_project (sin microservices)**
+### **Alternativa: Solo my_first_docker_project (sin microservices)**
 ```bash
-cd Chapter-CI/my_first_ci_project
+cd Chapter-CI/my_first_docker_project
 docker-compose -f docker-compose.dev.yml up --build
 ```
 
@@ -60,10 +60,10 @@ curl -X POST http://localhost:8000/api/product/ \
 - **Health**: `ws://localhost:8765`
 - **Hot Reload**: ✅ Disponible en modo desarrollo
 
-### **🏭 Producer (External - my_first_ci_project)**
+### **🏭 Producer (External - my_first_docker_project)**
 - **Puerto**: 8000 (en proyecto separado)
 - **Función**: API REST que envía notificaciones al WebSocket Service
-- **Ubicación**: `../my_first_ci_project/`
+- **Ubicación**: `../my_first_docker_project/`
 - **Conexión**: Se conecta a `ws://websocket-service:8765`
 
 ### **🔔 Consumer (Cliente de Prueba)**
@@ -72,7 +72,7 @@ curl -X POST http://localhost:8000/api/product/ \
 - **Output**: Logs de notificaciones en tiempo real
 
 ### **💾 MongoDB (External)**
-- **Ubicación**: En `my_first_ci_project`
+- **Ubicación**: En `my_first_docker_project`
 - **Función**: Base de datos para productos
 - **Acceso**: Puerto 27017 desde el producer
 
@@ -152,12 +152,12 @@ docker-compose -f docker-compose.microservices.yml up --build
 cd Chapter-CI/microservices_architecture
 docker-compose -f docker-compose.microservices.yml up -d --build
 
-# Para usar con my_first_ci_project en PROD:
+# Para usar con my_first_docker_project en PROD:
 # Terminal 1: WebSocket service
 docker-compose -f docker-compose.microservices.yml up -d
 
 # Terminal 2: Producer en modo PROD  
-cd ../my_first_ci_project
+cd ../my_first_docker_project
 docker-compose -f docker-compose.prod.yml up -d
 ```
 
@@ -408,7 +408,7 @@ microservices_architecture/
 │   └── Dockerfile                      # 🐳 Container optimizado
 └── README.md                           # 📚 Esta documentación
 
-../my_first_ci_project/                  # 🏭 Producer (proyecto separado)
+../my_first_docker_project/                  # 🏭 Producer (proyecto separado)
 ├── docker-compose.dev.yml              # 🔥 DEV: con WebSocket + Hot Reload
 ├── docker-compose.prod.yml             # 🏭 PROD: solo REST API
 ├── api/views.py                        # 🏭 Notifica a websocket-service
@@ -419,7 +419,7 @@ microservices_architecture/
 
 ### **🔧 Patrón de Diseño:**
 - **WebSocket Service**: Servicio dedicado exclusivamente a notificaciones tiempo real
-- **Producer External**: `my_first_ci_project` como productor de eventos
+- **Producer External**: `my_first_docker_project` como productor de eventos
 - **Hot Reload**: Desarrollo ágil en ambos servicios
 - **Environment Separation**: DEV (con WebSocket) vs PROD (sin WebSocket)
 
@@ -435,7 +435,7 @@ microservices_architecture/
 - **Networking**: Comunicación entre containers
 - **Dependencies**: Producer depende del WebSocket service para notificaciones
 
-## 🚀 Integración con my_first_ci_project
+## 🚀 Integración con my_first_docker_project
 
 ### **🔥 Modo Desarrollo:**
 ```bash
@@ -454,7 +454,7 @@ cd Chapter-CI/microservices_architecture
 docker-compose -f docker-compose.microservices.yml up -d
 
 # Paso 2: Producer en PROD mode (sin WebSocket)
-cd Chapter-CI/my_first_ci_project
+cd Chapter-CI/my_first_docker_project
 docker-compose -f docker-compose.prod.yml up -d
 
 # Resultado: Solo REST API, sin notificaciones tiempo real
@@ -464,8 +464,8 @@ docker-compose -f docker-compose.prod.yml up -d
 
 ## 📖 **Documentación Relacionada**
 
-- **[my_first_ci_project README](../my_first_ci_project/README.md)**: Documentación completa del producer
-- **[DEPLOYMENT_GUIDE](../my_first_ci_project/DEPLOYMENT_GUIDE.md)**: Guía detallada DEV vs PROD
+- **[my_first_docker_project README](../my_first_docker_project/README.md)**: Documentación completa del producer
+- **[DEPLOYMENT_GUIDE](../my_first_docker_project/DEPLOYMENT_GUIDE.md)**: Guía detallada DEV vs PROD
 
 ---
 

@@ -18,13 +18,13 @@ Un proyecto Django con **API REST** para gestión de productos, que incluye conf
 
 ### **🔥 Modo Desarrollo (CON Hot Reload)**
 ```bash
-cd Chapter-CI/my_first_ci_project
+cd Chapter-CI/my_first_docker_project
 docker-compose -f docker-compose.dev.yml up --build
 ```
 
 ### **🏭 Modo Producción (SIN Hot Reload)**
 ```bash
-cd Chapter-CI/my_first_ci_project
+cd Chapter-CI/my_first_docker_project
 docker-compose -f docker-compose.prod.yml up --build -d
 ```
 
@@ -302,12 +302,12 @@ docker-compose -f docker-compose.prod.yml up --build -d
 ## 📁 **Estructura del Proyecto**
 
 ```
-my_first_ci_project/
+my_first_docker_project/
 ├── api/                           # 📂 Django app
 │   ├── models.py                  # 🗃️ Modelo Product
 │   ├── views.py                   # 🎯 API endpoints + WebSocket
 │   └── urls.py                    # 🛣️ URL routing
-├── my_first_ci_project/           # 📂 Django project
+├── my_first_docker_project/           # 📂 Django project
 │   ├── settings.py                # ⚙️ Configuración
 │   └── urls.py                    # 🛣️ URLs principales
 ├── docker-compose.dev.yml         # 🔥 Configuración DEV

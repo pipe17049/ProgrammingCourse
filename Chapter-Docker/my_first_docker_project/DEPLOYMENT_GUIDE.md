@@ -12,7 +12,7 @@ Este proyecto tiene **dos configuraciones** para diferentes entornos:
 
 ### **Comando:**
 ```bash
-cd Chapter-CI/my_first_ci_project
+cd Chapter-CI/my_first_docker_project
 docker-compose -f docker-compose.dev.yml up --build
 ```
 
@@ -40,7 +40,7 @@ docker-compose -f docker-compose.dev.yml up --build
 
 ### **Comando:**
 ```bash
-cd Chapter-CI/my_first_ci_project
+cd Chapter-CI/my_first_docker_project
 docker-compose -f docker-compose.prod.yml up --build -d
 ```
 

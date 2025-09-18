@@ -11,7 +11,7 @@ services:
       - MONGO_HOST=mongo
       - MONGO_PORT=27017
       - MONGO_USERNAME=admin
-      - MONGO_PASSWORD=password
+      - MONGO_PASSWORD=passwordFD
       - DEBUG=0  # Production mode
       - ALLOWED_HOSTS=yourdomain.com,localhost
       - WEBSOCKET_ENABLED=false  # No WebSocket in production

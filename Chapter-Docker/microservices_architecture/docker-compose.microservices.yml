@@ -1,7 +1,7 @@
 services:
   # Django Producer Service (REST API que se conecta a websocket-service)
   producer-and-server:
-    build: ../my_first_ci_project
+    build: ../my_first_docker_project
     ports:
       - "8000:8000"
     environment:
@@ -54,7 +54,7 @@ services:
       MONGO_INITDB_DATABASE: my_first_ci_db
     volumes:
       - mongo_data:/data/db
-      - ../my_first_ci_project/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ../my_first_docker_project/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     networks:
       - microservices-network
 

@@ -1,6 +1,6 @@
 # My First Consumer
 
-WebSocket client que consume mensajes en tiempo real del proyecto `my_first_ci_project`.
+WebSocket client que consume mensajes en tiempo real del proyecto `my_first_docker_project`.
 
 ## ¿Qué hace?
 
