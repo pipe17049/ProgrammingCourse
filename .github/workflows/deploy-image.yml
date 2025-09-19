@@ -4,8 +4,8 @@ on:
   push:
     branches: [ master, main ]
     paths:
-      - 'Chapter-Docker/my_first_docker_project/**'
-      - '.github/workflows/deploy-image.yml'
+      - 'Chapter-Docker/my_first_docker_project/deactivate**'
+      - '.github/workflows/deploy-image.yml/deactivate'
 env:
   NAMESPACE: ariasaenima  # Cambia por tu namespace en Docker Hub
 
