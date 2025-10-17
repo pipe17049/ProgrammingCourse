@@ -1,0 +1,14 @@
+=== WEB MONITORING RESULT ===
+SITIO: news-portal
+URL: https://httpbin.org/user-agent
+TIMESTAMP: 2025-08-25 18:00:37
+
+=== CURL OUTPUT ===
+{
+  "user-agent": "WebMonitor/1.0"
+}
+
+--- CURL INFO ---
+HTTP Code: 200
+Time Total: 2.776197s
+Size: 37 bytes

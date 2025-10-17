@@ -1,0 +1,19 @@
+=== WEB MONITORING RESULT ===
+SITIO: cdn-static
+URL: https://httpbin.org/headers
+TIMESTAMP: 2025-08-25 18:00:33
+
+=== CURL OUTPUT ===
+{
+  "headers": {
+    "Accept": "*/*", 
+    "Host": "httpbin.org", 
+    "User-Agent": "WebMonitor/1.0", 
+    "X-Amzn-Trace-Id": "Root=1-68aceb12-43614428203156820090f188"
+  }
+}
+
+--- CURL INFO ---
+HTTP Code: 200
+Time Total: 0.490442s
+Size: 176 bytes

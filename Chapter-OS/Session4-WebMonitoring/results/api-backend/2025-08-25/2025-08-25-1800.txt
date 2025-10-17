@@ -1,0 +1,32 @@
+=== WEB MONITORING RESULT ===
+SITIO: api-backend
+URL: https://httpbin.org/json
+TIMESTAMP: 2025-08-25 18:00:32
+
+=== CURL OUTPUT ===
+{
+  "slideshow": {
+    "author": "Yours Truly", 
+    "date": "date of publication", 
+    "slides": [
+      {
+        "title": "Wake up to WonderWidgets!", 
+        "type": "all"
+      }, 
+      {
+        "items": [
+          "Why <em>WonderWidgets</em> are great", 
+          "Who <em>buys</em> WonderWidgets"
+        ], 
+        "title": "Overview", 
+        "type": "all"
+      }
+    ], 
+    "title": "Sample Slide Show"
+  }
+}
+
+--- CURL INFO ---
+HTTP Code: 200
+Time Total: 1.434940s
+Size: 429 bytes

@@ -330,17 +330,18 @@ def demonstrate_safe_banking():
     
     # Configuración
     num_threads = 3
-    transactions_per_thread = 3  # 3 transacciones con valores fijos predecibles
+    transactions_per_thread = 6  # 6 transacciones con valores fijos predecibles
     
     print(f"🎯 Configuración:")
     print(f"   - Threads: {num_threads}")
     print(f"   - Transacciones por thread: {transactions_per_thread}")
     
     print(f"\n💰 TRANSACCIONES PLANIFICADAS (valores fijos + 🔒 LOCKS):")
-    print(f"Thread 1: +$100, -$10, +$50   (neto: +$140)")
-    print(f"Thread 2: +$25,  -$20, +$30   (neto: +$35)")  
-    print(f"Thread 3: +$40,  -$30, +$60   (neto: +$70)")
-    print(f"Balance esperado CON locks (CORRECTO): $1000 + $245 = $1245")
+    print("Thread 1: +$100, -$10, +$50, -$15, +$75, -$5   (neto: +$195)")
+    print("Thread 2: +$25,  -$20, +$30, -$25, +$20, -$10  (neto: +$20)")
+    print("Thread 3: +$40,  -$30, +$60, -$35, +$35, -$15  (neto: +$55)")
+    expected_balance = 1270.0
+    print(f"Balance esperado CON locks (CORRECTO): $1000 + $270 = $1270")
     
     # Lanzar threads concurrentes
     threads = []
@@ -378,10 +379,10 @@ def demonstrate_safe_banking():
         else:
             theoretical_balance -= transaction['amount']
     
-    print(f"   🧮 Balance teórico: ${theoretical_balance:.2f}")
+    print(f"   🧮 Balance segun trasacciones: ${theoretical_balance:.2f}")
     
     difference = abs(final_balance - theoretical_balance)
-    expected_balance = 1245.0  # Balance esperado con los valores fijos
+    # expected_balance ya calculado arriba automáticamente
     
     if difference < 0.01:  # Permitir pequeños errores de punto flotante
         print(f"\n🎉 ¡PERFECTO! LOCKS FUNCIONAN CORRECTAMENTE")

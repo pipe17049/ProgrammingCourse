@@ -1,0 +1,36 @@
+# FINAL: Optimized worker container with Debian (compatible con ARM64)
+FROM python:3.11-slim
+
+# Install system dependencies efficiently
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    g++ \
+    libopencv-dev \
+    python3-opencv \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy and install requirements
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy worker files
+COPY workers/ ./workers/
+COPY image_api/ ./image_api/
+COPY django_image_server/ ./django_image_server/
+COPY distributed/ ./distributed/
+
+# Environment variables
+ENV PYTHONPATH=/app
+ENV WORKER_TYPE=distributed
+ENV REDIS_HOST=redis
+ENV REDIS_PORT=6379
+
+# Run as root (Kubernetes compatible)
+USER root
+
+# Start worker
+CMD ["python", "workers/distributed_worker.py"]

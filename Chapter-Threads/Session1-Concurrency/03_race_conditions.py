@@ -31,10 +31,10 @@ def increment_unsafe(thread_id: int, increments: int):
     for i in range(increments):
         # ⚠️ RACE CONDITION: Multiple threads leyendo/escribiendo la misma variable
         current_value = unsafe_counter  # Lee valor actual
-        
+        # leimos 5000
         # Simular algo de procesamiento (hace el problema más visible)
         time.sleep(0.00001)  # 10 microsegundos
-        
+        # otro tread sumo 5000 => 10000  ; 10000 => 5001
         new_value = current_value + 1   # Calcula nuevo valor
         unsafe_counter = new_value      # Escribe nuevo valor
         
@@ -298,17 +298,22 @@ def demonstrate_banking_race_condition():
     
     # Configuración
     num_threads = 3
-    transactions_per_thread = 3  # 3 transacciones con valores fijos predecibles
+    transactions_per_thread = 6  # 6 transacciones con valores fijos predecibles
     
     print(f"🎯 Configuración:")
     print(f"   - Threads: {num_threads}")
     print(f"   - Transacciones por thread: {transactions_per_thread}")
     
     print(f"\n💰 TRANSACCIONES PLANIFICADAS (valores fijos):")
-    print(f"Thread 1: +$100, -$10, +$50   (neto: +$140)")
-    print(f"Thread 2: +$25,  -$20, +$30   (neto: +$35)")  
-    print(f"Thread 3: +$40,  -$30, +$60   (neto: +$70)")
-    print(f"Balance esperado SIN race conditions: $1000 + $245 = $1245")
+    print("Thread 1: +$100, -$10, +$50, -$15, +$75, -$5   (neto: +$195)")
+    print("Thread 2: +$25,  -$20, +$30, -$25, +$20, -$10  (neto: +$20)")
+    print("Thread 3: +$40,  -$30, +$60, -$35, +$35, -$15  (neto: +$55)")
+    print(f"Balance esperado SIN race conditions: $1000 + $270 = $1270")
+    # Mostrar también el balance teórico y el real después de la ejecución
+    # (esto se imprime después en la función, pero aquí lo dejamos claro)
+    # El balance teórico se calcula más abajo, pero aquí recordamos el esperado
+    # para que el usuario compare fácilmente.
+    # El balance teórico y el real pueden diferir del esperado si hay race conditions.
     
     # Lanzar threads concurrentes
     threads = []
@@ -450,4 +455,4 @@ if __name__ == "__main__":
     
     print("\n⚠️ Estos problemas son REALES en aplicaciones de producción")
     print("💡 La solución: Sincronización con LOCKS")
-    print("🚀 Próximo paso: 04_locks_solution.py") 
+    print("🚀 Próximo paso: 04_locks_solution.py")
